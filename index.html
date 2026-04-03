@@ -5210,34 +5210,6 @@ html, body { height:100%; overflow:hidden; }
   </div>
 </div>
 
-<!-- ══════════════════════ CHATBOT ══════════════════════ -->
-<button class="ct-btn" onclick="toggleChat()">💬</button>
-<div class="ct-win" id="ct-win">
-  <div class="ct-head">
-    <div class="ct-av">🤖</div>
-    <div><div class="ct-name">Daleel AI</div><div class="ct-status">Online · Kuwait context</div></div>
-    <button class="ct-close" onclick="toggleChat()">✕</button>
-  </div>
-  <div class="ct-msgs" id="ct-msgs">
-    <div class="msg bot">
-      Welcome to Daleel! I can help with:<br><br>
-      <strong>• Who</strong> needs training urgently<br>
-      <strong>• When</strong> is the best time to train<br>
-      <strong>• What</strong> skills are most critical<br><br>
-      Ask me anything about Gulf Bank's training data.
-      <div class="chips">
-        <div class="chip" onclick="askChat('Who needs training urgently?')">Who needs training?</div>
-        <div class="chip" onclick="askChat('When is the best time to train?')">Best time to train?</div>
-        <div class="chip" onclick="askChat('What are the skill gaps?')">Skill gaps?</div>
-        <div class="chip" onclick="askChat('Show AML risk')">AML risk</div>
-      </div>
-    </div>
-  </div>
-  <div class="ct-in-wrap">
-    <textarea class="ct-in" id="ct-in" rows="1" placeholder="Ask about training, compliance, ROI..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat()}"></textarea>
-    <button class="ct-send" onclick="sendChat()">➤</button>
-  </div>
-</div>
 
 <!-- ══════════════════════ JS ══════════════════════ -->
 
