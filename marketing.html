@@ -1,6 +1,1364 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daleel — دليل | Know Your People. Grow Your People.</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --navy:#070F1E;
+  --navy-2:#0A1628;
+  --navy-3:#0D1E38;
+  --teal:#0E7490;
+  --teal-hi:#0EA5C9;
+  --teal-glow:rgba(14,116,144,0.25);
+  --gold:#D97706;
+  --gold-hi:#F59E0B;
+  --text:#F0F4F8;
+  --text-mid:rgba(240,244,248,0.6);
+  --text-dim:rgba(240,244,248,0.32);
+  --card:rgba(255,255,255,0.035);
+  --card-hover:rgba(14,116,144,0.08);
+  --border:rgba(255,255,255,0.07);
+  --border-teal:rgba(14,116,144,0.3);
+  --r:14px;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Sora',sans-serif;
+  background:var(--navy);
+  color:var(--text);
+  line-height:1.6;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ── NAV ── */
+nav{
+  position:sticky;top:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 56px;height:64px;
+  background:rgba(7,15,30,0.8);
+  backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border);
+}
+.logo{
+  font-size:17px;font-weight:800;color:var(--text);
+  text-decoration:none;letter-spacing:-.4px;
+  display:flex;align-items:center;gap:2px;
+}
+.logo-ar{color:var(--teal-hi);font-weight:300;margin-left:4px}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{
+  color:var(--text-mid);text-decoration:none;
+  font-size:13.5px;font-weight:500;
+  transition:color .15s;
+}
+.nav-links a:hover{color:var(--text)}
+.nav-btn{
+  background:var(--teal);color:#fff;
+  border:none;padding:9px 20px;
+  border-radius:8px;font-size:13.5px;font-weight:600;
+  cursor:pointer;font-family:'Sora',sans-serif;
+  transition:all .2s;text-decoration:none;
+  letter-spacing:-.1px;
+}
+.nav-btn:hover{background:var(--teal-hi);box-shadow:0 0 20px var(--teal-glow)}
+
+/* ── HERO ── */
+.hero{
+  min-height:calc(100vh - 64px);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;
+  padding:80px 24px 60px;
+  position:relative;overflow:hidden;
+}
+.hero-orb{
+  position:absolute;
+  border-radius:50%;
+  pointer-events:none;
+}
+.orb-1{
+  width:600px;height:600px;
+  background:radial-gradient(circle,rgba(14,116,144,.14) 0%,transparent 70%);
+  top:-10%;left:50%;transform:translateX(-50%);
+}
+.orb-2{
+  width:300px;height:300px;
+  background:radial-gradient(circle,rgba(217,119,6,.07) 0%,transparent 70%);
+  bottom:20%;right:10%;
+}
+
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(14,116,144,.12);
+  border:1px solid var(--border-teal);
+  border-radius:100px;
+  padding:5px 14px;
+  font-size:12px;font-weight:600;
+  color:var(--teal-hi);letter-spacing:.06em;
+  text-transform:uppercase;
+  margin-bottom:36px;
+  position:relative;z-index:1;
+}
+.eyebrow-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--teal-hi);
+  animation:pulse-dot 2s infinite;
+}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+
+.hero h1{
+  font-size:clamp(44px,6.5vw,84px);
+  font-weight:900;
+  line-height:1.02;
+  letter-spacing:-3px;
+  max-width:860px;
+  margin-bottom:24px;
+  position:relative;z-index:1;
+}
+.hero h1 .gradient-text{
+  background:linear-gradient(135deg,var(--teal-hi),#38BDF8,var(--teal-hi));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.hero-sub{
+  font-size:clamp(16px,2vw,19px);
+  color:var(--text-mid);
+  max-width:520px;
+  margin-bottom:48px;
+  line-height:1.75;
+  position:relative;z-index:1;
+  font-weight:400;
+}
+.hero-actions{
+  display:flex;gap:14px;flex-wrap:wrap;
+  justify-content:center;
+  position:relative;z-index:1;
+  margin-bottom:64px;
+}
+.btn-hero{
+  padding:15px 30px;
+  border-radius:10px;
+  font-size:15px;font-weight:600;
+  cursor:pointer;font-family:'Sora',sans-serif;
+  transition:all .2s;text-decoration:none;
+  display:inline-flex;align-items:center;gap:8px;
+  letter-spacing:-.2px;
+}
+.btn-hero.primary{
+  background:var(--teal);color:#fff;border:none;
+}
+.btn-hero.primary:hover{
+  background:var(--teal-hi);
+  transform:translateY(-2px);
+  box-shadow:0 12px 40px rgba(14,116,144,.4);
+}
+.btn-hero.ghost{
+  background:transparent;color:var(--text-mid);
+  border:1px solid var(--border);
+}
+.btn-hero.ghost:hover{
+  color:var(--text);
+  border-color:rgba(255,255,255,.18);
+  background:rgba(255,255,255,.04);
+}
+
+/* ── PRODUCT PREVIEW ── */
+.preview-wrap{
+  position:relative;z-index:1;
+  width:100%;max-width:1000px;
+  margin:0 auto;
+}
+.preview-label{
+  font-size:11px;color:var(--text-dim);
+  text-transform:uppercase;letter-spacing:.1em;
+  font-weight:600;margin-bottom:16px;
+}
+.preview-frame{
+  background:var(--navy-3);
+  border:1px solid var(--border);
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.04),
+    0 40px 120px rgba(0,0,0,.7),
+    0 0 80px rgba(14,116,144,.08);
+  position:relative;
+}
+.preview-bar{
+  background:rgba(255,255,255,.04);
+  border-bottom:1px solid var(--border);
+  padding:12px 20px;
+  display:flex;align-items:center;gap:10px;
+}
+.preview-dots{display:flex;gap:6px}
+.dot{width:10px;height:10px;border-radius:50%}
+.dot-r{background:#FF5F56}
+.dot-y{background:#FFBD2E}
+.dot-g{background:#27C93F}
+.preview-url{
+  flex:1;background:rgba(255,255,255,.05);
+  border:1px solid var(--border);
+  border-radius:6px;padding:4px 12px;
+  font-size:11px;color:var(--text-dim);
+  font-family:monospace;
+  text-align:center;
+}
+.preview-content{
+  display:grid;grid-template-columns:200px 1fr;
+  min-height:400px;
+}
+.preview-sidebar{
+  background:rgba(255,255,255,.02);
+  border-right:1px solid var(--border);
+  padding:20px 0;
+}
+.ps-logo{
+  padding:0 16px 16px;
+  border-bottom:1px solid var(--border);
+  margin-bottom:12px;
+  font-size:13px;font-weight:700;color:var(--text);
+}
+.ps-logo span{color:var(--teal-hi);font-weight:300}
+.ps-section{
+  font-size:9px;color:var(--text-dim);
+  text-transform:uppercase;letter-spacing:.1em;
+  font-weight:600;padding:8px 16px 4px;
+}
+.ps-item{
+  padding:7px 16px;font-size:12px;
+  color:var(--text-dim);
+  display:flex;align-items:center;gap:8px;
+  cursor:default;
+}
+.ps-item.active{
+  color:var(--text);
+  background:rgba(14,116,144,.12);
+  border-left:2px solid var(--teal-hi);
+}
+.ps-dot{
+  width:16px;height:16px;border-radius:4px;
+  background:rgba(255,255,255,.08);
+  display:flex;align-items:center;justify-content:center;
+  font-size:9px;flex-shrink:0;
+}
+.ps-item.active .ps-dot{background:var(--teal-glow)}
+.preview-main{padding:24px;display:flex;flex-direction:column;gap:16px}
+.pm-header{
+  display:flex;justify-content:space-between;align-items:flex-start;
+}
+.pm-title{font-size:16px;font-weight:700;color:var(--text)}
+.pm-sub{font-size:11px;color:var(--text-dim);margin-top:2px}
+.pm-badge{
+  background:rgba(14,116,144,.15);
+  border:1px solid var(--border-teal);
+  border-radius:6px;padding:4px 10px;
+  font-size:10px;color:var(--teal-hi);font-weight:600;
+}
+.pm-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.pm-stat{
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--border);
+  border-radius:10px;padding:12px;
+}
+.pm-stat-num{
+  font-size:20px;font-weight:800;
+  color:var(--teal-hi);margin-bottom:2px;
+}
+.pm-stat-lbl{font-size:9px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.06em}
+.pm-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pm-card{
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--border);
+  border-radius:10px;padding:14px;
+}
+.pm-card-title{font-size:11px;font-weight:600;color:var(--text-mid);margin-bottom:10px}
+.pm-bar-wrap{display:flex;flex-direction:column;gap:6px}
+.pm-bar-row{display:flex;align-items:center;gap:8px}
+.pm-bar-label{font-size:10px;color:var(--text-dim);width:60px;text-align:right;flex-shrink:0}
+.pm-bar-track{flex:1;height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden}
+.pm-bar-fill{height:100%;border-radius:3px;transition:width .4s}
+.pm-bar-val{font-size:10px;color:var(--text-dim);width:28px;flex-shrink:0}
+.pm-alert{
+  background:rgba(192,57,43,.08);
+  border:1px solid rgba(192,57,43,.2);
+  border-radius:8px;padding:10px 12px;
+  font-size:11px;color:#F87171;
+  display:flex;align-items:center;gap:8px;
+}
+.pm-alert-dot{width:6px;height:6px;border-radius:50%;background:#EF4444;flex-shrink:0;animation:pulse-dot 1.5s infinite}
+
+/* ── MARQUEE ── */
+.marquee-wrap{
+  overflow:hidden;
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  background:rgba(14,116,144,.04);
+  padding:16px 0;
+}
+.marquee-track{
+  display:flex;gap:48px;
+  animation:marquee 30s linear infinite;
+  width:max-content;
+}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.marquee-item{
+  display:flex;align-items:center;gap:10px;
+  white-space:nowrap;
+  font-size:13px;font-weight:600;color:var(--text-dim);
+  letter-spacing:-.1px;
+}
+.marquee-item strong{color:var(--text-mid)}
+.marquee-sep{color:var(--border);font-size:20px}
+
+/* ── SECTION BASE ── */
+.section{padding:96px 56px;max-width:1200px;margin:0 auto}
+.section-chip{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(14,116,144,.1);
+  border:1px solid var(--border-teal);
+  border-radius:100px;
+  padding:4px 12px;
+  font-size:11px;font-weight:700;
+  color:var(--teal-hi);
+  text-transform:uppercase;letter-spacing:.08em;
+  margin-bottom:20px;
+}
+h2.section-h{
+  font-size:clamp(34px,4vw,54px);
+  font-weight:800;
+  letter-spacing:-2px;
+  line-height:1.08;
+  margin-bottom:16px;
+}
+p.section-p{
+  font-size:17px;
+  color:var(--text-mid);
+  max-width:500px;
+  line-height:1.7;
+  font-weight:400;
+}
+
+/* ── PROBLEM ── */
+.problem-wrap{background:var(--navy-2)}
+.problem-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:24px;
+  margin-top:56px;
+  align-items:start;
+}
+.problem-visual{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:28px;
+  display:flex;flex-direction:column;gap:12px;
+}
+.problem-visual-title{font-size:12px;color:var(--text-dim);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.old-way-item{
+  display:flex;align-items:center;gap:12px;
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--border);
+  border-radius:8px;padding:12px 14px;
+}
+.old-way-icon{font-size:16px;flex-shrink:0}
+.old-way-text{font-size:13px;color:var(--text-mid)}
+.old-way-badge{
+  margin-left:auto;flex-shrink:0;
+  font-size:10px;font-weight:700;
+  padding:3px 8px;border-radius:4px;
+}
+.badge-red{background:rgba(239,68,68,.15);color:#F87171}
+.badge-yellow{background:rgba(245,158,11,.15);color:#FCD34D}
+.arrow-divider{
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;color:var(--teal-hi);
+  padding:8px 0;
+}
+.new-way-item{
+  display:flex;align-items:center;gap:12px;
+  background:rgba(14,116,144,.08);
+  border:1px solid var(--border-teal);
+  border-radius:8px;padding:12px 14px;
+}
+.new-way-badge{
+  margin-left:auto;flex-shrink:0;
+  background:rgba(14,116,144,.2);color:var(--teal-hi);
+  font-size:10px;font-weight:700;
+  padding:3px 8px;border-radius:4px;
+}
+.problem-points{display:flex;flex-direction:column;gap:20px}
+.problem-point{
+  display:flex;gap:20px;
+  padding:24px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  transition:border-color .2s;
+}
+.problem-point:hover{border-color:var(--border-teal)}
+.pp-num{
+  font-size:32px;font-weight:900;color:rgba(14,116,144,.25);
+  line-height:1;flex-shrink:0;width:32px;
+  font-variant-numeric:tabular-nums;
+}
+.pp-content h3{font-size:15px;font-weight:700;margin-bottom:6px;color:var(--text)}
+.pp-content p{font-size:13px;color:var(--text-mid);line-height:1.6}
+
+/* ── FEATURES ── */
+.features-wrap{background:var(--navy)}
+.features-intro{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:80px;align-items:end;
+  margin-bottom:56px;
+}
+.features-tagline{
+  font-size:clamp(28px,3vw,40px);
+  font-weight:700;
+  color:var(--text-mid);
+  line-height:1.3;
+  letter-spacing:-1px;
+}
+.features-tagline strong{color:var(--text)}
+.bento{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  grid-template-rows:auto;
+  gap:14px;
+}
+.bento-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:28px;
+  transition:all .2s;
+  position:relative;
+  overflow:hidden;
+}
+.bento-card::before{
+  content:'';
+  position:absolute;inset:0;
+  background:radial-gradient(circle at 30% 20%,rgba(14,116,144,.06),transparent 60%);
+  pointer-events:none;
+}
+.bento-card:hover{
+  border-color:var(--border-teal);
+  background:var(--card-hover);
+  transform:translateY(-2px);
+}
+.bento-card.span-4{grid-column:span 4}
+.bento-card.span-2{grid-column:span 2}
+.bento-card.span-3{grid-column:span 3}
+.bento-card.span-6{grid-column:span 6}
+.bento-icon{
+  width:44px;height:44px;border-radius:10px;
+  background:rgba(14,116,144,.15);
+  border:1px solid var(--border-teal);
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;margin-bottom:20px;
+}
+.bento-card h3{
+  font-size:16px;font-weight:700;
+  margin-bottom:10px;letter-spacing:-.3px;
+  color:var(--text);
+}
+.bento-card p{
+  font-size:13px;color:var(--text-mid);
+  line-height:1.65;
+}
+.bento-card .bento-tag{
+  display:inline-flex;align-items:center;
+  background:rgba(14,116,144,.12);
+  border:1px solid var(--border-teal);
+  border-radius:6px;padding:3px 8px;
+  font-size:10px;font-weight:700;
+  color:var(--teal-hi);letter-spacing:.04em;
+  margin-top:14px;
+}
+/* Bento mini-visual */
+.bento-mini{
+  display:flex;flex-direction:column;gap:6px;
+  margin-top:16px;
+}
+.bento-bar{
+  display:flex;align-items:center;gap:8px;
+}
+.bento-bar-label{font-size:10px;color:var(--text-dim);width:70px;flex-shrink:0;text-align:right}
+.bento-bar-track{flex:1;height:5px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden}
+.bento-bar-fill{height:100%;border-radius:3px}
+.bento-bar-val{font-size:10px;color:var(--text-dim);width:24px;text-align:right;flex-shrink:0}
+.ninebox-mini{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:4px;margin-top:16px;
+}
+.nb-cell{
+  height:36px;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:600;
+}
+.nb-hi{background:rgba(14,116,144,.2);color:var(--teal-hi);border:1px solid var(--border-teal)}
+.nb-mid{background:rgba(245,158,11,.1);color:#FCD34D;border:1px solid rgba(245,158,11,.2)}
+.nb-lo{background:rgba(239,68,68,.08);color:#F87171;border:1px solid rgba(239,68,68,.15)}
+
+/* ── HOW IT WORKS ── */
+.hiw-wrap{background:var(--navy-2)}
+.hiw-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:2px;margin-top:64px;
+  background:var(--border);
+  border-radius:var(--r);overflow:hidden;
+}
+.hiw-step{
+  background:var(--navy-2);
+  padding:40px 32px;
+  position:relative;
+}
+.hiw-step:hover .hiw-step-num{color:var(--teal-hi)}
+.hiw-step-num{
+  font-size:56px;font-weight:900;
+  color:rgba(255,255,255,.06);
+  line-height:1;margin-bottom:20px;
+  transition:color .2s;
+  font-variant-numeric:tabular-nums;
+}
+.hiw-step-icon{
+  width:48px;height:48px;border-radius:12px;
+  background:rgba(14,116,144,.12);
+  border:1px solid var(--border-teal);
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;margin-bottom:20px;
+}
+.hiw-step h3{font-size:18px;font-weight:700;margin-bottom:12px;letter-spacing:-.3px}
+.hiw-step p{font-size:14px;color:var(--text-mid);line-height:1.7}
+.hiw-step-connector{
+  position:absolute;right:-16px;top:50%;transform:translateY(-50%);
+  z-index:1;
+  width:32px;height:32px;border-radius:50%;
+  background:var(--teal);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;color:#fff;font-weight:600;
+  box-shadow:0 0 16px rgba(14,116,144,.5);
+}
+.hiw-step:last-child .hiw-step-connector{display:none}
+
+/* ── PRICING ── */
+.pricing-wrap{background:var(--navy)}
+.pricing-header{text-align:center;margin-bottom:56px}
+.pricing-header p.section-p{margin:0 auto}
+.pricing-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:16px;align-items:start;
+}
+.price-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:20px;padding:36px 32px;
+  position:relative;transition:all .25s;
+}
+.price-card:hover{border-color:var(--border-teal)}
+.price-card.popular{
+  border-color:var(--teal);
+  background:rgba(14,116,144,.07);
+  transform:scale(1.03);
+  box-shadow:0 0 60px rgba(14,116,144,.15);
+}
+.popular-badge{
+  position:absolute;top:-14px;left:50%;transform:translateX(-50%);
+  background:linear-gradient(135deg,var(--teal),var(--teal-hi));
+  color:#fff;font-size:11px;font-weight:700;
+  padding:4px 16px;border-radius:100px;
+  white-space:nowrap;letter-spacing:.06em;
+}
+.price-tier-label{
+  font-size:11px;font-weight:700;
+  color:var(--teal-hi);
+  text-transform:uppercase;letter-spacing:.1em;
+  margin-bottom:6px;
+}
+.price-tier-ar{
+  font-size:12px;color:var(--text-dim);
+  margin-bottom:20px;letter-spacing:.02em;
+}
+.price-amount-wrap{margin-bottom:8px}
+.price-currency{
+  font-size:20px;font-weight:700;
+  color:var(--text-mid);vertical-align:top;
+  line-height:1.6;
+}
+.price-amount{
+  font-size:52px;font-weight:900;
+  color:var(--text);letter-spacing:-3px;line-height:1;
+}
+.price-amount.custom{font-size:36px;letter-spacing:-1px}
+.price-period{font-size:13px;color:var(--text-dim);margin-bottom:6px}
+.price-limit{
+  font-size:13px;font-weight:600;
+  color:var(--teal-hi);
+  margin-bottom:28px;
+  display:inline-flex;align-items:center;gap:6px;
+}
+hr.divider{border:none;border-top:1px solid var(--border);margin:0 0 24px}
+.features-list{list-style:none;margin-bottom:32px}
+.features-list li{
+  font-size:13px;color:var(--text-mid);
+  padding:8px 0;
+  display:flex;align-items:flex-start;gap:10px;
+  border-bottom:1px solid rgba(255,255,255,.04);
+}
+.features-list li:last-child{border-bottom:none}
+.check{color:var(--teal-hi);font-size:12px;flex-shrink:0;margin-top:1px;font-weight:700}
+.price-cta{
+  width:100%;padding:13px;
+  border-radius:10px;
+  font-size:14px;font-weight:600;
+  cursor:pointer;
+  font-family:'Sora',sans-serif;
+  transition:all .2s;
+  border:none;display:block;
+  text-align:center;text-decoration:none;
+}
+.price-cta.solid{background:var(--teal);color:#fff}
+.price-cta.solid:hover{background:var(--teal-hi);box-shadow:0 8px 24px rgba(14,116,144,.4)}
+.price-cta.outline{
+  background:transparent;
+  color:var(--text-mid);
+  border:1px solid var(--border);
+}
+.price-cta.outline:hover{color:var(--text);border-color:rgba(255,255,255,.2)}
+
+/* ── WHY DALEEL ── */
+.why-wrap{background:var(--navy-2)}
+.why-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:80px;align-items:center;margin-top:64px;
+}
+.why-points{display:flex;flex-direction:column;gap:28px}
+.why-point{display:flex;gap:20px;align-items:flex-start}
+.why-point-icon{
+  width:48px;height:48px;border-radius:12px;flex-shrink:0;
+  background:rgba(14,116,144,.12);
+  border:1px solid var(--border-teal);
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;
+}
+.why-point h3{font-size:15px;font-weight:700;margin-bottom:6px}
+.why-point p{font-size:13px;color:var(--text-mid);line-height:1.65}
+.why-visual{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:20px;padding:32px;
+  display:flex;flex-direction:column;gap:16px;
+}
+.wv-title{font-size:12px;color:var(--text-dim);font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.wv-metric{
+  display:flex;align-items:center;gap:16px;
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--border);
+  border-radius:10px;padding:14px 16px;
+}
+.wv-icon{font-size:20px;flex-shrink:0;width:32px;text-align:center}
+.wv-label{font-size:13px;color:var(--text-mid);flex:1}
+.wv-value{font-size:14px;font-weight:700;color:var(--teal-hi)}
+.wv-divider{border:none;border-top:1px solid var(--border)}
+.wv-statement{
+  font-size:15px;font-weight:600;color:var(--text);
+  line-height:1.5;text-align:center;
+  padding:8px 0;
+}
+.wv-flag{font-size:13px;color:var(--text-dim);text-align:center}
+
+/* ── FINAL CTA ── */
+.cta-wrap{
+  padding:96px 56px;
+  text-align:center;
+  background:var(--navy);
+  position:relative;overflow:hidden;
+}
+.cta-wrap::before{
+  content:'';position:absolute;
+  width:800px;height:400px;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(14,116,144,.12),transparent 70%);
+  bottom:-100px;left:50%;transform:translateX(-50%);
+  pointer-events:none;
+}
+.cta-inner{position:relative;z-index:1}
+.cta-wrap h2{
+  font-size:clamp(36px,5vw,64px);
+  font-weight:900;
+  letter-spacing:-2.5px;
+  line-height:1.05;
+  margin-bottom:20px;
+}
+.cta-wrap p{
+  font-size:18px;color:var(--text-mid);
+  margin-bottom:48px;max-width:440px;
+  margin-left:auto;margin-right:auto;
+  line-height:1.65;
+}
+.cta-actions{
+  display:flex;gap:14px;justify-content:center;
+  flex-wrap:wrap;
+}
+.cta-note{
+  margin-top:20px;
+  font-size:12px;color:var(--text-dim);
+}
+
+/* ── FOOTER ── */
+footer{
+  padding:40px 56px;
+  display:flex;align-items:center;
+  justify-content:space-between;
+  border-top:1px solid var(--border);
+  background:var(--navy);
+}
+.footer-logo{font-size:15px;font-weight:700;color:var(--text)}
+.footer-logo span{color:var(--teal-hi);font-weight:300}
+.footer-links{
+  display:flex;gap:24px;list-style:none;
+}
+.footer-links a{
+  color:var(--text-dim);text-decoration:none;
+  font-size:13px;transition:color .2s;
+}
+.footer-links a:hover{color:var(--text-mid)}
+.footer-copy{font-size:12px;color:var(--text-dim)}
+
+/* ── ANIMATIONS ── */
+@keyframes fade-up{
+  from{opacity:0;transform:translateY(24px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.animate{animation:fade-up .6s ease both}
+.delay-1{animation-delay:.1s}
+.delay-2{animation-delay:.2s}
+.delay-3{animation-delay:.3s}
+.delay-4{animation-delay:.4s}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  nav{padding:0 28px}
+  .section{padding:72px 28px}
+  .problem-grid{grid-template-columns:1fr}
+  .features-intro{grid-template-columns:1fr}
+  .bento-card.span-4{grid-column:span 6}
+  .bento-card.span-2{grid-column:span 6}
+  .bento-card.span-3{grid-column:span 6}
+  .why-grid{grid-template-columns:1fr}
+  .hiw-grid{grid-template-columns:1fr}
+  .pricing-grid{grid-template-columns:1fr}
+  .price-card.popular{transform:none}
+  footer{flex-direction:column;gap:20px;text-align:center}
+  .footer-links{flex-wrap:wrap;justify-content:center}
+  .cta-wrap{padding:72px 28px}
+  .preview-content{grid-template-columns:1fr}
+  .preview-sidebar{display:none}
+}
+@media(max-width:600px){
+  .nav-links{display:none}
+  .hero h1{letter-spacing:-2px}
+  .pm-stats{grid-template-columns:1fr 1fr}
+  .pm-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">Daleel<span class="logo-ar"> | دليل</span></a>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="https://daleelkw.netlify.app" target="_blank">Live Demo</a></li>
+  </ul>
+  <a href="mailto:hello@daleel.app" class="nav-btn">Request a Demo</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-orb orb-1"></div>
+  <div class="hero-orb orb-2"></div>
+
+  <div class="hero-eyebrow animate">
+    <div class="eyebrow-dot"></div>
+    Now available in Kuwait &amp; GCC
+  </div>
+
+  <h1 class="animate delay-1">
+    Know your people.<br>
+    <span class="gradient-text">Grow your people.</span>
+  </h1>
+
+  <p class="hero-sub animate delay-2">
+    Daleel is the talent intelligence platform built for Kuwait and the Gulf —
+    giving HR and L&amp;D teams the clarity to make confident decisions about
+    compliance, skills, and development.
+  </p>
+
+  <div class="hero-actions animate delay-3">
+    <a href="https://daleelkw.netlify.app" target="_blank" class="btn-hero primary">
+      See Daleel in action →
+    </a>
+    <a href="mailto:hello@daleel.app" class="btn-hero ghost">
+      Request a demo
+    </a>
+  </div>
+
+  <!-- Product Preview -->
+  <div class="preview-wrap animate delay-4">
+    <p class="preview-label">↑ Live platform preview</p>
+    <div class="preview-frame">
+      <div class="preview-bar">
+        <div class="preview-dots">
+          <div class="dot dot-r"></div>
+          <div class="dot dot-y"></div>
+          <div class="dot dot-g"></div>
+        </div>
+        <div class="preview-url">daleelkw.netlify.app</div>
+      </div>
+      <div class="preview-content">
+        <div class="preview-sidebar">
+          <div class="ps-logo">Daleel <span>| دليل</span></div>
+          <div class="ps-section">Overview</div>
+          <div class="ps-item active"><div class="ps-dot">⬛</div> Dashboard</div>
+          <div class="ps-item"><div class="ps-dot">✦</div> Intelligence</div>
+          <div class="ps-item"><div class="ps-dot">💡</div> Budget Calc</div>
+          <div class="ps-section">Training</div>
+          <div class="ps-item"><div class="ps-dot">◈</div> Planner</div>
+          <div class="ps-item"><div class="ps-dot">↗</div> Learning Paths</div>
+          <div class="ps-item"><div class="ps-dot">◉</div> Catalog</div>
+          <div class="ps-section">People</div>
+          <div class="ps-item"><div class="ps-dot">⊞</div> 9-Box Matrix</div>
+          <div class="ps-item"><div class="ps-dot">▸</div> Dev Plans</div>
+          <div class="ps-item"><div class="ps-dot">◆</div> Compliance</div>
+        </div>
+        <div class="preview-main">
+          <div class="pm-header">
+            <div>
+              <div class="pm-title">Good morning, Noor 👋</div>
+              <div class="pm-sub">Monday · Here's what needs your attention</div>
+            </div>
+            <div class="pm-badge">🟢 All systems live</div>
+          </div>
+          <div class="pm-stats">
+            <div class="pm-stat">
+              <div class="pm-stat-num" style="color:#F59E0B">3</div>
+              <div class="pm-stat-lbl">Urgent alerts</div>
+            </div>
+            <div class="pm-stat">
+              <div class="pm-stat-num">91%</div>
+              <div class="pm-stat-lbl">Kuwaitization</div>
+            </div>
+            <div class="pm-stat">
+              <div class="pm-stat-num" style="color:#34D399">847</div>
+              <div class="pm-stat-lbl">Assessments done</div>
+            </div>
+            <div class="pm-stat">
+              <div class="pm-stat-num">KD 116K</div>
+              <div class="pm-stat-lbl">Budget remaining</div>
+            </div>
+          </div>
+          <div class="pm-row">
+            <div class="pm-card">
+              <div class="pm-card-title">Skill gap by department</div>
+              <div class="pm-bar-wrap">
+                <div class="pm-bar-row">
+                  <div class="pm-bar-label">Finance</div>
+                  <div class="pm-bar-track"><div class="pm-bar-fill" style="width:82%;background:var(--teal-hi)"></div></div>
+                  <div class="pm-bar-val">82%</div>
+                </div>
+                <div class="pm-bar-row">
+                  <div class="pm-bar-label">Operations</div>
+                  <div class="pm-bar-track"><div class="pm-bar-fill" style="width:67%;background:#F59E0B"></div></div>
+                  <div class="pm-bar-val">67%</div>
+                </div>
+                <div class="pm-bar-row">
+                  <div class="pm-bar-label">Risk</div>
+                  <div class="pm-bar-track"><div class="pm-bar-fill" style="width:54%;background:#F87171"></div></div>
+                  <div class="pm-bar-val">54%</div>
+                </div>
+                <div class="pm-bar-row">
+                  <div class="pm-bar-label">Technology</div>
+                  <div class="pm-bar-track"><div class="pm-bar-fill" style="width:91%;background:var(--teal-hi)"></div></div>
+                  <div class="pm-bar-val">91%</div>
+                </div>
+              </div>
+            </div>
+            <div class="pm-card" style="display:flex;flex-direction:column;gap:8px">
+              <div class="pm-card-title">Urgent actions</div>
+              <div class="pm-alert">
+                <div class="pm-alert-dot"></div>
+                AML cert expires in 8 days — KD 45,000 risk
+              </div>
+              <div class="pm-alert" style="background:rgba(245,158,11,.08);border-color:rgba(245,158,11,.2);color:#FCD34D">
+                <div class="pm-alert-dot" style="background:#F59E0B"></div>
+                Q2 budget window opens April 1
+              </div>
+              <div class="pm-alert" style="background:rgba(14,116,144,.08);border-color:var(--border-teal);color:var(--teal-hi)">
+                <div class="pm-alert-dot" style="background:var(--teal-hi)"></div>
+                47 employees ready for promotion
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <div class="marquee-item"><span>🧠</span> <strong>AI-Powered</strong> Learning Intelligence</div>
+    <div class="marquee-sep">·</div>
+    <div class="marquee-item"><span>🇰🇼</span> <strong>Built</strong> for Kuwait &amp; GCC</div>
+    <div class="marquee-sep">·</div>
+    <div class="marquee-item"><span>🌐</span> <strong>Arabic + English</strong> Bilingual UI</div>
+    <div class="marquee-sep">·</div>
+    <div class="marquee-item"><span>⊞</span> <strong>9-Box</strong> Talent Matrix</div>
+    <div class="marquee-sep">·</div>
+    <div class="marquee-item"><span>◆</span> <strong>22</strong> Integrated Modules</div>
+    <div class="marquee-sep">·</div>
+    <div class="marquee-item"><span>💡</span> <strong>Live</strong> ROI Calculator</div>
+    <div class="marquee-sep">·</div>
+    <div class="marquee-item"><span>▸</span> <strong>Auto-Generated</strong> Dev Plans</div>
+    <div class="marquee-sep">·</div>
+    <!-- Repeat for seamless loop -->
+    <div class="marquee-item"><span>🧠</span> <strong>AI-Powered</strong> Learning Intelligence</div>
+    <div class="marquee-sep">·</div>
+    <div class="marquee-item"><span>🇰🇼</span> <strong>Built</strong> for Kuwait &amp; GCC</div>
+    <div class="marquee-sep">·</div>
+    <div class="marquee-item"><span>🌐</span> <strong>Arabic + English</strong> Bilingual UI</div>
+    <div class="marquee-sep">·</div>
+    <div class="marquee-item"><span>⊞</span> <strong>9-Box</strong> Talent Matrix</div>
+    <div class="marquee-sep">·</div>
+    <div class="marquee-item"><span>◆</span> <strong>22</strong> Integrated Modules</div>
+    <div class="marquee-sep">·</div>
+    <div class="marquee-item"><span>💡</span> <strong>Live</strong> ROI Calculator</div>
+    <div class="marquee-sep">·</div>
+    <div class="marquee-item"><span>▸</span> <strong>Auto-Generated</strong> Dev Plans</div>
+    <div class="marquee-sep">·</div>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<div class="problem-wrap">
+<section class="section">
+  <div class="section-chip">📊 The Reality</div>
+  <h2 class="section-h">HR decisions are being made<br>in the dark.</h2>
+  <p class="section-p">Most HR teams are still piecing together spreadsheets, chasing compliance manually, and guessing on talent. Daleel changes that.</p>
+
+  <div class="problem-grid">
+    <div class="problem-visual">
+      <div class="problem-visual-title">Without Daleel</div>
+      <div class="old-way-item">
+        <div class="old-way-icon">📋</div>
+        <div class="old-way-text">Compliance tracked in Excel — manually</div>
+        <div class="old-way-badge badge-red">High risk</div>
+      </div>
+      <div class="old-way-item">
+        <div class="old-way-icon">🔍</div>
+        <div class="old-way-text">No visibility into who needs training</div>
+        <div class="old-way-badge badge-red">Blind spot</div>
+      </div>
+      <div class="old-way-item">
+        <div class="old-way-icon">📊</div>
+        <div class="old-way-text">Training ROI impossible to report</div>
+        <div class="old-way-badge badge-yellow">No data</div>
+      </div>
+      <div class="old-way-item">
+        <div class="old-way-icon">🗂️</div>
+        <div class="old-way-text">Talent potential guessed, not measured</div>
+        <div class="old-way-badge badge-yellow">Guesswork</div>
+      </div>
+      <div class="old-way-item">
+        <div class="old-way-icon">💼</div>
+        <div class="old-way-text">Development plans created in Word docs</div>
+        <div class="old-way-badge badge-red">Scattered</div>
+      </div>
+      <div class="arrow-divider">↓ Daleel replaces all of this ↓</div>
+      <div class="new-way-item">
+        <div class="old-way-icon">✦</div>
+        <div class="old-way-text" style="color:var(--text)">One platform. Live data. Clear decisions.</div>
+        <div class="new-way-badge">Daleel</div>
+      </div>
+    </div>
+
+    <div class="problem-points">
+      <div class="problem-point">
+        <div class="pp-num">01</div>
+        <div class="pp-content">
+          <h3>You discover compliance gaps at the worst time</h3>
+          <p>Certification expiries, regulatory requirements, Kuwaitization shortfalls — these surface at audit time or after the fact. Daleel tracks everything in real time and alerts you before there's a problem, not after.</p>
+        </div>
+      </div>
+      <div class="problem-point">
+        <div class="pp-num">02</div>
+        <div class="pp-content">
+          <h3>You can't see your talent — only your org chart</h3>
+          <p>Knowing someone's job title tells you nothing about their potential, skill gaps, or where they should be in 12 months. Daleel maps your entire workforce by performance and potential so development actually goes somewhere.</p>
+        </div>
+      </div>
+      <div class="problem-point">
+        <div class="pp-num">03</div>
+        <div class="pp-content">
+          <h3>Training budgets get cut because ROI isn't visible</h3>
+          <p>HR asks for budget. Leadership asks for results. Without data connecting training to outcomes, HR loses every time. Daleel's ROI calculator makes the business case before you spend a single fil.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- FEATURES -->
+<div class="features-wrap">
+<section class="section" id="features">
+  <div class="features-intro">
+    <div>
+      <div class="section-chip">🧩 Platform</div>
+      <h2 class="section-h">22 modules.<br>One platform.</h2>
+      <p class="section-p">Every tool your team needs — connected, not cobbled together.</p>
+    </div>
+    <div class="features-tagline">
+      <strong>From compliance tracking to career development.</strong><br>
+      From skill gap analysis to board reporting.<br>
+      All in one place.
+    </div>
+  </div>
+
+  <div class="bento">
+
+    <!-- Big card: Learning Intelligence -->
+    <div class="bento-card span-4">
+      <div class="bento-icon">✦</div>
+      <h3>Learning Intelligence</h3>
+      <p>AI surfaces exactly WHO in your organisation needs training, WHEN is the best window to do it, and WHAT they should learn — calculated from your live workforce data, not generic recommendations.</p>
+      <div class="bento-mini">
+        <div class="bento-bar">
+          <div class="bento-bar-label">AML Skills</div>
+          <div class="bento-bar-track"><div class="bento-bar-fill" style="width:38%;background:#F87171"></div></div>
+          <div class="bento-bar-val" style="color:#F87171">38%</div>
+        </div>
+        <div class="bento-bar">
+          <div class="bento-bar-label">Leadership</div>
+          <div class="bento-bar-track"><div class="bento-bar-fill" style="width:61%;background:#F59E0B"></div></div>
+          <div class="bento-bar-val" style="color:#F59E0B">61%</div>
+        </div>
+        <div class="bento-bar">
+          <div class="bento-bar-label">Digital</div>
+          <div class="bento-bar-track"><div class="bento-bar-fill" style="width:79%;background:var(--teal-hi)"></div></div>
+          <div class="bento-bar-val">79%</div>
+        </div>
+      </div>
+      <div class="bento-tag">AI-Powered</div>
+    </div>
+
+    <!-- Small card: Compliance -->
+    <div class="bento-card span-2">
+      <div class="bento-icon">◆</div>
+      <h3>Compliance Tracker</h3>
+      <p>Real-time monitoring of certification expiries and regulatory requirements. Alerts before deadlines — not after.</p>
+      <div class="bento-tag">Live alerts</div>
+    </div>
+
+    <!-- Small card: 9-Box -->
+    <div class="bento-card span-2">
+      <div class="bento-icon">⊞</div>
+      <h3>9-Box Talent Matrix</h3>
+      <p>Map your entire workforce by performance and potential. Click any quadrant to see employees and recommended actions.</p>
+      <div class="ninebox-mini">
+        <div class="nb-cell nb-hi">Stars</div>
+        <div class="nb-cell nb-hi">High</div>
+        <div class="nb-cell nb-mid">Grow</div>
+        <div class="nb-cell nb-mid">Core</div>
+        <div class="nb-cell nb-mid">Solid</div>
+        <div class="nb-cell nb-lo">Develop</div>
+        <div class="nb-cell nb-lo">At Risk</div>
+        <div class="nb-cell nb-lo">Low</div>
+        <div class="nb-cell nb-lo">Risk</div>
+      </div>
+    </div>
+
+    <!-- Big card: IDPs -->
+    <div class="bento-card span-4">
+      <div class="bento-icon">▸</div>
+      <h3>Individual Development Plans</h3>
+      <p>Auto-generated from assessment data. Every employee gets a personalised roadmap — career destination, strengths, development milestones, manager sign-off, and progress tracking. Not a template in Word. A living plan in Daleel.</p>
+      <div class="bento-tag">Auto-generated</div>
+    </div>
+
+    <!-- Small card: ROI -->
+    <div class="bento-card span-2">
+      <div class="bento-icon">💡</div>
+      <h3>Budget & ROI Calculator</h3>
+      <p>Model your training spend. Show leadership exactly what the investment returns — before you commit the budget.</p>
+      <div class="bento-tag">Board-ready</div>
+    </div>
+
+    <!-- Small card: Skills -->
+    <div class="bento-card span-3">
+      <div class="bento-icon">◈</div>
+      <h3>Skills Matrix</h3>
+      <p>See every skill gap across your entire organisation as a heat map. Drill down to individual employees. Assign training directly from the map.</p>
+    </div>
+
+    <!-- Small card: Bilingual -->
+    <div class="bento-card span-3">
+      <div class="bento-icon">🌐</div>
+      <h3>Arabic + English</h3>
+      <p>Full bilingual interface with RTL Arabic support. Switch between Arabic and English in one click — for every page, every module, every alert.</p>
+      <div class="bento-tag">Built for the Gulf</div>
+    </div>
+
+  </div>
+</section>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="hiw-wrap">
+<section class="section">
+  <div style="text-align:center;max-width:600px;margin:0 auto">
+    <div class="section-chip">⚡ Process</div>
+    <h2 class="section-h">Live in days.<br>Not months.</h2>
+    <p class="section-p" style="margin:0 auto">No long implementation. No army of consultants. Daleel connects to your existing systems and your team is up and running fast.</p>
+  </div>
+  <div class="hiw-grid">
+    <div class="hiw-step">
+      <div class="hiw-step-num">01</div>
+      <div class="hiw-step-icon">🔗</div>
+      <h3>Connect your data</h3>
+      <p>Link Daleel to your existing HRMS, LMS, or payroll system through secure API connectors. Your employee data, certifications, and training records sync automatically — no manual migration, no data entry.</p>
+      <div class="hiw-step-connector">→</div>
+    </div>
+    <div class="hiw-step">
+      <div class="hiw-step-num">02</div>
+      <div class="hiw-step-icon">⚙️</div>
+      <h3>Configure for your organisation</h3>
+      <p>Set your compliance rules, development goals, Kuwaitization targets, and team structure. Guided onboarding from the Daleel team means your setup reflects how your organisation actually works — not a generic template.</p>
+      <div class="hiw-step-connector">→</div>
+    </div>
+    <div class="hiw-step">
+      <div class="hiw-step-num">03</div>
+      <div class="hiw-step-icon">🚀</div>
+      <h3>Get intelligence from day one</h3>
+      <p>From the moment you go live, Daleel starts surfacing insights. Compliance risks your team hasn't seen. Skill gaps across departments. Employees ready for the next step. You act on data — not hunches.</p>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- PRICING -->
+<div class="pricing-wrap">
+<section class="section" id="pricing">
+  <div class="pricing-header">
+    <div class="section-chip">💳 Pricing</div>
+    <h2 class="section-h">Transparent pricing. In KWD.</h2>
+    <p class="section-p">No hidden fees. No per-module surprises. Pick the plan that fits your team and grow from there.</p>
+  </div>
+  <div class="pricing-grid">
+
+    <div class="price-card">
+      <div class="price-tier-label">Grow</div>
+      <div class="price-tier-ar">نمو</div>
+      <div class="price-amount-wrap">
+        <span class="price-currency">KD </span><span class="price-amount">180</span>
+      </div>
+      <div class="price-period">per month, billed annually</div>
+      <div class="price-limit">↑ Up to 100 employees</div>
+      <hr class="divider">
+      <ul class="features-list">
+        <li><span class="check">✓</span>Compliance Tracker with real-time alerts</li>
+        <li><span class="check">✓</span>Learning Paths & Course Catalog</li>
+        <li><span class="check">✓</span>Basic Skills Matrix</li>
+        <li><span class="check">✓</span>Employee Directory & Profiles</li>
+        <li><span class="check">✓</span>Arabic + English bilingual UI</li>
+        <li><span class="check">✓</span>Email support</li>
+      </ul>
+      <a href="mailto:hello@daleel.app" class="price-cta outline">Get started</a>
+    </div>
+
+    <div class="price-card popular">
+      <div class="popular-badge">MOST POPULAR</div>
+      <div class="price-tier-label">Scale</div>
+      <div class="price-tier-ar">تطور</div>
+      <div class="price-amount-wrap">
+        <span class="price-currency">KD </span><span class="price-amount">450</span>
+      </div>
+      <div class="price-period">per month, billed annually</div>
+      <div class="price-limit">↑ Up to 500 employees</div>
+      <hr class="divider">
+      <ul class="features-list">
+        <li><span class="check">✓</span>Everything in Grow</li>
+        <li><span class="check">✓</span>AI Learning Intelligence (WHO / WHEN / WHAT)</li>
+        <li><span class="check">✓</span>9-Box Talent Matrix</li>
+        <li><span class="check">✓</span>Individual Development Plans</li>
+        <li><span class="check">✓</span>Budget & ROI Calculator</li>
+        <li><span class="check">✓</span>Assessments & Pre/Post Scoring</li>
+        <li><span class="check">✓</span>Advanced Analytics & Reporting</li>
+        <li><span class="check">✓</span>Priority support + Customer Success Manager</li>
+      </ul>
+      <a href="mailto:hello@daleel.app" class="price-cta solid">Get started</a>
+    </div>
+
+    <div class="price-card">
+      <div class="price-tier-label">Enterprise</div>
+      <div class="price-tier-ar">مؤسسة</div>
+      <div class="price-amount-wrap">
+        <span class="price-amount custom">Custom</span>
+      </div>
+      <div class="price-period">tailored to your organisation</div>
+      <div class="price-limit">500+ employees</div>
+      <hr class="divider">
+      <ul class="features-list">
+        <li><span class="check">✓</span>Everything in Scale</li>
+        <li><span class="check">✓</span>Custom HRMS integrations</li>
+        <li><span class="check">✓</span>Dedicated onboarding & training</li>
+        <li><span class="check">✓</span>SLA guarantee</li>
+        <li><span class="check">✓</span>On-premise deployment option</li>
+        <li><span class="check">✓</span>Regulatory & audit reporting</li>
+        <li><span class="check">✓</span>Custom branding</li>
+      </ul>
+      <a href="mailto:hello@daleel.app" class="price-cta outline">Contact us</a>
+    </div>
+
+  </div>
+</section>
+</div>
+
+<!-- WHY DALEEL -->
+<div class="why-wrap">
+<section class="section">
+  <div class="section-chip">🇰🇼 Why Daleel</div>
+  <h2 class="section-h">Not adapted for the Gulf.<br>Built for it.</h2>
+  <p class="section-p">The big Western HR platforms weren't designed for how organisations in Kuwait work. Daleel was.</p>
+
+  <div class="why-grid">
+    <div class="why-points">
+      <div class="why-point">
+        <div class="why-point-icon">🇰🇼</div>
+        <div>
+          <h3>Kuwait-native by design</h3>
+          <p>Kuwaitization tracking, PACI compliance, local labour law awareness — built into the platform from day one, not added as an afterthought. Daleel understands the regulatory environment your team operates in.</p>
+        </div>
+      </div>
+      <div class="why-point">
+        <div class="why-point-icon">🌐</div>
+        <div>
+          <h3>Genuinely bilingual</h3>
+          <p>Full Arabic interface with proper RTL layout — not a translation layer bolted on. Your Arabic-speaking HR team gets the same experience as their English-speaking counterparts. Every page, every module, every notification.</p>
+        </div>
+      </div>
+      <div class="why-point">
+        <div class="why-point-icon">⚡</div>
+        <div>
+          <h3>Speed is a feature</h3>
+          <p>Enterprise HR software usually takes months to implement. Daleel connects to your data and is live within days. Your team starts getting insights before the ink dries on the contract.</p>
+        </div>
+      </div>
+      <div class="why-point">
+        <div class="why-point-icon">🔒</div>
+        <div>
+          <h3>Enterprise-grade security</h3>
+          <p>AES-256 encryption at rest and in transit. Role-based access control. Audit trails on every action. Built to the security standard that financial institutions expect — not the startup minimum.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="why-visual">
+      <div class="wv-title">Platform capabilities</div>
+      <div class="wv-metric">
+        <div class="wv-icon">🧩</div>
+        <div class="wv-label">Integrated modules</div>
+        <div class="wv-value">22 modules</div>
+      </div>
+      <div class="wv-metric">
+        <div class="wv-icon">🌐</div>
+        <div class="wv-label">Languages supported</div>
+        <div class="wv-value">Arabic + English</div>
+      </div>
+      <div class="wv-metric">
+        <div class="wv-icon">⚡</div>
+        <div class="wv-label">Time to first insight</div>
+        <div class="wv-value">Days, not months</div>
+      </div>
+      <div class="wv-metric">
+        <div class="wv-icon">🔒</div>
+        <div class="wv-label">Encryption standard</div>
+        <div class="wv-value">AES-256</div>
+      </div>
+      <div class="wv-metric">
+        <div class="wv-icon">🇰🇼</div>
+        <div class="wv-label">Kuwaitization tracking</div>
+        <div class="wv-value">Live, by dept.</div>
+      </div>
+      <hr class="wv-divider">
+      <div class="wv-statement">"The HR platform Kuwait has needed for a decade."</div>
+      <div class="wv-flag">Daleel — دليل · Built in Kuwait 🇰🇼</div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- FINAL CTA -->
+<div class="cta-wrap">
+  <div class="cta-inner">
+    <h2>Ready to see<br><span style="color:var(--teal-hi)">your people clearly?</span></h2>
+    <p>Book a 30-minute demo. We'll show you Daleel running live with real data — no slides, no sales deck.</p>
+    <div class="cta-actions">
+      <a href="https://daleelkw.netlify.app" target="_blank" class="btn-hero primary" style="font-size:16px;padding:17px 36px">
+        Explore the live demo →
+      </a>
+      <a href="mailto:hello@daleel.app" class="btn-hero ghost" style="font-size:16px;padding:17px 36px">
+        Request a call
+      </a>
+    </div>
+    <div class="cta-note">No commitment. No sales pressure. Just the platform.</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Daleel <span>| دليل</span></div>
+  <ul class="footer-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="https://daleelkw.netlify.app" target="_blank">Live Demo</a></li>
+    <li><a href="mailto:hello@daleel.app">Contact</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 Daleel. Built in Kuwait 🇰🇼</div>
+</footer>
+
+<script>
+// Scroll-triggered animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+},{threshold:0.1});
+
+document.querySelectorAll('.bento-card,.problem-point,.hiw-step,.price-card,.why-point').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity .5s ease, transform .5s ease';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Daleel — Kuwait's Talent Intelligence Platform</title>
