@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daleel — Kuwait's Talent Intelligence Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #0A1628;
+      --navy-light: #0D1E35;
+      --navy-card: rgba(255,255,255,0.04);
+      --navy-border: rgba(255,255,255,0.08);
+      --teal: #0E7490;
+      --teal-light: #0EA5C9;
+      --gold: #D97706;
+      --red: #C0392B;
+      --white: #FFFFFF;
+      --text-muted: rgba(255,255,255,0.55);
+      --text-secondary: rgba(255,255,255,0.75);
+      --radius-card: 12px;
+      --radius-btn: 8px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Sora', sans-serif;
+      background: var(--navy);
+      color: var(--white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* NAVBAR */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10,22,40,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--navy-border);
+      padding: 0 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .nav-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.02em; }
+    .nav-logo span { color: var(--teal-light); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-size: 0.875rem; font-weight: 500; color: var(--text-secondary); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--white); }
+    @media (max-width: 768px) { .nav-links { display: none; } }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 0.55rem 1.35rem; border-radius: var(--radius-btn);
+      font-family: 'Sora', sans-serif; font-size: 0.875rem; font-weight: 600;
+      cursor: pointer; transition: all 0.2s; border: none;
+    }
+    .btn-primary { background: var(--teal-light); color: var(--white); }
+    .btn-primary:hover { background: var(--teal); }
+    .btn-outline { background: transparent; color: var(--white); border: 1.5px solid rgba(255,255,255,0.3); }
+    .btn-outline:hover { border-color: var(--teal-light); color: var(--teal-light); }
+    .btn-xl { padding: 0.95rem 2.4rem; font-size: 1.05rem; }
+    .btn-block { width: 100%; }
+
+    /* HERO */
+    .hero {
+      position: relative; overflow: hidden; padding: 100px 5% 80px;
+      text-align: center; min-height: 620px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+    }
+    .hero-glow {
+      position: absolute; top: -60px; left: 50%; transform: translateX(-50%);
+      width: 700px; height: 500px;
+      background: radial-gradient(ellipse at center, rgba(14,165,201,0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: rgba(14,165,201,0.12); border: 1px solid rgba(14,165,201,0.3);
+      border-radius: 999px; padding: 0.3rem 0.9rem;
+      font-size: 0.78rem; font-weight: 600; color: var(--teal-light);
+      margin-bottom: 1.5rem; letter-spacing: 0.03em;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.6rem); font-weight: 800;
+      line-height: 1.15; letter-spacing: -0.03em; margin-bottom: 1.25rem; max-width: 820px;
+    }
+    .hero h1 .highlight { color: var(--teal-light); }
+    .hero p {
+      font-size: clamp(0.95rem, 2vw, 1.15rem); color: var(--text-secondary);
+      max-width: 600px; margin: 0 auto 2.4rem; line-height: 1.7;
+    }
+    .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+
+    /* PROOF BAR */
+    .proof-bar {
+      background: rgba(14,116,144,0.08);
+      border-top: 1px solid var(--navy-border); border-bottom: 1px solid var(--navy-border);
+      padding: 2rem 5%;
+    }
+    .proof-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;
+      max-width: 900px; margin: 0 auto; text-align: center;
+    }
+    .proof-number { font-size: 1.75rem; font-weight: 800; color: var(--teal-light); letter-spacing: -0.02em; }
+    .proof-label { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem; font-weight: 500; }
+    @media (max-width: 600px) { .proof-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; } }
+
+    /* SHARED */
+    section { padding: 80px 5%; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--teal-light); margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 800;
+      letter-spacing: -0.025em; line-height: 1.2; margin-bottom: 1rem;
+    }
+    .section-sub { font-size: 1rem; color: var(--text-secondary); max-width: 560px; line-height: 1.7; }
+    .text-center { text-align: center; }
+    .text-center .section-sub { margin: 0 auto; }
+    .card {
+      background: var(--navy-card); border: 1px solid var(--navy-border);
+      border-radius: var(--radius-card); padding: 1.75rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .card:hover { border-color: rgba(14,165,201,0.25); transform: translateY(-2px); }
+
+    /* PROBLEM */
+    .problem { background: #0D1E35; }
+    .problem-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .problem-card {
+      background: rgba(192,57,43,0.06); border: 1px solid rgba(192,57,43,0.2);
+      border-radius: var(--radius-card); padding: 1.75rem; transition: border-color 0.2s;
+    }
+    .problem-card:hover { border-color: rgba(192,57,43,0.4); }
+    .problem-icon {
+      width: 44px; height: 44px; background: rgba(192,57,43,0.12);
+      border: 1px solid rgba(192,57,43,0.25); border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; margin-bottom: 1rem;
+    }
+    .problem-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .problem-card p { font-size: 0.875rem; color: var(--text-muted); line-height: 1.65; }
+    @media (max-width: 768px) { .problem-grid { grid-template-columns: 1fr; } }
+
+    /* FEATURES */
+    .features-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem;
+    }
+    .feature-icon {
+      width: 44px; height: 44px; background: rgba(14,165,201,0.1);
+      border: 1px solid rgba(14,165,201,0.2); border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; margin-bottom: 1rem;
+    }
+    .feature-card h3 { font-size: 0.975rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .feature-card p { font-size: 0.845rem; color: var(--text-muted); line-height: 1.65; }
+    @media (max-width: 900px) { .features-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 540px) { .features-grid { grid-template-columns: 1fr; } }
+
+    /* HOW IT WORKS */
+    .how { background: #0D1E35; }
+    .steps-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;
+      margin-top: 3rem; position: relative;
+    }
+    .steps-grid::before {
+      content: ''; position: absolute; top: 28px; left: 15%; right: 15%; height: 1px;
+      background: linear-gradient(to right, transparent, rgba(14,165,201,0.3), transparent);
+    }
+    .step { text-align: center; }
+    .step-number {
+      width: 56px; height: 56px;
+      background: linear-gradient(135deg, var(--teal), var(--teal-light));
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; font-weight: 800; margin: 0 auto 1.2rem; position: relative; z-index: 1;
+    }
+    .step-icon { font-size: 1.4rem; margin-bottom: 0.75rem; }
+    .step h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .step p { font-size: 0.845rem; color: var(--text-muted); line-height: 1.65; }
+    @media (max-width: 768px) { .steps-grid { grid-template-columns: 1fr; } .steps-grid::before { display: none; } }
+
+    /* PRICING */
+    .pricing-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem;
+    }
+    .price-card {
+      background: var(--navy-card); border: 1px solid var(--navy-border);
+      border-radius: var(--radius-card); padding: 2rem 1.75rem;
+      display: flex; flex-direction: column; transition: border-color 0.2s, transform 0.2s;
+    }
+    .price-card:hover { transform: translateY(-3px); }
+    .price-card.featured {
+      border-color: var(--teal-light); background: rgba(14,165,201,0.06); position: relative;
+    }
+    .popular-badge {
+      position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+      background: var(--teal-light); color: var(--white);
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em;
+      padding: 0.25rem 0.75rem; border-radius: 999px; white-space: nowrap;
+    }
+    .price-tier { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal-light); margin-bottom: 0.5rem; }
+    .price-amount { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 0.25rem; }
+    .price-amount span { font-size: 1rem; font-weight: 500; color: var(--text-muted); }
+    .price-desc { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--navy-border); }
+    .price-features { list-style: none; flex: 1; margin-bottom: 1.75rem; }
+    .price-features li { font-size: 0.845rem; color: var(--text-secondary); padding: 0.4rem 0; display: flex; align-items: flex-start; gap: 0.5rem; }
+    .price-features li::before { content: '✓'; color: var(--teal-light); font-weight: 700; flex-shrink: 0; }
+    @media (max-width: 900px) { .pricing-grid { grid-template-columns: 1fr; max-width: 420px; margin-left: auto; margin-right: auto; } }
+
+    /* TRUST */
+    .trust { background: #0D1E35; }
+    .trust-badges {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem;
+      margin-top: 3rem; margin-bottom: 2.5rem;
+    }
+    .trust-badge {
+      background: var(--navy-card); border: 1px solid var(--navy-border);
+      border-radius: var(--radius-card); padding: 1.25rem; text-align: center;
+    }
+    .trust-badge-icon { font-size: 1.75rem; margin-bottom: 0.6rem; }
+    .trust-badge h4 { font-size: 0.82rem; font-weight: 700; margin-bottom: 0.25rem; }
+    .trust-badge p { font-size: 0.75rem; color: var(--text-muted); }
+    @media (max-width: 768px) { .trust-badges { grid-template-columns: repeat(2, 1fr); } }
+    .testimonial {
+      max-width: 680px; margin: 0 auto;
+      background: rgba(14,165,201,0.06); border: 1px solid rgba(14,165,201,0.2);
+      border-radius: var(--radius-card); padding: 2rem; text-align: center;
+    }
+    .testimonial-quote { font-size: 1.05rem; font-style: italic; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.25rem; }
+    .testimonial-author { font-size: 0.875rem; font-weight: 700; }
+    .testimonial-title { font-size: 0.78rem; color: var(--teal-light); margin-top: 0.2rem; }
+
+    /* FINAL CTA */
+    .final-cta {
+      background: linear-gradient(135deg, #0A1628 0%, #0D2D3F 50%, #0A1628 100%);
+      border-top: 1px solid rgba(14,165,201,0.2); border-bottom: 1px solid rgba(14,165,201,0.2);
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .final-cta-glow {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      width: 600px; height: 400px;
+      background: radial-gradient(ellipse, rgba(14,165,201,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .final-cta h2 {
+      font-size: clamp(1.6rem, 4vw, 2.8rem); font-weight: 800;
+      letter-spacing: -0.025em; line-height: 1.2; margin-bottom: 1rem; position: relative;
+    }
+    .final-cta p {
+      font-size: 1rem; color: var(--text-secondary); max-width: 500px;
+      margin: 0 auto 2.5rem; line-height: 1.7; position: relative;
+    }
+    .final-cta .btn { position: relative; }
+
+    /* FOOTER */
+    .footer { padding: 3rem 5%; border-top: 1px solid var(--navy-border); }
+    .footer-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1.5rem;
+    }
+    .footer-logo { font-size: 1.1rem; font-weight: 700; }
+    .footer-logo span { color: var(--teal-light); }
+    .footer-links { display: flex; gap: 2rem; list-style: none; }
+    .footer-links a { font-size: 0.845rem; color: var(--text-muted); transition: color 0.2s; }
+    .footer-links a:hover { color: var(--white); }
+    .footer-copy { font-size: 0.8rem; color: var(--text-muted); }
+    @media (max-width: 640px) { .footer-inner { flex-direction: column; text-align: center; } .footer-links { flex-wrap: wrap; justify-content: center; } }
+  </style>
+</head>
+<body>
+
+  <!-- 1. NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-logo">Daleel <span>| دليل</span></div>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="https://daleelkw.netlify.app" target="_blank">Demo</a></li>
+    </ul>
+    <a href="#final-cta" class="btn btn-primary">Request a Demo</a>
+  </nav>
+
+  <!-- 2. HERO -->
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-badge">🇰🇼 Built for Kuwaiti Banks</div>
+    <h1>Kuwait's <span class="highlight">Talent Intelligence</span> Platform</h1>
+    <p>Built for Gulf banks. CBK compliance, Kuwaitization tracking, and AI-powered talent development in one platform.</p>
+    <div class="hero-ctas">
+      <a href="#final-cta" class="btn btn-primary btn-xl">Request a Demo</a>
+      <a href="https://daleelkw.netlify.app" target="_blank" class="btn btn-outline btn-xl">View Live Demo →</a>
+    </div>
+  </section>
+
+  <!-- 3. SOCIAL PROOF BAR -->
+  <div class="proof-bar">
+    <div class="proof-grid">
+      <div>
+        <div class="proof-number">1,247+</div>
+        <div class="proof-label">Employees Managed</div>
+      </div>
+      <div>
+        <div class="proof-number">92%</div>
+        <div class="proof-label">Kuwaitization Score</div>
+      </div>
+      <div>
+        <div class="proof-number">KD 45,000</div>
+        <div class="proof-label">Fines Prevented</div>
+      </div>
+      <div>
+        <div class="proof-number">Gulf Bank ✓</div>
+        <div class="proof-label">Trusted Customer</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. PROBLEM SECTION -->
+  <section class="problem">
+    <div class="section-inner">
+      <div class="text-center">
+        <div class="section-label">The Problem</div>
+        <h2 class="section-title">HR at Kuwaiti banks is harder than it should be</h2>
+        <p class="section-sub">CBK regulations, Kuwaitization quotas, and dispersed talent data create compliance risk and cost you time every quarter.</p>
+      </div>
+      <div class="problem-grid">
+        <div class="problem-card">
+          <div class="problem-icon">⚠️</div>
+          <h3>CBK Compliance Gaps</h3>
+          <p>Manual tracking of Central Bank of Kuwait requirements leads to missed deadlines and costly regulatory fines that damage your institution's reputation.</p>
+        </div>
+        <div class="problem-card">
+          <div class="problem-icon">📉</div>
+          <h3>Kuwaitization Blind Spots</h3>
+          <p>Without real-time dashboards, HR teams discover quota shortfalls at reporting time — too late to course-correct before penalties are issued.</p>
+        </div>
+        <div class="problem-card">
+          <div class="problem-icon">🗂️</div>
+          <h3>Fragmented Talent Data</h3>
+          <p>Skills, learning records, performance scores, and succession plans live in different spreadsheets and systems — impossible to act on as a whole.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. FEATURES -->
+  <section id="features">
+    <div class="section-inner">
+      <div class="text-center">
+        <div class="section-label">Platform Features</div>
+        <h2 class="section-title">Everything your HR team needs</h2>
+        <p class="section-sub">Six powerful modules designed for Kuwaiti financial institutions, fully integrated in one platform.</p>
+      </div>
+      <div class="features-grid">
+        <div class="card feature-card">
+          <div class="feature-icon">🏦</div>
+          <h3>CBK Compliance Tracker</h3>
+          <p>Automated monitoring of Central Bank of Kuwait requirements with real-time alerts before deadlines — never miss a regulatory obligation again.</p>
+        </div>
+        <div class="card feature-card">
+          <div class="feature-icon">🧠</div>
+          <h3>Learning Intelligence</h3>
+          <p>AI-powered learning paths tailored to each employee's role, skill gaps, and career goals — with full ROI reporting per training investment.</p>
+        </div>
+        <div class="card feature-card">
+          <div class="feature-icon">📊</div>
+          <h3>9-Box Talent Matrix</h3>
+          <p>Visualize your entire workforce across performance and potential dimensions to identify high-flyers, successors, and development priorities instantly.</p>
+        </div>
+        <div class="card feature-card">
+          <div class="feature-icon">💰</div>
+          <h3>Budget &amp; ROI Calculator</h3>
+          <p>Model training spend against projected output improvements. Present data-driven investment cases to leadership with one click.</p>
+        </div>
+        <div class="card feature-card">
+          <div class="feature-icon">🎯</div>
+          <h3>Individual Dev Plans</h3>
+          <p>Structured IDPs for every employee, co-owned by manager and team member, with milestone tracking and automated progress nudges.</p>
+        </div>
+        <div class="card feature-card">
+          <div class="feature-icon">🇰🇼</div>
+          <h3>Kuwaitization Dashboard</h3>
+          <p>Live quota tracking by department and grade with forecasting tools to stay ahead of Ministry of Manpower targets all year round.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. HOW IT WORKS -->
+  <section class="how">
+    <div class="section-inner">
+      <div class="text-center">
+        <div class="section-label">How It Works</div>
+        <h2 class="section-title">Up and running in days, not months</h2>
+        <p class="section-sub">Our implementation team handles setup so your HR team can focus on people, not configuration.</p>
+      </div>
+      <div class="steps-grid">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-icon">🔗</div>
+          <h3>Connect Your Data</h3>
+          <p>We integrate with your existing HRMS, LMS, and payroll systems via secure API connectors — no manual data entry required.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-icon">⚙️</div>
+          <h3>Configure Your Rules</h3>
+          <p>Set CBK compliance rules, Kuwaitization targets, and learning program structure with guided setup from our implementation specialists.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-icon">🚀</div>
+          <h3>Go Live &amp; Grow</h3>
+          <p>Launch to your team with full onboarding support. Get continuous AI-driven insights as your data grows richer over time.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. PRICING -->
+  <section id="pricing">
+    <div class="section-inner">
+      <div class="text-center">
+        <div class="section-label">Pricing</div>
+        <h2 class="section-title">Simple, transparent pricing</h2>
+        <p class="section-sub">No hidden fees. No long-term contracts required. Cancel or upgrade at any time.</p>
+      </div>
+      <div class="pricing-grid">
+
+        <div class="price-card">
+          <div class="price-tier">Grow</div>
+          <div class="price-amount">KD 180<span>/mo</span></div>
+          <div class="price-desc">Up to 100 employees</div>
+          <ul class="price-features">
+            <li>CBK Compliance Tracker</li>
+            <li>Kuwaitization Dashboard</li>
+            <li>Individual Dev Plans</li>
+            <li>Basic Learning Paths</li>
+            <li>Email Support</li>
+          </ul>
+          <a href="#final-cta" class="btn btn-outline btn-block">Get Started</a>
+        </div>
+
+        <div class="price-card featured">
+          <div class="popular-badge">MOST POPULAR</div>
+          <div class="price-tier">Scale</div>
+          <div class="price-amount">KD 450<span>/mo</span></div>
+          <div class="price-desc">Up to 500 employees</div>
+          <ul class="price-features">
+            <li>Everything in Grow</li>
+            <li>9-Box Talent Matrix</li>
+            <li>AI Learning Intelligence</li>
+            <li>Budget &amp; ROI Calculator</li>
+            <li>Priority Support + CSM</li>
+            <li>Advanced Analytics</li>
+          </ul>
+          <a href="#final-cta" class="btn btn-primary btn-block">Get Started</a>
+        </div>
+
+        <div class="price-card">
+          <div class="price-tier">Enterprise</div>
+          <div class="price-amount" style="font-size:1.6rem;">Custom</div>
+          <div class="price-desc">Unlimited employees</div>
+          <ul class="price-features">
+            <li>Everything in Scale</li>
+            <li>Custom Integrations</li>
+            <li>Dedicated Onboarding</li>
+            <li>SLA Guarantee</li>
+            <li>On-premise option</li>
+            <li>Regulatory Filing Support</li>
+          </ul>
+          <a href="#final-cta" class="btn btn-outline btn-block">Contact Sales</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. TRUST SECTION -->
+  <section class="trust">
+    <div class="section-inner">
+      <div class="text-center">
+        <div class="section-label">Why Daleel</div>
+        <h2 class="section-title">Built for the Gulf. Trusted by banks.</h2>
+      </div>
+      <div class="trust-badges">
+        <div class="trust-badge">
+          <div class="trust-badge-icon">🔒</div>
+          <h4>Bank-Grade Security</h4>
+          <p>AES-256 encryption at rest and in transit</p>
+        </div>
+        <div class="trust-badge">
+          <div class="trust-badge-icon">🏛️</div>
+          <h4>CBK Aligned</h4>
+          <p>Built around Central Bank of Kuwait guidelines</p>
+        </div>
+        <div class="trust-badge">
+          <div class="trust-badge-icon">🌐</div>
+          <h4>Arabic-First UI</h4>
+          <p>Full RTL support, bilingual interface</p>
+        </div>
+        <div class="trust-badge">
+          <div class="trust-badge-icon">⚡</div>
+          <h4>99.9% Uptime SLA</h4>
+          <p>Enterprise reliability with local hosting options</p>
+        </div>
+      </div>
+      <div class="testimonial">
+        <div class="testimonial-quote">
+          "Daleel transformed how we track Kuwaitization compliance. What used to take my team two weeks of spreadsheet work every quarter now updates in real time. We haven't missed a CBK deadline since going live."
+        </div>
+        <div class="testimonial-author">Fatima Al-Sayer</div>
+        <div class="testimonial-title">Head of HR, Gulf Bank</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. FINAL CTA -->
+  <section class="final-cta" id="final-cta">
+    <div class="final-cta-glow"></div>
+    <div class="section-inner">
+      <div class="section-label">Get Started Today</div>
+      <h2>Ready to transform your HR?</h2>
+      <p>Join the banks already using Daleel to stay compliant, develop talent, and hit Kuwaitization targets — quarter after quarter.</p>
+      <a href="mailto:demo@daleelkw.com" class="btn btn-primary btn-xl">Request a Demo Today</a>
+    </div>
+  </section>
+
+  <!-- 10. FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-logo">Daleel <span>| دليل</span></div>
+      <ul class="footer-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="https://daleelkw.netlify.app" target="_blank">Live Demo</a></li>
+        <li><a href="mailto:demo@daleelkw.com">Contact</a></li>
+      </ul>
+      <div class="footer-copy">© 2026 Daleel. Built in Kuwait 🇰🇼</div>
+    </div>
+  </footer>
+
+</body>
+</html>
