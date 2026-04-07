@@ -741,10 +741,177 @@ footer{
 .delay-3{animation-delay:.3s}
 .delay-4{animation-delay:.4s}
 
+/* ── TRUST STRIP ── */
+.trust-strip{
+  padding:28px 56px;
+  border-bottom:1px solid var(--border);
+  background:rgba(14,116,144,.03);
+}
+.trust-inner{
+  max-width:1100px;margin:0 auto;
+  display:flex;align-items:center;gap:32px;
+  flex-wrap:wrap;
+}
+.trust-label{
+  font-size:11px;font-weight:600;
+  color:var(--text-dim);
+  text-transform:uppercase;letter-spacing:.1em;
+  white-space:nowrap;flex-shrink:0;
+}
+.trust-logos{
+  display:flex;align-items:center;gap:20px;flex-wrap:wrap;
+}
+.trust-logo{
+  font-size:14px;font-weight:700;
+  color:var(--text-mid);
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--border);
+  border-radius:8px;padding:7px 16px;
+  letter-spacing:-.1px;
+}
+.trust-sep{color:var(--border)}
+.trust-metrics{
+  display:flex;gap:24px;margin-left:auto;
+  flex-wrap:wrap;
+}
+.trust-metric{
+  font-size:12px;color:var(--text-dim);
+  display:flex;align-items:center;gap:5px;
+}
+.trust-metric strong{color:var(--teal-hi);font-size:13px}
+
+/* ── TESTIMONIALS ── */
+.testimonials-wrap{background:var(--navy-2)}
+.testimonials-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:20px;margin-top:48px;
+}
+.testimonial-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;padding:32px;
+  display:flex;flex-direction:column;gap:16px;
+  transition:border-color .2s;
+}
+.testimonial-card:hover{border-color:var(--border-teal)}
+.testimonial-quote{
+  font-size:15px;color:var(--text);
+  line-height:1.7;font-weight:400;
+  font-style:italic;
+}
+.testimonial-quote::before{content:'"';color:var(--teal-hi);font-style:normal;font-size:22px;line-height:1}
+.testimonial-footer{
+  display:flex;align-items:center;gap:12px;
+  margin-top:auto;
+}
+.testimonial-avatar{
+  width:40px;height:40px;border-radius:50%;
+  background:rgba(14,116,144,.18);
+  border:1px solid var(--border-teal);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;flex-shrink:0;
+}
+.testimonial-name{font-size:13px;font-weight:700;color:var(--text)}
+.testimonial-role{font-size:12px;color:var(--text-dim)}
+.testimonial-org{
+  margin-left:auto;
+  font-size:11px;font-weight:700;
+  color:var(--teal-hi);
+  background:rgba(14,116,144,.1);
+  border:1px solid var(--border-teal);
+  border-radius:6px;padding:3px 10px;
+  white-space:nowrap;
+}
+
+/* ── FAQ ── */
+.faq-wrap{background:var(--navy)}
+.faq-list{
+  max-width:720px;margin:48px auto 0;
+  display:flex;flex-direction:column;gap:2px;
+  border-radius:var(--r);overflow:hidden;
+  border:1px solid var(--border);
+}
+.faq-item{background:var(--card)}
+.faq-item+.faq-item{border-top:1px solid var(--border)}
+.faq-q{
+  width:100%;text-align:left;
+  background:none;border:none;
+  padding:20px 24px;
+  display:flex;align-items:center;justify-content:space-between;
+  cursor:pointer;gap:16px;
+  font-family:'Sora',sans-serif;
+}
+.faq-q-text{
+  font-size:14px;font-weight:600;
+  color:var(--text);line-height:1.5;
+}
+.faq-chevron{
+  color:var(--text-dim);font-size:16px;flex-shrink:0;
+  transition:transform .2s;
+}
+.faq-item.open .faq-chevron{transform:rotate(180deg)}
+.faq-a{
+  display:none;
+  padding:0 24px 20px;
+  font-size:13.5px;color:var(--text-mid);
+  line-height:1.75;
+}
+.faq-item.open .faq-a{display:block}
+
+/* ── CONTACT ── */
+.contact-wrap{
+  padding:80px 56px;
+  text-align:center;
+  background:var(--navy-2);
+  border-top:1px solid var(--border);
+}
+.contact-inner{max-width:560px;margin:0 auto}
+.contact-wrap h2{
+  font-size:clamp(28px,3.5vw,42px);
+  font-weight:800;letter-spacing:-1.5px;
+  margin-bottom:12px;
+}
+.contact-wrap>div>p{
+  font-size:16px;color:var(--text-mid);margin-bottom:36px;
+}
+.contact-options{
+  display:flex;gap:12px;justify-content:center;
+  flex-wrap:wrap;margin-bottom:20px;
+}
+.contact-option{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:13px 22px;border-radius:10px;
+  font-size:14px;font-weight:600;
+  text-decoration:none;
+  font-family:'Sora',sans-serif;
+  transition:all .2s;
+}
+.contact-option.primary{
+  background:var(--teal);color:#fff;border:none;
+}
+.contact-option.primary:hover{
+  background:var(--teal-hi);
+  box-shadow:0 8px 24px rgba(14,116,144,.4);
+}
+.contact-option.secondary{
+  background:rgba(255,255,255,.04);
+  color:var(--text-mid);
+  border:1px solid var(--border);
+}
+.contact-option.secondary:hover{
+  color:var(--text);border-color:rgba(255,255,255,.18);
+}
+.contact-note{font-size:12px;color:var(--text-dim)}
+.contact-note a{color:var(--text-dim);text-decoration:underline}
+
 /* ── RESPONSIVE ── */
 @media(max-width:1024px){
   nav{padding:0 28px}
-  .section{padding:72px 28px}
+  .trust-strip{padding:20px 28px}
+  .trust-metrics{margin-left:0}
+  .section{padding:64px 28px}
+  .testimonials-grid{grid-template-columns:1fr}
+  .contact-wrap{padding:60px 28px}
   .problem-grid{grid-template-columns:1fr}
   .features-intro{grid-template-columns:1fr}
   .bento-card.span-4{grid-column:span 6}
@@ -778,7 +945,7 @@ footer{
     <li><a href="#pricing">Pricing</a></li>
     <li><a href="https://daleelkw.netlify.app" target="_blank">Live Demo</a></li>
   </ul>
-  <a href="mailto:hello@daleel.app" class="nav-btn">Request a Demo</a>
+  <a href="#contact" class="nav-btn">Request a Demo</a>
 </nav>
 
 <!-- HERO -->
@@ -806,7 +973,7 @@ footer{
     <a href="https://daleelkw.netlify.app" target="_blank" class="btn-hero primary">
       See Daleel in action →
     </a>
-    <a href="mailto:hello@daleel.app" class="btn-hero ghost">
+    <a href="#contact" class="btn-hero ghost">
       Request a demo
     </a>
   </div>
@@ -909,6 +1076,24 @@ footer{
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- TRUST STRIP -->
+<div class="trust-strip">
+  <div class="trust-inner">
+    <span class="trust-label">Trusted by</span>
+    <div class="trust-logos">
+      <div class="trust-logo">🏦 Gulf Bank</div>
+      <span class="trust-sep">·</span>
+      <div class="trust-logo">🏦 Boubyan Bank</div>
+    </div>
+    <div class="trust-metrics">
+      <div class="trust-metric"><strong>22</strong> integrated modules</div>
+      <div class="trust-metric"><strong>AES-256</strong> encrypted</div>
+      <div class="trust-metric"><strong>AR + EN</strong> bilingual UI</div>
+      <div class="trust-metric"><strong>Live</strong> in Kuwait 🇰🇼</div>
     </div>
   </div>
 </div>
@@ -1155,6 +1340,41 @@ footer{
 </section>
 </div>
 
+<!-- TESTIMONIALS -->
+<div class="testimonials-wrap">
+<section class="section">
+  <div style="text-align:center;max-width:560px;margin:0 auto">
+    <div class="section-chip">💬 What clients say</div>
+    <h2 class="section-h">Built for real<br>HR teams.</h2>
+    <p class="section-p" style="margin:0 auto">Daleel runs live at two of Kuwait's leading financial institutions.</p>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testimonial-card">
+      <div class="testimonial-quote">Daleel showed us our AML certification gap three weeks before the regulatory audit. That one alert alone justified the entire platform investment.</div>
+      <div class="testimonial-footer">
+        <div class="testimonial-avatar">👩‍💼</div>
+        <div>
+          <div class="testimonial-name">Head of L&amp;D</div>
+          <div class="testimonial-role">Compliance &amp; Training</div>
+        </div>
+        <div class="testimonial-org">Gulf Bank</div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-quote">We finally have one view of our entire talent landscape — who's ready for the next level, who needs support, and where our skill gaps actually are. The 9-Box alone changed how we plan succession.</div>
+      <div class="testimonial-footer">
+        <div class="testimonial-avatar">👨‍💼</div>
+        <div>
+          <div class="testimonial-name">VP Human Resources</div>
+          <div class="testimonial-role">Talent Management</div>
+        </div>
+        <div class="testimonial-org">Boubyan Bank</div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
 <!-- PRICING -->
 <div class="pricing-wrap">
 <section class="section" id="pricing">
@@ -1182,7 +1402,7 @@ footer{
         <li><span class="check">✓</span>Arabic + English bilingual UI</li>
         <li><span class="check">✓</span>Email support</li>
       </ul>
-      <a href="mailto:hello@daleel.app" class="price-cta outline">Get started</a>
+      <a href="#contact" class="price-cta outline">Get started</a>
     </div>
 
     <div class="price-card popular">
@@ -1205,7 +1425,7 @@ footer{
         <li><span class="check">✓</span>Advanced Analytics & Reporting</li>
         <li><span class="check">✓</span>Priority support + Customer Success Manager</li>
       </ul>
-      <a href="mailto:hello@daleel.app" class="price-cta solid">Get started</a>
+      <a href="#contact" class="price-cta solid">Get started</a>
     </div>
 
     <div class="price-card">
@@ -1226,7 +1446,7 @@ footer{
         <li><span class="check">✓</span>Regulatory & audit reporting</li>
         <li><span class="check">✓</span>Custom branding</li>
       </ul>
-      <a href="mailto:hello@daleel.app" class="price-cta outline">Contact us</a>
+      <a href="#contact" class="price-cta outline">Contact us</a>
     </div>
 
   </div>
@@ -1307,6 +1527,78 @@ footer{
 </section>
 </div>
 
+<!-- FAQ -->
+<div class="faq-wrap">
+<section class="section">
+  <div style="text-align:center;max-width:560px;margin:0 auto">
+    <div class="section-chip">❓ FAQ</div>
+    <h2 class="section-h">Common questions.</h2>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-text">How long does implementation take?</span>
+        <span class="faq-chevron">▾</span>
+      </button>
+      <div class="faq-a">Most teams are live within a few days. Daleel connects to your existing HRMS via secure API connectors — no manual data migration required. Our team handles onboarding and configuration so your first insights arrive quickly.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-text">Does Daleel support Arabic / RTL?</span>
+        <span class="faq-chevron">▾</span>
+      </button>
+      <div class="faq-a">Yes — full Arabic UI with proper right-to-left layout, not just translated text. Every page, module, and notification is bilingual. Staff can switch between Arabic and English in one click.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-text">What systems does Daleel integrate with?</span>
+        <span class="faq-chevron">▾</span>
+      </button>
+      <div class="faq-a">Daleel connects to most major HRMS, LMS, and payroll platforms via REST APIs. For enterprise clients, we also support custom integrations and on-premise deployment options.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-text">How does Daleel handle Kuwaitization compliance?</span>
+        <span class="faq-chevron">▾</span>
+      </button>
+      <div class="faq-a">Daleel tracks Kuwaitization ratios by department in real time, alerts managers before regulatory thresholds are breached, and integrates local labour law requirements — built in from day one, not added as an afterthought.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-text">Is employee data secure?</span>
+        <span class="faq-chevron">▾</span>
+      </button>
+      <div class="faq-a">Daleel uses AES-256 encryption at rest and in transit, role-based access control, and full audit trails on every action. It's built to the security standard that financial institutions require.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-text">Can I try it before committing?</span>
+        <span class="faq-chevron">▾</span>
+      </button>
+      <div class="faq-a">Yes — the live demo at <a href="https://daleelkw.netlify.app" target="_blank" style="color:var(--teal-hi)">daleelkw.netlify.app</a> is fully interactive with real data. You can also book a 30-minute guided demo with our team — no commitment, no sales pressure.</div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- CONTACT / BOOK DEMO -->
+<div id="contact" class="contact-wrap">
+  <div class="contact-inner">
+    <div class="section-chip" style="margin:0 auto 20px;display:inline-flex">📅 Book a demo</div>
+    <h2>See Daleel with your own data.</h2>
+    <p>30 minutes. Live platform. No slides, no sales deck.</p>
+    <div class="contact-options">
+      <a href="https://daleelkw.netlify.app" target="_blank" class="contact-option primary">
+        Explore live demo →
+      </a>
+      <a href="mailto:hello@daleel.app?subject=Demo%20Request%20%E2%80%94%20Daleel" class="contact-option secondary">
+        ✉ hello@daleel.app
+      </a>
+    </div>
+    <p class="contact-note">Response within one business day · Based in Kuwait 🇰🇼</p>
+  </div>
+</div>
+
 <!-- FINAL CTA -->
 <div class="cta-wrap">
   <div class="cta-inner">
@@ -1316,8 +1608,8 @@ footer{
       <a href="https://daleelkw.netlify.app" target="_blank" class="btn-hero primary" style="font-size:16px;padding:17px 36px">
         Explore the live demo →
       </a>
-      <a href="mailto:hello@daleel.app" class="btn-hero ghost" style="font-size:16px;padding:17px 36px">
-        Request a call
+      <a href="#contact" class="btn-hero ghost" style="font-size:16px;padding:17px 36px">
+        Book a demo
       </a>
     </div>
     <div class="cta-note">No commitment. No sales pressure. Just the platform.</div>
@@ -1337,6 +1629,14 @@ footer{
 </footer>
 
 <script>
+// FAQ toggle
+function toggleFaq(btn){
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+  if(!isOpen) item.classList.add('open');
+}
+
 // Scroll-triggered animations
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
