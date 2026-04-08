@@ -7082,7 +7082,9 @@ var BOT_ALERTS = [
 function botToggle() {
   BOT_OPEN = !BOT_OPEN;
   document.getElementById('bot-panel').classList.toggle('open', BOT_OPEN);
-  document.getElementById('bot-fab').classList.toggle('pulse', !BOT_OPEN);
+  var fab = document.getElementById('bot-fab');
+  fab.classList.toggle('pulse', !BOT_OPEN);
+  fab.style.display = BOT_OPEN ? 'none' : '';
   document.getElementById('bot-notify').classList.remove('show');
   if (BOT_OPEN && !BOT_INIT) {
     BOT_INIT = true;
