@@ -358,61 +358,6 @@ body { font-family:var(--font-en); background:var(--ink); color:#fff; font-size:
 [dir="rtl"] .mx { right:auto; left:13px; }
 .m-title { font-size:17px; font-weight:800; margin-bottom:18px; }
 
-/* ─── CHATBOT ─── */
-.ct-btn {
-  position:fixed; bottom:24px; right:24px; z-index:150;
-  width:54px; height:54px; border-radius:50%;
-  background:linear-gradient(135deg, var(--teal), var(--teal-hi));
-  border:none; cursor:pointer; font-size:21px;
-  box-shadow:0 8px 28px rgba(14,116,144,.45);
-  display:flex; align-items:center; justify-content:center;
-  transition:var(--t); color:#fff;
-}
-.ct-btn:hover { transform:scale(1.08); box-shadow:0 12px 36px rgba(14,116,144,.6); }
-[dir="rtl"] .ct-btn { right:auto; left:24px; }
-
-.ct-win {
-  position:fixed; bottom:88px; right:24px; z-index:150;
-  width:355px; height:510px;
-  background:var(--ink-mid); border:1px solid rgba(14,116,144,.22);
-  border-radius:var(--r-xl); box-shadow:var(--sh-lg);
-  display:flex; flex-direction:column;
-  transform:scale(.9) translateY(16px); opacity:0;
-  pointer-events:none; transition:var(--t);
-}
-.ct-win.open { transform:scale(1) translateY(0); opacity:1; pointer-events:all; }
-[dir="rtl"] .ct-win { right:auto; left:24px; }
-
-.ct-head { padding:14px 16px; border-bottom:1px solid var(--ink-border); display:flex; align-items:center; gap:9px; flex-shrink:0; }
-.ct-av { width:34px; height:34px; border-radius:9px; background:linear-gradient(135deg, var(--teal), var(--ink-card)); display:flex; align-items:center; justify-content:center; font-size:15px; flex-shrink:0; }
-.ct-name { font-size:13.5px; font-weight:700; }
-.ct-status { font-size:11px; color:var(--teal-soft); display:flex; align-items:center; gap:4px; }
-.ct-status::before { content:''; width:5px; height:5px; border-radius:50%; background:var(--green); }
-.ct-close { margin-left:auto; cursor:pointer; font-size:15px; color:rgba(255,255,255,.4); background:none; border:none; padding:4px; transition:var(--t); }
-.ct-close:hover { color:#fff; }
-
-.ct-msgs { flex:1; overflow-y:auto; padding:14px; display:flex; flex-direction:column; gap:10px; scrollbar-width:thin; }
-.ct-msgs::-webkit-scrollbar { width:3px; }
-.msg { max-width:84%; padding:9px 12px; border-radius:10px; font-size:13px; line-height:1.5; animation:mIn .18s ease; }
-@keyframes mIn { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:translateY(0)} }
-.msg.bot { background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.08); align-self:flex-start; border-radius:3px 10px 10px 10px; }
-.msg.user { background:var(--teal); align-self:flex-end; border-radius:10px 10px 3px 10px; }
-[dir="rtl"] .msg.bot { align-self:flex-end; border-radius:10px 3px 10px 10px; }
-[dir="rtl"] .msg.user { align-self:flex-start; border-radius:3px 10px 10px 10px; }
-.chips { display:flex; flex-wrap:wrap; gap:5px; margin-top:7px; }
-.chip { background:var(--teal-dim); border:1px solid rgba(14,116,144,.28); border-radius:20px; padding:3px 10px; font-size:11.5px; color:var(--teal-soft); cursor:pointer; transition:var(--t); white-space:nowrap; }
-.chip:hover { background:var(--teal-glow); }
-.typing { display:flex; align-items:center; gap:3px; padding:9px 12px; }
-.typing span { width:6px; height:6px; border-radius:50%; background:rgba(255,255,255,.4); animation:bounce .9s infinite; }
-.typing span:nth-child(2){animation-delay:.15s}
-.typing span:nth-child(3){animation-delay:.3s}
-@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
-
-.ct-in-wrap { padding:11px 13px; border-top:1px solid var(--ink-border); display:flex; gap:7px; flex-shrink:0; }
-.ct-in { flex:1; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.09); border-radius:9px; padding:8px 12px; color:#fff; font-size:13px; font-family:inherit; outline:none; resize:none; transition:var(--t); }
-.ct-in:focus { border-color:rgba(14,116,144,.38); }
-.ct-send { width:34px; height:34px; border-radius:8px; background:var(--teal); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:14px; transition:var(--t); color:#fff; align-self:flex-end; }
-.ct-send:hover { background:var(--teal-hi); }
 
 /* ─── SPECIAL COMPONENTS ─── */
 
@@ -462,10 +407,7 @@ body { font-family:var(--font-en); background:var(--ink); color:#fff; font-size:
 
 /* Print report */
 @media print {
-  .sidebar,.topbar,.ct-btn,.ct-win { display:none !important; }
-  
-  
-  .report-sheet { box-shadow:none !important; margin:0 !important; }
+  .sidebar,.topbar,.report-sheet { box-shadow:none !important; margin:0 !important; }
 }
 
 /* Report sheet */
@@ -1618,13 +1560,14 @@ html, body { height:100%; overflow:hidden; }
 }
 .bot-fab:hover{transform:scale(1.1);box-shadow:0 6px 32px rgba(14,116,144,.7)}
 .bot-notify{
-  position:absolute;top:-4px;right:-4px;width:18px;height:18px;
-  background:var(--red);border-radius:50%;font-size:10px;font-weight:700;
+  position:absolute;top:-3px;right:-3px;width:16px;height:16px;
+  background:var(--red);border-radius:50%;font-size:9px;font-weight:700;
   display:flex;align-items:center;justify-content:center;color:#fff;
-  border:2px solid var(--ink);display:none;
+  border:2px solid #0A1628;display:none;
+  z-index:2;
 }
 .bot-notify.show{display:flex}
-@keyframes bot-pulse{0%,100%{box-shadow:0 4px 24px rgba(14,116,144,.5)}50%{box-shadow:0 4px 32px rgba(14,116,144,.9),0 0 0 6px rgba(14,116,144,.15)}}
+@keyframes bot-pulse{0%,100%{box-shadow:0 4px 24px rgba(14,116,144,.5)}50%{box-shadow:0 6px 28px rgba(14,116,144,.8)}}
 .bot-fab.pulse{animation:bot-pulse 2.5s infinite}
 .bot-panel{
   position:fixed;bottom:84px;right:22px;z-index:1000;
@@ -1728,6 +1671,32 @@ html, body { height:100%; overflow:hidden; }
   padding:2px 8px;border-radius:10px;background:var(--teal-dim);
   color:var(--teal-hi);margin-bottom:6px}
 
+
+/* ── ROI manual input ── */
+.roi-num-input{
+  background:rgba(255,255,255,.06);
+  border:1px solid var(--ink-border2);
+  border-radius:6px;
+  color:#fff;
+  font-size:14px;font-weight:700;
+  font-family:'Sora',sans-serif;
+  padding:4px 8px;
+  width:90px;text-align:right;
+  outline:none;
+  transition:border-color .15s;
+}
+.roi-num-input:focus{border-color:var(--teal-hi)}
+.roi-num-input::-webkit-inner-spin-button{opacity:.4}
+.roi-prefix,.roi-suffix{
+  font-size:13px;font-weight:600;
+  color:var(--teal-hi);
+}
+.roi-slider-val{
+  display:flex;align-items:center;gap:4px;
+  justify-content:flex-end;
+}
+
+@keyframes slideInRight{from{transform:translateX(100%)}to{transform:translateX(0)}}
 </style>
 </head>
 <body>
@@ -1753,7 +1722,7 @@ html, body { height:100%; overflow:hidden; }
     <div class="nav-hd" data-en="Overview" data-ar="نظرة عامة">Overview</div>
     <div class="ni active" data-roles="hr" onclick="go('dashboard')"><span class="ni-icon">⬛</span><span data-en="Dashboard" data-ar="لوحة التحكم">Dashboard</span></div>
     <div class="ni" data-roles="hr" onclick="go('intelligence')"><span class="ni-icon">✦</span><span data-en="Learning Intelligence" data-ar="ذكاء التعلم">Learning Intelligence</span><span class="ni-badge warn">5</span></div>
-    <div class="ni" data-roles="hr" onclick="go('roi')"><span class="ni-icon">💡</span><span data-en="Budget Calculator" data-ar="حاسبة الميزانية">Budget Calculator</span></div>
+    <div class="ni" data-roles="hr" onclick="go('roi')"><span class="ni-icon">💡</span><span data-en="ROI Calculator" data-ar="حاسبة الميزانية">ROI Calculator</span></div>
   </div>
 
   <div class="nav-sec">
@@ -1784,7 +1753,7 @@ html, body { height:100%; overflow:hidden; }
 
   <div class="nav-sec">
     <div class="nav-hd" data-en="Programs" data-ar="البرامج">Programs</div>
-    <div class="ni" data-roles="hr" onclick="go('ajyal')"><span class="ni-icon">★</span><span data-en="Ajyal Tracker" data-ar="متتبع أجيال">Ajyal Tracker</span></div>
+    <div class="ni" data-roles="hr" onclick="go('ajyal')"><span class="ni-icon">★</span><span data-en="Ajyal Tracker" data-ar="متتبع عجيال">Ajyal Tracker</span></div>
     <div class="ni" data-roles="hr manager" onclick="go('programs')"><span class="ni-icon">🏆</span><span data-en="All Programs" data-ar="جميع البرامج">All Programs</span></div>
     <div class="ni" data-roles="hr manager" onclick="go('analytics')"><span class="ni-icon">▲</span><span data-en="Analytics" data-ar="التحليلات">Analytics</span></div>
     <div class="ni" data-roles="hr" onclick="go('integrations')"><span class="ni-icon">⇌</span><span data-en="Integrations" data-ar="التكاملات">Integrations</span></div>
@@ -1816,7 +1785,7 @@ html, body { height:100%; overflow:hidden; }
       <div class="lang-btn" onclick="toggleLang()"><span id="lf">🇬🇧</span><span id="lt">عربي</span></div>
       <div class="tb-btn" onclick="openOv('notif-ov')">🔔<span class="nd"></span></div>
       <div class="tb-btn" onclick="openOv('add-ov')">＋</div>
-      <div class="tb-btn">⚙</div>
+      <div class="tb-btn" onclick="openPrefs()" title="Preferences & Customisation" style="cursor:pointer">⚙</div>
     </div>
   </div>
 
@@ -2294,7 +2263,7 @@ html, body { height:100%; overflow:hidden; }
 <!-- ══ ROI CALCULATOR ══ -->
 <div class="page" id="page-roi">
   <div class="ph">
-    <div><div class="ph-title">💡 Budget & ROI Calculator</div><div class="ph-sub">Model your training budget — see exactly what Gulf Bank saves vs spends</div></div>
+    <div><div class="ph-title">💡 ROI Calculator</div><div class="ph-sub">Model your training investment — see exactly what your organisation saves vs spends</div></div>
     <div class="flex gap2">
       <button class="btn btn-o btn-sm" onclick="saveROIScenario()">💾 Save Scenario</button>
       <button class="btn btn-o btn-sm" onclick="window.print()">🖨 Print</button>
@@ -2314,8 +2283,8 @@ html, body { height:100%; overflow:hidden; }
           <div class="xs muted">Total headcount</div>
         </div>
         <div class="roi-input-ctrl">
-          <input class="fi roi-slider" type="range" id="r-emp" min="50" max="5000" value="1247" oninput="calcROI()">
-          <div class="roi-slider-val" id="r-emp-v">1,247</div>
+          <input class="fi roi-slider" type="range" id="r-emp" min="50" max="5000" value="1247" oninput="roiSyncInput('r-emp')">
+          <div class="roi-slider-val" id="r-emp-v-wrap"><input class="roi-num-input" id="r-emp-v" type="number" min="50" max="5000" value="1247" oninput="roiSyncSlider('r-emp')"></div>
         </div>
       </div>
 
@@ -2325,8 +2294,8 @@ html, body { height:100%; overflow:hidden; }
           <div class="xs muted">Per employee (KD)</div>
         </div>
         <div class="roi-input-ctrl">
-          <input class="fi roi-slider" type="range" id="r-sal" min="3000" max="40000" value="12000" oninput="calcROI()">
-          <div class="roi-slider-val" id="r-sal-v">KD 12,000</div>
+          <input class="fi roi-slider" type="range" id="r-sal" min="3000" max="40000" value="12000" oninput="roiSyncInput('r-sal')">
+          <div class="roi-slider-val" id="r-sal-v-wrap"><span class="roi-prefix">KD </span><input class="roi-num-input" id="r-sal-v" type="number" min="3000" max="40000" value="12000" oninput="roiSyncSlider('r-sal')"></div>
         </div>
       </div>
 
@@ -2336,8 +2305,8 @@ html, body { height:100%; overflow:hidden; }
           <div class="xs muted">% who leave per year</div>
         </div>
         <div class="roi-input-ctrl">
-          <input class="fi roi-slider" type="range" id="r-turn" min="1" max="40" value="12" oninput="calcROI()">
-          <div class="roi-slider-val" id="r-turn-v">12%</div>
+          <input class="fi roi-slider" type="range" id="r-turn" min="1" max="40" value="12" oninput="roiSyncInput('r-turn')">
+          <div class="roi-slider-val" id="r-turn-v-wrap"><input class="roi-num-input" id="r-turn-v" type="number" min="1" max="40" value="12" oninput="roiSyncSlider('r-turn')"><span class="roi-suffix">%</span></div>
         </div>
       </div>
 
@@ -2347,8 +2316,8 @@ html, body { height:100%; overflow:hidden; }
           <div class="xs muted">Annual spend (KD)</div>
         </div>
         <div class="roi-input-ctrl">
-          <input class="fi roi-slider" type="range" id="r-train" min="100" max="10000" value="700" oninput="calcROI()">
-          <div class="roi-slider-val" id="r-train-v">KD 700</div>
+          <input class="fi roi-slider" type="range" id="r-train" min="100" max="10000" value="700" oninput="roiSyncInput('r-train')">
+          <div class="roi-slider-val" id="r-train-v-wrap"><span class="roi-prefix">KD </span><input class="roi-num-input" id="r-train-v" type="number" min="100" max="10000" value="700" oninput="roiSyncSlider('r-train')"></div>
         </div>
       </div>
 
@@ -2358,8 +2327,8 @@ html, body { height:100%; overflow:hidden; }
           <div class="xs muted">Expected with training</div>
         </div>
         <div class="roi-input-ctrl">
-          <input class="fi roi-slider" type="range" id="r-ret" min="5" max="60" value="35" oninput="calcROI()">
-          <div class="roi-slider-val" id="r-ret-v">35%</div>
+          <input class="fi roi-slider" type="range" id="r-ret" min="5" max="60" value="35" oninput="roiSyncInput('r-ret')">
+          <div class="roi-slider-val" id="r-ret-v-wrap"><input class="roi-num-input" id="r-ret-v" type="number" min="5" max="60" value="35" oninput="roiSyncSlider('r-ret')"><span class="roi-suffix">%</span></div>
         </div>
       </div>
 
@@ -2494,7 +2463,20 @@ html, body { height:100%; overflow:hidden; }
 
   <div class="kr mb4">
     <div class="kc"><div class="ki" style="background:var(--teal-dim)">📈</div><div><div class="kv teal">82%</div><div class="kl">Overall progress</div></div></div>
-    <div class="kc"><div class="ki" style="background:var(--gold-dim)">🔥</div><div><div class="kv gold">14</div><div class="kl">Day streak</div></div></div>
+    <div cl
+  <!-- New Joiner onboarding track info -->
+  <div id="new-joiner-track" class="ins mb4" style="background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.2);border-radius:10px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start;display:none">
+    <div style="font-size:20px;flex-shrink:0">🌱</div>
+    <div style="flex:1">
+      <div class="xs bold mb1" style="color:#34D399">New Employee Development Track — Active</div>
+      <div class="xs muted" style="line-height:1.6">This employee is on their 90-day onboarding journey. Completing mandatory compliance modules, building their skills baseline, and preparing for their first IDP review.</div>
+    </div>
+    <div style="text-align:right;flex-shrink:0">
+      <div class="xs bold" style="color:#34D399">Day 23 of 90</div>
+      <div class="xs muted">On track ✓</div>
+    </div>
+  </div>
+ass="kc"><div class="ki" style="background:var(--gold-dim)">🔥</div><div><div class="kv gold">14</div><div class="kl">Day streak</div></div></div>
     <div class="kc"><div class="ki" style="background:var(--purple-dim)">⭐</div><div><div class="kv purp">1,240</div><div class="kl">Daleel points</div></div></div>
     <div class="kc"><div class="ki" style="background:var(--green-dim)">🎓</div><div><div class="kv grn">3</div><div class="kl">Certifications</div></div></div>
     <div class="kc"><div class="ki" style="background:var(--blue-dim)">👥</div><div><div class="kv" style="color:var(--blue)">#4</div><div class="kl">Cohort rank</div></div></div>
@@ -2656,6 +2638,22 @@ html, body { height:100%; overflow:hidden; }
 
   <div class="tabs">
     <div class="tab active" onclick="ajyalTab(0,this)">10th Edition (Active)</div>
+
+  <!-- Score guide for Ajyal -->
+  <div class="ins mb4" style="background:rgba(217,119,6,.06);border:1px solid rgba(217,119,6,.2);border-radius:10px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start">
+    <div style="font-size:20px;flex-shrink:0">🏦</div>
+    <div>
+      <div class="xs bold mb1" style="color:var(--gold-hi)">About Ajyal scores</div>
+      <div class="xs muted" style="line-height:1.7">
+        Ajyal (أجيال — meaning "Generations") is the organisation's flagship leadership development programme.
+        Module scores reflect <strong style="color:#fff">assessment performance</strong> (0–100) across each curriculum component.
+        An overall score of <strong style="color:#34D399">80+</strong> qualifies for programme completion and certification.
+        Scores below <strong style="color:#F87171">70</strong> trigger an automatic development plan.
+        Cohort average is shown against the organisation's benchmark target of <strong style="color:var(--gold-hi)">80%</strong>.
+      </div>
+    </div>
+  </div>
+
     <div class="tab" onclick="ajyalTab(1,this)">9th Edition</div>
     <div class="tab" onclick="ajyalTab(2,this)">All Graduates</div>
   </div>
@@ -2735,7 +2733,22 @@ html, body { height:100%; overflow:hidden; }
   </div>
 
   <div class="dash-stats" style="margin-bottom:16px">
-    <div class="ds-card"><div class="ds-icon" style="background:var(--teal-dim);color:var(--teal-hi)">📈</div><div class="ds-body"><div class="ds-val teal">+24pts</div><div class="ds-lbl">Avg skill gain</div><div class="ds-delta up">Pre → post delta</div></div></div>
+    <div class="ds-card"><div class="ds-icon" style="background:var(--teal-dim);color:var(--teal-hi)">📈</div>
+
+  <!-- Score explanation card -->
+  <div class="ins mb4" style="background:rgba(14,116,144,.08);border:1px solid rgba(14,116,144,.2);border-radius:10px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start">
+    <div style="font-size:20px;flex-shrink:0">📊</div>
+    <div>
+      <div class="xs bold mb1" style="color:var(--teal-hi)">How assessment scores work</div>
+      <div class="xs muted" style="line-height:1.7">
+        Every skill is scored from <strong style="color:#fff">0–100</strong>. Employees take a <strong style="color:#fff">Before</strong> assessment at enrolment and an <strong style="color:#fff">After</strong> assessment on completion.
+        The <strong style="color:var(--teal-hi)">gap (delta)</strong> between the two scores proves the training worked — and by how much.
+        A score of <strong style="color:#34D399">80+</strong> = proficient · <strong style="color:#F59E0B">60–79</strong> = developing · <strong style="color:#F87171">below 60</strong> = needs training.
+        Gap closure % shows how much of the skill gap the training closed vs the target score.
+      </div>
+    </div>
+  </div>
+<div class="ds-body"><div class="ds-val teal">+24pts</div><div class="ds-lbl">Avg skill gain</div><div class="ds-delta up">Pre → post delta</div></div></div>
     <div class="ds-card"><div class="ds-icon" style="background:var(--teal-dim);color:var(--teal-soft)">✓</div><div class="ds-body"><div class="ds-val" style="color:var(--teal-soft)">847</div><div class="ds-lbl">Assessments completed</div><div class="ds-delta up">↑ 124 this month</div></div></div>
     <div class="ds-card"><div class="ds-icon" style="background:var(--gold-dim);color:var(--gold-hi)">📊</div><div class="ds-body"><div class="ds-val gold">67%</div><div class="ds-lbl">Gap closure rate</div><div class="ds-delta up">↑ 8pts vs last quarter</div></div></div>
     <div class="ds-card"><div class="ds-icon" style="background:var(--teal-dim);color:var(--teal-hi)">🎯</div><div class="ds-body"><div class="ds-val teal">91%</div><div class="ds-lbl">Assessment completion</div><div class="ds-delta up">Best in class</div></div></div>
@@ -3885,7 +3898,42 @@ html, body { height:100%; overflow:hidden; }
   </div>
 
   <div class="dash-stats" style="margin-bottom:16px">
-    <div class="ds-card"><div class="ds-icon" style="background:var(--teal-dim);color:var(--teal-hi)">🏢</div><div class="ds-body"><div class="ds-val">6</div><div class="ds-lbl">Departments</div><div class="ds-delta neutral">All configured</div></div></div>
+    <div class="ds-card"><div class="ds-icon" style="background:var(--teal-dim);color:var(--teal-hi)">🏢</div>
+
+  <!-- New Employee Onboarding Track -->
+  <div class="card mb4">
+    <div class="sec-t mb3" style="display:flex;align-items:center;gap:8px">
+      <span>🌱</span> New Employee Development Track
+      <span style="margin-left:auto;background:rgba(14,116,144,.15);color:var(--teal-hi);font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;letter-spacing:.06em">NEW JOINER PATH</span>
+    </div>
+    <div class="xs muted mb3" style="line-height:1.7;max-width:640px">
+      Automatically assign structured onboarding plans to every new hire from day one.
+      New joiners get a personalised 90-day development track — covering compliance requirements,
+      role-specific learning, and cultural integration — all tracked in Daleel.
+    </div>
+    <div class="g3" style="margin-bottom:20px">
+      <div class="card" style="background:rgba(14,116,144,.06);border-color:rgba(14,116,144,.2)">
+        <div style="font-size:18px;margin-bottom:8px">📅</div>
+        <div class="xs bold mb1">Days 1–30</div>
+        <div class="xs muted">Compliance & regulatory orientation. Role requirements, CBK mandatory modules, system access training.</div>
+      </div>
+      <div class="card" style="background:rgba(217,119,6,.06);border-color:rgba(217,119,6,.2)">
+        <div style="font-size:18px;margin-bottom:8px">📚</div>
+        <div class="xs bold mb1">Days 31–60</div>
+        <div class="xs muted">Department-specific skills. Role competency mapping, mentorship pairing, first skills assessment.</div>
+      </div>
+      <div class="card" style="background:rgba(52,211,153,.06);border-color:rgba(52,211,153,.2)">
+        <div style="font-size:18px;margin-bottom:8px">🚀</div>
+        <div class="xs bold mb1">Days 61–90</div>
+        <div class="xs muted">Performance baseline. IDP created, manager sign-off, 9-Box initial placement, probation readiness score.</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn btn-o btn-sm">📋 View New Joiner Template</button>
+      <button class="btn btn-p btn-sm" onclick="openOv('wiz-ov')">＋ Assign to New Hire</button>
+    </div>
+  </div>
+<div class="ds-body"><div class="ds-val">6</div><div class="ds-lbl">Departments</div><div class="ds-delta neutral">All configured</div></div></div>
     <div class="ds-card"><div class="ds-icon" style="background:var(--green-dim);color:#0EA5C9">👥</div><div class="ds-body"><div class="ds-val">1,247</div><div class="ds-lbl">Total Employees</div><div class="ds-delta up">↑ 42 this quarter</div></div></div>
     <div class="ds-card"><div class="ds-icon" style="background:var(--gold-dim);color:var(--gold-hi)">📋</div><div class="ds-body"><div class="ds-val">18</div><div class="ds-lbl">Active Programs</div><div class="ds-delta neutral">Across all depts</div></div></div>
     <div class="ds-card"><div class="ds-icon" style="background:var(--red-dim);color:#E57373">⚠</div><div class="ds-body"><div class="ds-val">2</div><div class="ds-lbl">Need Attention</div><div class="ds-delta down">Finance + Sales gaps</div></div></div>
@@ -5210,6 +5258,8 @@ html, body { height:100%; overflow:hidden; }
   </div>
 </div>
 
+<!-- ══════════════════════ CHATBOT ══════════════════════ -->
+
 
 <!-- ══════════════════════ JS ══════════════════════ -->
 
@@ -5221,7 +5271,7 @@ html, body { height:100%; overflow:hidden; }
 
 /* ── Pages map ─────────────────────────────────── */
 const PAGES = {
-  dashboard:'Dashboard', intelligence:'Learning Intelligence', roi:'Budget Calculator',
+  dashboard:'Dashboard', intelligence:'Learning Intelligence', roi:'ROI Calculator',
   'employee-view':'My Learning', 'manager-inbox':'Manager Inbox', planner:'Training Planner',
   paths:'Learning Paths', catalog:'Course Catalog', vendors:'Vendor Marketplace',
   seats:'Seat Management', compliance:'Compliance Tracker', employees:'People Directory',
@@ -5308,6 +5358,30 @@ function setRole(role, initials, name, subtitle) {
 }
 
 /* ── ROI Calculator ────────────────────────────── */
+
+function roiSyncInput(sliderId) {
+  var slider = document.getElementById(sliderId);
+  var inputId = sliderId + '-v';
+  var wrap = document.getElementById(sliderId + '-v-wrap') || document.getElementById(inputId + '-wrap');
+  var input = wrap ? wrap.querySelector('input') : document.getElementById(inputId);
+  if (!input || !slider) return;
+  var val = parseFloat(input.value) || 0;
+  val = Math.max(parseFloat(slider.min), Math.min(parseFloat(slider.max), val));
+  slider.value = val;
+  input.value = val;
+  calcROI();
+}
+
+function roiSyncSlider(sliderId) {
+  var slider = document.getElementById(sliderId);
+  var wrap = document.getElementById(sliderId + '-v-wrap');
+  var input = wrap ? wrap.querySelector('input') : null;
+  if (!input || !slider) return;
+  var val = parseFloat(slider.value) || 0;
+  input.value = val;
+  calcROI();
+}
+
 function calcROI() {
   var empEl  = document.getElementById('r-emp');
   var salEl  = document.getElementById('r-sal');
@@ -5442,7 +5516,7 @@ function setLang(l) {
   };
   var HEADINGS = {
     en: {
-      dashboard: 'Dashboard', intelligence: 'Learning Intelligence', roi: 'Budget Calculator',
+      dashboard: 'Dashboard', intelligence: 'Learning Intelligence', roi: 'ROI Calculator',
       'employee-view': 'My Learning', 'manager-inbox': 'Manager Inbox', planner: 'Training Planner',
       paths: 'Learning Paths', catalog: 'Course Catalog', vendors: 'Vendor Marketplace',
       seats: 'Seat Management', compliance: 'Compliance Tracker', employees: 'People Directory',
@@ -5452,12 +5526,12 @@ function setLang(l) {
       ninebox: '9-Box Matrix', idp: 'Dev Plans · IDP'
     },
     ar: {
-      dashboard: 'لوحة التحكم', intelligence: 'ذكاء التعلم', roi: 'حاسبة الميزانية',
+      dashboard: 'لوحة التحكم', intelligence: 'ذكاء التعلم', roi: 'حاسبة العائد',
       'employee-view': 'تعلمي', 'manager-inbox': 'صندوق المدير', planner: 'المخطط التدريبي',
       paths: 'مسارات التعلم', catalog: 'كتالوج الدورات', vendors: 'سوق المزودين',
       seats: 'إدارة المقاعد', compliance: 'متتبع الامتثال', employees: 'دليل الموظفين',
       skills: 'مصفوفة المهارات', assessments: 'التقييمات', onboarding: 'إعداد الأقسام',
-      ajyal: 'متتبع أجيال', programs: 'جميع البرامج', analytics: 'التحليلات',
+      ajyal: 'متتبع عجيال', programs: 'جميع البرامج', analytics: 'التحليلات',
       integrations: 'التكاملات', report: 'التقرير التنفيذي',
       ninebox: 'مصفوفة التسعة', idp: 'خطط التطوير الفردية'
     }
@@ -6841,7 +6915,7 @@ var BOT_PAGES = {
     chips: ['What are the WHO alerts?', 'When is the best time to train?', 'What skills are most critical?', 'Tour this page']
   },
   roi: {
-    en: 'Budget Calculator', ar: 'حاسبة الميزانية',
+    en: 'ROI Calculator', ar: 'حاسبة الميزانية',
     desc: 'Model your training budget and see exactly what Gulf Bank saves versus spends. Calculates ROI, fines avoided, and productivity gains live.',
     how: 'Drag sliders: Employees trained, Average salary, Training spend per person, Compliance fine risk. The results update live — Total ROI, Fines Avoided, Productivity Gain. Save scenarios for board presentations.',
     tips: ['Save Scenario stores your model for board meetings', 'Add to Board Report inserts the calculation into the Executive Report', 'The fine risk slider shows KD value of CBK penalties avoided'],
@@ -6879,7 +6953,7 @@ var BOT_PAGES = {
     en: 'Course Catalog', ar: 'كتالوج الدورات',
     desc: '47 courses across compliance, leadership, digital banking, and technical skills. All vetted for CBK requirements.',
     how: 'Filter by category, provider, or cost. Click any course to see full details, prerequisites, and enrol directly. CBK-tagged courses are mandatory for certain roles.',
-    tips: ['CBK-tagged courses are mandatory for compliance roles', '47 courses available across 6 categories', 'Course cost links directly to the Budget Calculator'],
+    tips: ['CBK-tagged courses are mandatory for compliance roles', '47 courses available across 6 categories', 'Course cost links directly to the ROI Calculator'],
     chips: ['How do I enrol in a course?', 'Which courses are CBK mandatory?', 'Tour this page']
   },
   vendors: {
@@ -6925,7 +6999,7 @@ var BOT_PAGES = {
     chips: ['What is the average skill gain?', 'Which programs have best ROI?', 'Tour this page']
   },
   ajyal: {
-    en: 'Ajyal Tracker', ar: 'متتبع أجيال',
+    en: 'Ajyal Tracker', ar: 'متتبع عجيال',
     desc: 'Gulf Bank leadership development programme. 10 cohorts since founding, 247 graduates. Cohort 10 currently running with 24 participants.',
     how: 'Curriculum tab shows full Cohort 10 module list. Participants tab shows individual progress. Program Timeline shows upcoming milestones. Nominate Stars from the 9-Box for Cohort 11.',
     tips: ['Cohort 10 average: 82% across all modules', 'Stars in 9-Box Matrix are the natural Cohort 11 candidates', 'Ajyal completion feeds back into employee 9-Box position'],
@@ -6955,8 +7029,8 @@ var BOT_PAGES = {
   report: {
     en: 'Executive Report', ar: 'التقرير التنفيذي',
     desc: 'Board-ready summary of Kuwaitization, compliance, training investment, and skill gains. Print or export as PDF.',
-    how: 'All data auto-populated from live Daleel data. Add ROI scenarios from the Budget Calculator using Add to Board Report. Print directly or export PDF for board pack.',
-    tips: ['Add Budget Calculator scenarios to strengthen the ROI section', 'Kuwaitization section uses live PACI data', 'Export as PDF for board packs or CBK submissions'],
+    how: 'All data auto-populated from live Daleel data. Add ROI scenarios from the ROI Calculator using Add to Board Report. Print directly or export PDF for board pack.',
+    tips: ['Add ROI Calculator scenarios to strengthen the ROI section', 'Kuwaitization section uses live PACI data', 'Export as PDF for board packs or CBK submissions'],
     chips: ['How do I add ROI data to the report?', 'Can I export as PDF?', 'Tour this page']
   },
   ninebox: {
@@ -6981,13 +7055,13 @@ var BOT_QA = [
   {q:'what can daleel do', a:'Daleel does six things: tracks CBK compliance and expiry dates, manages training budgets and ROI, maps employee skills and gaps, runs the Ajyal leadership programme, plots talent on the 9-Box Matrix, and generates individual development plans. All in one platform.'},
   {q:'who are the stars', a:'Gulf Bank has 47 Stars in the 9-Box Matrix — employees with both high performance and high potential. They are your succession candidates. Top of the list for Ajyal Cohort 11 nominations. Click 9-Box Matrix and then the Star quadrant to see them.'},
   {q:'who needs urgent action', a:'Top priority: Hamad Al-Rashidi AML certification expires April 4 — 8 days away. Gulf Bank faces a KD 45,000 CBK fine if not renewed. Go to Dev Plans, click Hamad, then Schedule AML Renewal Now. Also 260 employees in risk zones need Q2 training.'},
-  {q:'what is the fine risk', a:'Current CBK fine risk: KD 45,000 if Hamad Al-Rashidi AML cert is not renewed by April 4. The Compliance Tracker shows all certifications with expiry dates and fine amounts. Total potential exposure shown in the Budget Calculator.'},
+  {q:'what is the fine risk', a:'Current CBK fine risk: KD 45,000 if Hamad Al-Rashidi AML cert is not renewed by April 4. The Compliance Tracker shows all certifications with expiry dates and fine amounts. Total potential exposure shown in the ROI Calculator.'},
   {q:'what is kuwaitization', a:'Kuwaitization is the percentage of Kuwaiti nationals in Gulf Bank workforce. PACI (Public Authority for Civil Information) sets a 90% target. Gulf Bank is currently at 92%, above target. Daleel tracks this by department and flags any department below target.'},
   {q:'what is ajyal', a:'Ajyal (meaning "Generations" in Arabic) is Gulf Bank leadership development programme. 10 cohorts since founding, 247 graduates. Cohort 10 has 24 participants averaging 82%. Stars from the 9-Box Matrix are nominated for Cohort 11 (Q2 2026).'},
   {q:'what is an idp', a:'An IDP (Individual Development Plan) is a personalised career roadmap. It shows where an employee is going, what they are already great at, and the exact training steps to get there — with costs, timelines, and expected skill gains. Daleel auto-generates IDPs from assessment data and manager ratings.'},
   {q:'what is the 9 box', a:'The 9-Box Matrix plots employees by Performance (Y axis, from assessment scores) against Potential (X axis, from manager ratings). Nine quadrants from Stars (top-right) to At Risk (bottom-left). Gulf Bank: 47 Stars, 142 Achievers, 387 Core, 196 Underperformers, 64 At Risk.'},
-  {q:'budget calculator', a:'The Budget Calculator is in the nav under Overview. Drag the sliders for headcount, salary, training spend, and fine risk. Results show total ROI, fines avoided, and productivity gains live. Save Scenario stores your model for board presentations.'},
-  {q:'how do i show this to my board', a:'Go to Executive Report in the nav. It auto-populates with live Kuwaitization, compliance, training investment, and skill gain data. Add your Budget Calculator scenarios using Add to Board Report. Print or export PDF for the board pack.'},
+  {q:'budget calculator', a:'The ROI Calculator is in the nav under Overview. Drag the sliders for headcount, salary, training spend, and fine risk. Results show total ROI, fines avoided, and productivity gains live. Save Scenario stores your model for board presentations.'},
+  {q:'how do i show this to my board', a:'Go to Executive Report in the nav. It auto-populates with live Kuwaitization, compliance, training investment, and skill gain data. Add your ROI Calculator scenarios using Add to Board Report. Print or export PDF for the board pack.'},
   {q:'what should i do first', a:'Three immediate actions: First, renew Hamad Al-Rashidi AML cert before April 4 (KD 45K fine risk). Second, open the Planner and bulk-schedule Finance for Q2 AML training. Third, nominate your top 47 Stars for Ajyal Cohort 11.'},
   {q:'how does arabic work', a:'Click the language flag button in the sidebar to switch to Arabic. The entire interface switches to Arabic text with right-to-left layout. All page titles, nav items, and labels are translated. The bot also responds in context.'},
   {q:'how do i add a new company', a:'Daleel is configured per organisation. For a new client like Boubyan Bank, the system is set up with their employee data, CBK requirements, and training history. Contact the Daleel team to onboard a new organisation.'},
@@ -7076,11 +7150,11 @@ function botWelcome() {
     greet = '9-Box Matrix loaded — 1,247 Gulf Bank employees mapped. 47 Stars ready for succession. 260 in risk zones. Click any quadrant to explore.';
     chips = [['Who are the Stars?','gold'], ['Who needs urgent action?','red'], ['Tour this page','']];
   } else if (BOT_CUR_PAGE === 'roi') {
-    greet = 'Budget Calculator: model your Q2 training investment. Drag the sliders to see live ROI, fines avoided, and productivity gains.';
+    greet = 'ROI Calculator: model your Q2 training investment. Drag the sliders to see live ROI, fines avoided, and productivity gains.';
     chips = [['How do I model Q2 budget?',''], ['How do I save a scenario?',''], ['Tour this page','']];
   } else if (BOT_CUR_PAGE === 'dashboard') {
     greet = 'Good morning. One urgent item: Hamad Al-Rashidi AML expires April 4 (8 days). Q2 budget opens April 1 — KD 116K available. What would you like to do?';
-    chips = [['Take me to Hamad','red'], ['Open the Budget Calculator','gold'], ['What should I do first?',''], ['Tour this page','']];
+    chips = [['Take me to Hamad','red'], ['Open the ROI Calculator','gold'], ['What should I do first?',''], ['Tour this page','']];
   } else {
     greet = 'You are on ' + info.en + '. ' + info.desc.substring(0, 120) + '... What would you like to know?';
     chips = (info.chips || ['Tour this page']).slice(0,4).map(function(c) { return [c,'']; });
@@ -7162,7 +7236,7 @@ function botRespond(txt) {
     return;
   }
   if (key.indexOf('open the budget') >= 0 || key.indexOf('budget calculator') >= 0) {
-    botAddMsg('Opening the Budget Calculator.', 'bot', null);
+    botAddMsg('Opening the ROI Calculator.', 'bot', null);
     setTimeout(function() { botToggle(); if (typeof go === 'function') go('roi'); }, 400);
     return;
   }
@@ -7300,6 +7374,70 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
+
+/* ══ PREFERENCES ══ */
+function openPrefs() {
+  var ov = document.getElementById('prefs-ov');
+  if (ov) { ov.style.display = 'block'; }
+  // Set current role radio
+  var roleRadio = document.getElementById('role-hr');
+  if (roleRadio) roleRadio.checked = true;
+  updateLangBtns();
+}
+
+function closePrefs() {
+  var ov = document.getElementById('prefs-ov');
+  if (ov) { ov.style.display = 'none'; }
+}
+
+function updateLangBtns() {
+  var enBtn = document.getElementById('lang-en-btn');
+  var arBtn = document.getElementById('lang-ar-btn');
+  if (!enBtn || !arBtn) return;
+  var isAr = (typeof lang !== 'undefined' && lang === 'ar');
+  enBtn.style.borderColor = isAr ? 'var(--ink-border)' : 'var(--teal-hi)';
+  enBtn.style.background  = isAr ? 'transparent' : 'rgba(14,116,144,.15)';
+  enBtn.style.color       = isAr ? 'rgba(255,255,255,.5)' : 'var(--teal-hi)';
+  arBtn.style.borderColor = isAr ? 'var(--teal-hi)' : 'var(--ink-border)';
+  arBtn.style.background  = isAr ? 'rgba(14,116,144,.15)' : 'transparent';
+  arBtn.style.color       = isAr ? 'var(--teal-hi)' : 'rgba(255,255,255,.5)';
+}
+
+function applyRoleView(role) {
+  // Update sidebar to show role-appropriate items
+  var hrOnlyItems = document.querySelectorAll('[data-roles="hr"]');
+  var mgrItems    = document.querySelectorAll('[data-roles="manager"]');
+  var empItems    = document.querySelectorAll('[data-roles="employee"]');
+  hrOnlyItems.forEach(function(el) {
+    el.style.display = (role === 'hr') ? '' : 'none';
+  });
+  mgrItems.forEach(function(el) {
+    el.style.display = (role === 'hr' || role === 'manager') ? '' : 'none';
+  });
+  empItems.forEach(function(el) {
+    el.style.display = '';
+  });
+  // Update role badge in sidebar
+  var roleBadge = document.getElementById('sidebar-role-label');
+  if (roleBadge) {
+    var labels = { hr: 'HR Director', manager: 'Manager', employee: 'Employee' };
+    roleBadge.textContent = labels[role] || 'HR Director';
+  }
+}
+
+function savePref(key, value) {
+  try { localStorage.setItem('daleel_pref_' + key, value); } catch(e) {}
+}
+
+function resetPrefs() {
+  var checkboxes = document.querySelectorAll('#prefs-ov input[type="checkbox"]');
+  checkboxes.forEach(function(c) { c.checked = true; });
+  applyRoleView('hr');
+  var hr = document.getElementById('role-hr');
+  if (hr) hr.checked = true;
+}
+
+/* ══ ROI SYNC ══ */
 </script>
 
 
@@ -7396,7 +7534,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- ══ DALEEL GUIDE BOT ══ -->
 <button class="bot-fab pulse" id="bot-fab" onclick="botToggle()">
   🤖
-  <div class="bot-notify show" id="bot-notify">1</div>
+  <div class="bot-notify" id="bot-notify">1</div>
 </button>
 <div class="bot-panel" id="bot-panel">
   <div class="bot-head">
@@ -7421,6 +7559,117 @@ document.addEventListener('DOMContentLoaded', function() {
     <input class="bot-input" id="bot-input" placeholder="Ask anything about Daleel..."
       onkeydown="if(event.key==='Enter')botSend()">
     <button class="bot-send" onclick="botSend()">↑</button>
+  </div>
+</div>
+
+<!-- ══ PREFERENCES OVERLAY ══ -->
+<div id="prefs-ov" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.6);backdrop-filter:blur(4px)" onclick="if(event.target===this)closePrefs()">
+  <div style="position:absolute;right:0;top:0;bottom:0;width:400px;background:var(--ink-mid);border-left:1px solid var(--ink-border2);display:flex;flex-direction:column;overflow:hidden;animation:slideInRight .2s ease">
+    
+    <div style="padding:20px 24px;border-bottom:1px solid var(--ink-border);display:flex;align-items:center;gap:12px">
+      <div style="font-size:18px">⚙️</div>
+      <div>
+        <div style="font-size:14px;font-weight:700;color:#fff">Preferences & Customisation</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.4)">Daleel adapts to you</div>
+      </div>
+      <button onclick="closePrefs()" style="margin-left:auto;background:rgba(255,255,255,.08);border:none;color:rgba(255,255,255,.6);width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:14px">✕</button>
+    </div>
+
+    <div style="flex:1;overflow-y:auto;padding:20px 24px;display:flex;flex-direction:column;gap:20px">
+
+      <!-- Role View -->
+      <div>
+        <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Your Role View</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <label style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px 12px;border-radius:8px;border:1px solid var(--ink-border);transition:all .15s" id="role-hr-label">
+            <input type="radio" name="pref-role" value="hr" id="role-hr" onchange="applyRoleView('hr')" style="accent-color:var(--teal-hi)">
+            <div>
+              <div style="font-size:13px;font-weight:600;color:#fff">HR Director</div>
+              <div style="font-size:11px;color:rgba(255,255,255,.4)">Full platform access — compliance, talent, analytics</div>
+            </div>
+          </label>
+          <label style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px 12px;border-radius:8px;border:1px solid var(--ink-border);transition:all .15s" id="role-mgr-label">
+            <input type="radio" name="pref-role" value="manager" id="role-mgr" onchange="applyRoleView('manager')" style="accent-color:var(--teal-hi)">
+            <div>
+              <div style="font-size:13px;font-weight:600;color:#fff">Manager</div>
+              <div style="font-size:11px;color:rgba(255,255,255,.4)">Team view — inbox, learning paths, team IDP</div>
+            </div>
+          </label>
+          <label style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px 12px;border-radius:8px;border:1px solid var(--ink-border);transition:all .15s" id="role-emp-label">
+            <input type="radio" name="pref-role" value="employee" id="role-emp" onchange="applyRoleView('employee')" style="accent-color:var(--teal-hi)">
+            <div>
+              <div style="font-size:13px;font-weight:600;color:#fff">Employee</div>
+              <div style="font-size:11px;color:rgba(255,255,255,.4)">My learning — paths, assessments, IDP</div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Dashboard Modules -->
+      <div>
+        <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Dashboard Modules</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <label style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px 12px;border-radius:8px;background:rgba(255,255,255,.03);border:1px solid var(--ink-border)">
+            <input type="checkbox" id="pref-compliance" checked onchange="savePref('compliance',this.checked)" style="accent-color:var(--teal-hi);width:14px;height:14px">
+            <span style="font-size:13px;color:var(--ink-soft)">◆ Compliance alerts</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px 12px;border-radius:8px;background:rgba(255,255,255,.03);border:1px solid var(--ink-border)">
+            <input type="checkbox" id="pref-budget" checked onchange="savePref('budget',this.checked)" style="accent-color:var(--teal-hi);width:14px;height:14px">
+            <span style="font-size:13px;color:var(--ink-soft)">💡 ROI Calculator</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px 12px;border-radius:8px;background:rgba(255,255,255,.03);border:1px solid var(--ink-border)">
+            <input type="checkbox" id="pref-ajyal" checked onchange="savePref('ajyal',this.checked)" style="accent-color:var(--teal-hi);width:14px;height:14px">
+            <span style="font-size:13px;color:var(--ink-soft)">🏦 Ajyal tracker</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px 12px;border-radius:8px;background:rgba(255,255,255,.03);border:1px solid var(--ink-border)">
+            <input type="checkbox" id="pref-9box" checked onchange="savePref('9box',this.checked)" style="accent-color:var(--teal-hi);width:14px;height:14px">
+            <span style="font-size:13px;color:var(--ink-soft)">⊞ 9-Box matrix</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px 12px;border-radius:8px;background:rgba(255,255,255,.03);border:1px solid var(--ink-border)">
+            <input type="checkbox" id="pref-analytics" checked onchange="savePref('analytics',this.checked)" style="accent-color:var(--teal-hi);width:14px;height:14px">
+            <span style="font-size:13px;color:var(--ink-soft)">▲ Analytics</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Language -->
+      <div>
+        <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Language</div>
+        <div style="display:flex;gap:8px">
+          <button onclick="setLang('en');updateLangBtns()" id="lang-en-btn" style="flex:1;padding:10px;border-radius:8px;border:1px solid var(--teal-hi);background:rgba(14,116,144,.15);color:var(--teal-hi);font-size:13px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif">🇬🇧 English</button>
+          <button onclick="setLang('ar');updateLangBtns()" id="lang-ar-btn" style="flex:1;padding:10px;border-radius:8px;border:1px solid var(--ink-border);background:transparent;color:rgba(255,255,255,.5);font-size:13px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif">🇰🇼 عربي</button>
+        </div>
+      </div>
+
+      <!-- Notifications -->
+      <div>
+        <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Notification Preferences</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <label style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px 12px;border-radius:8px;background:rgba(255,255,255,.03);border:1px solid var(--ink-border)">
+            <input type="checkbox" checked style="accent-color:var(--teal-hi);width:14px;height:14px">
+            <span style="font-size:13px;color:var(--ink-soft)">Compliance expiry alerts (30 days before)</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px 12px;border-radius:8px;background:rgba(255,255,255,.03);border:1px solid var(--ink-border)">
+            <input type="checkbox" checked style="accent-color:var(--teal-hi);width:14px;height:14px">
+            <span style="font-size:13px;color:var(--ink-soft)">Training deadline reminders</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px 12px;border-radius:8px;background:rgba(255,255,255,.03);border:1px solid var(--ink-border)">
+            <input type="checkbox" style="accent-color:var(--teal-hi);width:14px;height:14px">
+            <span style="font-size:13px;color:var(--ink-soft)">Weekly talent digest</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px 12px;border-radius:8px;background:rgba(255,255,255,.03);border:1px solid var(--ink-border)">
+            <input type="checkbox" checked style="accent-color:var(--teal-hi);width:14px;height:14px">
+            <span style="font-size:13px;color:var(--ink-soft)">Budget threshold warnings</span>
+          </label>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="padding:16px 24px;border-top:1px solid var(--ink-border);display:flex;gap:10px">
+      <button onclick="closePrefs()" style="flex:1;padding:11px;border-radius:8px;background:var(--teal);border:none;color:#fff;font-size:13px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif">Save Preferences</button>
+      <button onclick="resetPrefs()" style="padding:11px 16px;border-radius:8px;background:transparent;border:1px solid var(--ink-border);color:rgba(255,255,255,.4);font-size:13px;cursor:pointer;font-family:'Sora',sans-serif">Reset</button>
+    </div>
   </div>
 </div>
 
