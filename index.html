@@ -5597,18 +5597,23 @@ function setLang(l) {
       titleEl.textContent = HEADINGS[l][pageId];
     }
   }
-  // Update stat cards with arabic labels
-  if (l === 'ar') {
-    document.querySelectorAll('.ds-lbl').forEach(function(el) {
-      var map = {
-        'Total Employees': 'إجمالي الموظفين', 'Completion Rate': 'معدل الإكمال',
-        'Budget Used': 'الميزانية المستخدمة', 'Action Required': 'إجراء مطلوب',
-        'Overall Compliance': 'الامتثال الكلي', 'Kuwaitization Rate': 'نسبة التكويت',
-        'Avg skill gain': 'متوسط تحسن المهارات', 'Training ROI': 'عائد التدريب'
-      };
-      if (map[el.textContent]) el.textContent = map[el.textContent];
-    });
-  }
+  // Update stat cards with arabic/english labels
+  document.querySelectorAll('.ds-lbl').forEach(function(el) {
+    var arMap = {
+      'Total Employees': 'إجمالي الموظفين', 'Completion Rate': 'معدل الإكمال',
+      'Budget Used': 'الميزانية المستخدمة', 'Action Required': 'إجراء مطلوب',
+      'Overall Compliance': 'الامتثال الكلي', 'Kuwaitization Rate': 'نسبة التكويت',
+      'Avg skill gain': 'متوسط تحسن المهارات', 'Training ROI': 'عائد التدريب'
+    };
+    var enMap = {
+      'إجمالي الموظفين': 'Total Employees', 'معدل الإكمال': 'Completion Rate',
+      'الميزانية المستخدمة': 'Budget Used', 'إجراء مطلوب': 'Action Required',
+      'الامتثال الكلي': 'Overall Compliance', 'نسبة التكويت': 'Kuwaitization Rate',
+      'متوسط تحسن المهارات': 'Avg skill gain', 'عائد التدريب': 'Training ROI'
+    };
+    var map = l === 'ar' ? arMap : enMap;
+    if (map[el.textContent]) el.textContent = map[el.textContent];
+  });
 }
 
 /* ── Employee filter ───────────────────────────── */
