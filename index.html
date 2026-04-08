@@ -1697,6 +1697,53 @@ html, body { height:100%; overflow:hidden; }
 }
 
 @keyframes slideInRight{from{transform:translateX(100%)}to{transform:translateX(0)}}
+
+/* Hide number input spinners */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button { -webkit-appearance:none; margin:0; }
+input[type=number] { -moz-appearance:textfield; }
+.roi-slider-val input[type=number],
+input[id^="r-"][type="number"] {
+  width:88px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(14,116,144,.3);
+  border-radius:6px;
+  color:#fff;
+  font-size:14px;
+  font-weight:700;
+  font-family:'Sora',sans-serif;
+  padding:5px 8px;
+  text-align:right;
+  outline:none;
+  cursor:text;
+}
+input[id^="r-"][type="number"]:focus {
+  border-color:var(--teal-hi);
+  background:rgba(14,116,144,.12);
+}
+
+/* ROI editable value */
+.roi-val-edit {
+  display:inline-block;
+  min-width:70px;
+  padding:4px 10px;
+  background:rgba(14,116,144,.12);
+  border:1px solid rgba(14,116,144,.35);
+  border-radius:6px;
+  color:var(--teal-hi);
+  font-size:14px;
+  font-weight:700;
+  font-family:'Sora',sans-serif;
+  text-align:right;
+  cursor:text;
+  outline:none;
+  transition:border-color .15s, background .15s;
+}
+.roi-val-edit:focus {
+  background:rgba(14,116,144,.2);
+  border-color:var(--teal-hi);
+  color:#fff;
+}
 </style>
 </head>
 <body>
@@ -2283,8 +2330,8 @@ html, body { height:100%; overflow:hidden; }
           <div class="xs muted">Total headcount</div>
         </div>
         <div class="roi-input-ctrl">
-          <input class="fi roi-slider" type="range" id="r-emp" min="50" max="5000" value="1247" oninput="roiSyncInput('r-emp')">
-          <div class="roi-slider-val" id="r-emp-v-wrap"><input class="roi-num-input" id="r-emp-v" type="number" min="50" max="5000" value="1247" oninput="roiSyncSlider('r-emp')"></div>
+          <input class="fi roi-slider" type="range" id="r-emp" min="50" max="5000" value="1247" oninput="calcROI()">
+          <span id="r-emp-v" class="roi-val-edit" contenteditable="true" oninput="roiEditSync(this,'r-emp',50,5000)" onblur="roiEditSync(this,'r-emp',50,5000)">1,247</span>
         </div>
       </div>
 
@@ -2294,8 +2341,8 @@ html, body { height:100%; overflow:hidden; }
           <div class="xs muted">Per employee (KD)</div>
         </div>
         <div class="roi-input-ctrl">
-          <input class="fi roi-slider" type="range" id="r-sal" min="3000" max="40000" value="12000" oninput="roiSyncInput('r-sal')">
-          <div class="roi-slider-val" id="r-sal-v-wrap"><span class="roi-prefix">KD </span><input class="roi-num-input" id="r-sal-v" type="number" min="3000" max="40000" value="12000" oninput="roiSyncSlider('r-sal')"></div>
+          <input class="fi roi-slider" type="range" id="r-sal" min="3000" max="40000" value="12000" oninput="calcROI()">
+          <span id="r-sal-v" class="roi-val-edit" contenteditable="true" oninput="roiEditSync(this,'r-sal',3000,40000)" onblur="roiEditSync(this,'r-sal',3000,40000)">KD 12,000</span>
         </div>
       </div>
 
@@ -2305,8 +2352,8 @@ html, body { height:100%; overflow:hidden; }
           <div class="xs muted">% who leave per year</div>
         </div>
         <div class="roi-input-ctrl">
-          <input class="fi roi-slider" type="range" id="r-turn" min="1" max="40" value="12" oninput="roiSyncInput('r-turn')">
-          <div class="roi-slider-val" id="r-turn-v-wrap"><input class="roi-num-input" id="r-turn-v" type="number" min="1" max="40" value="12" oninput="roiSyncSlider('r-turn')"><span class="roi-suffix">%</span></div>
+          <input class="fi roi-slider" type="range" id="r-turn" min="1" max="40" value="12" oninput="calcROI()">
+          <span id="r-turn-v" class="roi-val-edit" contenteditable="true" oninput="roiEditSync(this,'r-turn',1,40)" onblur="roiEditSync(this,'r-turn',1,40)">12%</span>
         </div>
       </div>
 
@@ -2316,8 +2363,8 @@ html, body { height:100%; overflow:hidden; }
           <div class="xs muted">Annual spend (KD)</div>
         </div>
         <div class="roi-input-ctrl">
-          <input class="fi roi-slider" type="range" id="r-train" min="100" max="10000" value="700" oninput="roiSyncInput('r-train')">
-          <div class="roi-slider-val" id="r-train-v-wrap"><span class="roi-prefix">KD </span><input class="roi-num-input" id="r-train-v" type="number" min="100" max="10000" value="700" oninput="roiSyncSlider('r-train')"></div>
+          <input class="fi roi-slider" type="range" id="r-train" min="100" max="10000" value="700" oninput="calcROI()">
+          <span id="r-train-v" class="roi-val-edit" contenteditable="true" oninput="roiEditSync(this,'r-train',100,10000)" onblur="roiEditSync(this,'r-train',100,10000)">KD 700</span>
         </div>
       </div>
 
@@ -2327,8 +2374,8 @@ html, body { height:100%; overflow:hidden; }
           <div class="xs muted">Expected with training</div>
         </div>
         <div class="roi-input-ctrl">
-          <input class="fi roi-slider" type="range" id="r-ret" min="5" max="60" value="35" oninput="roiSyncInput('r-ret')">
-          <div class="roi-slider-val" id="r-ret-v-wrap"><input class="roi-num-input" id="r-ret-v" type="number" min="5" max="60" value="35" oninput="roiSyncSlider('r-ret')"><span class="roi-suffix">%</span></div>
+          <input class="fi roi-slider" type="range" id="r-ret" min="5" max="60" value="35" oninput="calcROI()">
+          <span id="r-ret-v" class="roi-val-edit" contenteditable="true" oninput="roiEditSync(this,'r-ret',5,60)" onblur="roiEditSync(this,'r-ret',5,60)">35%</span>
         </div>
       </div>
 
@@ -2622,7 +2669,9 @@ ass="kc"><div class="ki" style="background:var(--gold-dim)">🔥</div><div><div 
 <!-- ══ AJYAL TRACKER ══ -->
 <div class="page" id="page-ajyal">
   <div class="ph">
-    <div><div class="ph-title">🏦 Ajyal Program Tracker</div><div class="ph-sub">Who was trained · What they learned · Where they are now · 10 cohorts · 247 graduates</div></div>
+    <div><div class="ph-title">🏦 Ajyal Program Tracker</div><div class="ph-sub">Who was trained · What they learned · Where they are now · 10 cohorts · 247 graduates
+        <span style="margin-left:8px;display:inline-flex;align-items:center;gap:4px;background:rgba(217,119,6,.12);border:1px solid rgba(217,119,6,.25);border-radius:20px;padding:2px 10px;font-size:10px;color:var(--gold-hi);cursor:help;font-weight:600" title="Scores are 0–100. 80+ = programme complete. Below 70 triggers auto dev plan. Cohort target: 80%.">ⓘ About scores</span>
+      </div></div>
     <div class="flex gap2">
       <button class="btn btn-o btn-sm" onclick="openOv('stm-ov')">📤 Send to Manager</button>
       <button class="btn btn-g btn-sm" onclick="go('report')">📊 Export Report</button>
@@ -2638,22 +2687,6 @@ ass="kc"><div class="ki" style="background:var(--gold-dim)">🔥</div><div><div 
 
   <div class="tabs">
     <div class="tab active" onclick="ajyalTab(0,this)">10th Edition (Active)</div>
-
-  <!-- Score guide for Ajyal -->
-  <div class="ins mb4" style="background:rgba(217,119,6,.06);border:1px solid rgba(217,119,6,.2);border-radius:10px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start">
-    <div style="font-size:20px;flex-shrink:0">🏦</div>
-    <div>
-      <div class="xs bold mb1" style="color:var(--gold-hi)">About Ajyal scores</div>
-      <div class="xs muted" style="line-height:1.7">
-        Ajyal (أجيال — meaning "Generations") is the organisation's flagship leadership development programme.
-        Module scores reflect <strong style="color:#fff">assessment performance</strong> (0–100) across each curriculum component.
-        An overall score of <strong style="color:#34D399">80+</strong> qualifies for programme completion and certification.
-        Scores below <strong style="color:#F87171">70</strong> trigger an automatic development plan.
-        Cohort average is shown against the organisation's benchmark target of <strong style="color:var(--gold-hi)">80%</strong>.
-      </div>
-    </div>
-  </div>
-
     <div class="tab" onclick="ajyalTab(1,this)">9th Edition</div>
     <div class="tab" onclick="ajyalTab(2,this)">All Graduates</div>
   </div>
@@ -2732,22 +2765,19 @@ ass="kc"><div class="ki" style="background:var(--gold-dim)">🔥</div><div><div 
     </div>
   </div>
 
-  <div class="dash-stats" style="margin-bottom:16px">
-    <div class="ds-card"><div class="ds-icon" style="background:var(--teal-dim);color:var(--teal-hi)">📈</div>
-
-  <!-- Score explanation card -->
-  <div class="ins mb4" style="background:rgba(14,116,144,.08);border:1px solid rgba(14,116,144,.2);border-radius:10px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start">
-    <div style="font-size:20px;flex-shrink:0">📊</div>
+  <div style="background:rgba(14,116,144,.08);border:1px solid rgba(14,116,144,.2);border-radius:10px;padding:14px 18px;display:flex;gap:12px;align-items:flex-start;margin-bottom:16px">
+    <div style="font-size:20px;flex-shrink:0;margin-top:2px">📊</div>
     <div>
-      <div class="xs bold mb1" style="color:var(--teal-hi)">How assessment scores work</div>
-      <div class="xs muted" style="line-height:1.7">
-        Every skill is scored from <strong style="color:#fff">0–100</strong>. Employees take a <strong style="color:#fff">Before</strong> assessment at enrolment and an <strong style="color:#fff">After</strong> assessment on completion.
-        The <strong style="color:var(--teal-hi)">gap (delta)</strong> between the two scores proves the training worked — and by how much.
-        A score of <strong style="color:#34D399">80+</strong> = proficient · <strong style="color:#F59E0B">60–79</strong> = developing · <strong style="color:#F87171">below 60</strong> = needs training.
-        Gap closure % shows how much of the skill gap the training closed vs the target score.
+      <div style="font-size:12px;font-weight:700;color:var(--teal-hi);margin-bottom:6px">How assessment scores work</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.55);line-height:1.7">
+        Every skill is scored <strong style="color:#fff">0–100</strong>. Employees take a <strong style="color:#fff">Before</strong> score at enrolment and an <strong style="color:#fff">After</strong> score on completion. The difference (delta) proves the training worked.
+        &nbsp;·&nbsp; <strong style="color:#34D399">80+</strong> = Proficient &nbsp;·&nbsp; <strong style="color:#F59E0B">60–79</strong> = Developing &nbsp;·&nbsp; <strong style="color:#F87171">Below 60</strong> = Needs training
       </div>
     </div>
   </div>
+
+  <div class="dash-stats" style="margin-bottom:16px">
+    <div class="ds-card"><div class="ds-icon" style="background:var(--teal-dim);color:var(--teal-hi)">📈</div>
 <div class="ds-body"><div class="ds-val teal">+24pts</div><div class="ds-lbl">Avg skill gain</div><div class="ds-delta up">Pre → post delta</div></div></div>
     <div class="ds-card"><div class="ds-icon" style="background:var(--teal-dim);color:var(--teal-soft)">✓</div><div class="ds-body"><div class="ds-val" style="color:var(--teal-soft)">847</div><div class="ds-lbl">Assessments completed</div><div class="ds-delta up">↑ 124 this month</div></div></div>
     <div class="ds-card"><div class="ds-icon" style="background:var(--gold-dim);color:var(--gold-hi)">📊</div><div class="ds-body"><div class="ds-val gold">67%</div><div class="ds-lbl">Gap closure rate</div><div class="ds-delta up">↑ 8pts vs last quarter</div></div></div>
@@ -3474,6 +3504,41 @@ ass="kc"><div class="ki" style="background:var(--gold-dim)">🔥</div><div><div 
     </div>
   </div>
 
+<!-- New Employee Onboarding Track -->
+  <div class="card mb4">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+      <span style="font-size:20px">🌱</span>
+      <div class="sec-t" style="margin:0">New Employee Development Track</div>
+      <span style="margin-left:auto;background:rgba(14,116,144,.15);color:var(--teal-hi);font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;letter-spacing:.06em;white-space:nowrap">NEW JOINER PATH</span>
+    </div>
+    <div class="xs muted mb4" style="line-height:1.7;max-width:640px">
+      Automatically assign structured onboarding plans to every new hire from day one.
+      New joiners get a personalised 90-day development track — covering compliance requirements,
+      role-specific learning, and cultural integration — all tracked in Daleel.
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px">
+      <div style="background:rgba(14,116,144,.06);border:1px solid rgba(14,116,144,.2);border-radius:10px;padding:16px">
+        <div style="font-size:22px;margin-bottom:10px">📅</div>
+        <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:8px">Days 1–30</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.5);line-height:1.6">Compliance & regulatory orientation. Role requirements, CBK mandatory modules, system access training.</div>
+      </div>
+      <div style="background:rgba(217,119,6,.06);border:1px solid rgba(217,119,6,.2);border-radius:10px;padding:16px">
+        <div style="font-size:22px;margin-bottom:10px">📚</div>
+        <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:8px">Days 31–60</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.5);line-height:1.6">Department-specific skills. Role competency mapping, mentorship pairing, first skills assessment.</div>
+      </div>
+      <div style="background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.2);border-radius:10px;padding:16px">
+        <div style="font-size:22px;margin-bottom:10px">🚀</div>
+        <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:8px">Days 61–90</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.5);line-height:1.6">Performance baseline. IDP created, manager sign-off, 9-Box initial placement, probation readiness score.</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn btn-o btn-sm">📋 View New Joiner Template</button>
+      <button class="btn btn-p btn-sm" onclick="openOv('wiz-ov')">＋ Assign to New Hire</button>
+    </div>
+  </div>
+
   <div class="emp-table-wrap">
     <table class="emp-table" id="emp-table">
       <thead>
@@ -3898,47 +3963,11 @@ ass="kc"><div class="ki" style="background:var(--gold-dim)">🔥</div><div><div 
   </div>
 
   <div class="dash-stats" style="margin-bottom:16px">
-    <div class="ds-card"><div class="ds-icon" style="background:var(--teal-dim);color:var(--teal-hi)">🏢</div>
-
-  <!-- New Employee Onboarding Track -->
-  <div class="card mb4">
-    <div class="sec-t mb3" style="display:flex;align-items:center;gap:8px">
-      <span>🌱</span> New Employee Development Track
-      <span style="margin-left:auto;background:rgba(14,116,144,.15);color:var(--teal-hi);font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;letter-spacing:.06em">NEW JOINER PATH</span>
-    </div>
-    <div class="xs muted mb3" style="line-height:1.7;max-width:640px">
-      Automatically assign structured onboarding plans to every new hire from day one.
-      New joiners get a personalised 90-day development track — covering compliance requirements,
-      role-specific learning, and cultural integration — all tracked in Daleel.
-    </div>
-    <div class="g3" style="margin-bottom:20px">
-      <div class="card" style="background:rgba(14,116,144,.06);border-color:rgba(14,116,144,.2)">
-        <div style="font-size:18px;margin-bottom:8px">📅</div>
-        <div class="xs bold mb1">Days 1–30</div>
-        <div class="xs muted">Compliance & regulatory orientation. Role requirements, CBK mandatory modules, system access training.</div>
-      </div>
-      <div class="card" style="background:rgba(217,119,6,.06);border-color:rgba(217,119,6,.2)">
-        <div style="font-size:18px;margin-bottom:8px">📚</div>
-        <div class="xs bold mb1">Days 31–60</div>
-        <div class="xs muted">Department-specific skills. Role competency mapping, mentorship pairing, first skills assessment.</div>
-      </div>
-      <div class="card" style="background:rgba(52,211,153,.06);border-color:rgba(52,211,153,.2)">
-        <div style="font-size:18px;margin-bottom:8px">🚀</div>
-        <div class="xs bold mb1">Days 61–90</div>
-        <div class="xs muted">Performance baseline. IDP created, manager sign-off, 9-Box initial placement, probation readiness score.</div>
-      </div>
-    </div>
-    <div style="display:flex;gap:10px;flex-wrap:wrap">
-      <button class="btn btn-o btn-sm">📋 View New Joiner Template</button>
-      <button class="btn btn-p btn-sm" onclick="openOv('wiz-ov')">＋ Assign to New Hire</button>
-    </div>
-  </div>
-<div class="ds-body"><div class="ds-val">6</div><div class="ds-lbl">Departments</div><div class="ds-delta neutral">All configured</div></div></div>
+    <div class="ds-card"><div class="ds-icon" style="background:var(--teal-dim);color:var(--teal-hi)">🏢</div><div class="ds-body"><div class="ds-val">6</div><div class="ds-lbl">Departments</div><div class="ds-delta neutral">All configured</div></div></div>
     <div class="ds-card"><div class="ds-icon" style="background:var(--green-dim);color:#0EA5C9">👥</div><div class="ds-body"><div class="ds-val">1,247</div><div class="ds-lbl">Total Employees</div><div class="ds-delta up">↑ 42 this quarter</div></div></div>
     <div class="ds-card"><div class="ds-icon" style="background:var(--gold-dim);color:var(--gold-hi)">📋</div><div class="ds-body"><div class="ds-val">18</div><div class="ds-lbl">Active Programs</div><div class="ds-delta neutral">Across all depts</div></div></div>
     <div class="ds-card"><div class="ds-icon" style="background:var(--red-dim);color:#E57373">⚠</div><div class="ds-body"><div class="ds-val">2</div><div class="ds-lbl">Need Attention</div><div class="ds-delta down">Finance + Sales gaps</div></div></div>
   </div>
-
   <div class="ob-dept-grid">
 
     <div class="ob-dept-card ob-dept-red">
@@ -5382,6 +5411,21 @@ function roiSyncSlider(sliderId) {
   calcROI();
 }
 
+
+
+function roiEditSync(el, sliderId, min, max) {
+  // Parse what the user typed - strip any KD, commas, %
+  var raw = el.textContent.replace(/KD\s*/g,'').replace(/,/g,'').replace(/%/g,'').trim();
+  var val = parseFloat(raw);
+  if (isNaN(val)) return;
+  val = Math.max(min, Math.min(max, val));
+  // Update the slider
+  var slider = document.getElementById(sliderId);
+  if (slider) slider.value = val;
+  // Recalculate
+  calcROI();
+}
+
 function calcROI() {
   var empEl  = document.getElementById('r-emp');
   var salEl  = document.getElementById('r-sal');
@@ -5411,7 +5455,15 @@ function calcROI() {
     if (n >= 1000)    return 'KD ' + Math.round(n / 1000) + 'K';
     return 'KD ' + Math.round(n).toLocaleString();
   }
-  function sv(id, val) { var el = document.getElementById(id); if (el) el.textContent = val; }
+  function sv(id, val) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    if (el.contentEditable === 'true') {
+      if (document.activeElement !== el) { el.textContent = val; }
+    } else {
+      el.textContent = val;
+    }
+  }
 
   // Slider display values
   sv('r-emp-v',   emp.toLocaleString());
@@ -7082,9 +7134,7 @@ var BOT_ALERTS = [
 function botToggle() {
   BOT_OPEN = !BOT_OPEN;
   document.getElementById('bot-panel').classList.toggle('open', BOT_OPEN);
-  var fab = document.getElementById('bot-fab');
-  fab.classList.toggle('pulse', !BOT_OPEN);
-  fab.style.display = BOT_OPEN ? 'none' : '';
+  document.getElementById('bot-fab').classList.toggle('pulse', !BOT_OPEN);
   document.getElementById('bot-notify').classList.remove('show');
   if (BOT_OPEN && !BOT_INIT) {
     BOT_INIT = true;
