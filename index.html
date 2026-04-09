@@ -1744,6 +1744,14 @@ input[id^="r-"][type="number"]:focus {
   border-color:var(--teal-hi);
   color:#fff;
 }
+
+
+
+
+
+
+/* ══ RETENTION MODULE ══ */
+#page-retention .ret-iframe-wrap { width:100%; height:calc(100vh - 120px); border:none; display:block; }
 </style>
 </head>
 <body>
@@ -1803,6 +1811,7 @@ input[id^="r-"][type="number"]:focus {
     <div class="ni" data-roles="hr" onclick="go('ajyal')"><span class="ni-icon">★</span><span data-en="Ajyal Tracker" data-ar="متتبع عجيال">Ajyal Tracker</span></div>
     <div class="ni" data-roles="hr manager" onclick="go('programs')"><span class="ni-icon">🏆</span><span data-en="All Programs" data-ar="جميع البرامج">All Programs</span></div>
     <div class="ni" data-roles="hr manager" onclick="go('analytics')"><span class="ni-icon">▲</span><span data-en="Analytics" data-ar="التحليلات">Analytics</span></div>
+    <div class="ni" data-roles="hr manager" onclick="go('retention')"><span class="ni-icon">♻</span><span data-en="Retention" data-ar="الاستبقاء">Retention</span></div>
     <div class="ni" data-roles="hr" onclick="go('integrations')"><span class="ni-icon">⇌</span><span data-en="Integrations" data-ar="التكاملات">Integrations</span></div>
   </div>
 
@@ -4221,6 +4230,1092 @@ ass="kc"><div class="ki" style="background:var(--gold-dim)">🔥</div><div><div 
   </div>
 </div>
 
+
+
+<!-- ══ RETENTION INTELLIGENCE ══ -->
+<div class="page" id="page-retention">
+  <div class="ph">
+    <div>
+      <div class="ph-title">♻ Retention Intelligence</div>
+      <div class="ph-sub">Predict who's likely to leave · 6 behavioural signals · No surveys required</div>
+    </div>
+    <div class="flex gap2">
+      <button class="btn btn-o btn-sm">↓ Export Report</button>
+      <button class="btn btn-p btn-sm">📤 Push to Managers</button>
+    </div>
+  </div>
+  <iframe style="width:100%;height:calc(100vh - 130px);border:none;display:block" srcdoc="<!DOCTYPE html>
+<html lang=&quot;en&quot;>
+<head>
+<meta charset=&quot;UTF-8&quot;>
+<meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;>
+<title>Retention Intelligence — Daleel</title>
+<link href=&quot;https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap&quot; rel=&quot;stylesheet&quot;>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#060D1A;
+  --bg2:#0A1525;
+  --bg3:#0E1C30;
+  --teal:#0E7490;
+  --teal-hi:#0EA5C9;
+  --teal-glow:rgba(14,165,201,.2);
+  --gold:#F59E0B;
+  --gold-dim:rgba(245,158,11,.12);
+  --red:#EF4444;
+  --red-dim:rgba(239,68,68,.1);
+  --orange:#F97316;
+  --orange-dim:rgba(249,115,22,.1);
+  --green:#10B981;
+  --green-dim:rgba(16,185,129,.1);
+  --text:#EDF2F7;
+  --text-mid:rgba(237,242,247,.55);
+  --text-dim:rgba(237,242,247,.28);
+  --border:rgba(255,255,255,.06);
+  --border2:rgba(255,255,255,.1);
+  --card:rgba(255,255,255,.03);
+  --r:12px;
+  --mono:'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Sora',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+/* ── GRID BACKGROUND ── */
+body::before{
+  content:'';
+  position:fixed;inset:0;z-index:0;
+  background-image:
+    linear-gradient(rgba(14,116,144,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(14,116,144,.04) 1px, transparent 1px);
+  background-size:48px 48px;
+  pointer-events:none;
+}
+
+/* ── TOP BAR ── */
+.topbar{
+  position:sticky;top:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 32px;height:56px;
+  background:rgba(6,13,26,.85);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.topbar-logo{
+  display:flex;align-items:center;gap:10px;
+  font-size:14px;font-weight:700;color:var(--text);
+}
+.topbar-logo-icon{
+  width:28px;height:28px;border-radius:7px;
+  background:linear-gradient(135deg,var(--teal),var(--teal-hi));
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;
+}
+.topbar-logo-sep{color:var(--text-dim);margin:0 4px}
+.topbar-logo-module{
+  font-size:12px;font-weight:600;color:var(--teal-hi);
+  background:rgba(14,116,144,.12);
+  border:1px solid rgba(14,116,144,.25);
+  border-radius:20px;padding:2px 10px;
+  font-family:var(--mono);letter-spacing:.02em;
+}
+.topbar-right{display:flex;align-items:center;gap:12px}
+.topbar-tag{
+  font-size:10px;font-weight:700;
+  color:var(--gold);
+  background:var(--gold-dim);
+  border:1px solid rgba(245,158,11,.2);
+  border-radius:4px;padding:3px 8px;
+  letter-spacing:.08em;text-transform:uppercase;
+}
+.topbar-period{
+  font-size:11px;color:var(--text-dim);
+  font-family:var(--mono);
+}
+
+/* ── LAYOUT ── */
+.shell{
+  position:relative;z-index:1;
+  max-width:1400px;margin:0 auto;
+  padding:0 20px 40px;
+}
+
+/* ── PAGE HEADER ── */
+.page-header{
+  display:flex;align-items:flex-start;justify-content:space-between;
+  margin-bottom:36px;
+}
+.page-header-left h1{
+  font-size:28px;font-weight:800;
+  letter-spacing:-1px;line-height:1.1;
+  margin-bottom:6px;
+}
+.page-header-left h1 span{color:var(--teal-hi)}
+.page-header-left p{
+  font-size:13px;color:var(--text-mid);
+  max-width:460px;line-height:1.6;
+}
+.page-header-actions{display:flex;gap:10px;align-items:center}
+.btn{
+  padding:9px 18px;border-radius:8px;
+  font-size:12px;font-weight:600;
+  cursor:pointer;font-family:'Sora',sans-serif;
+  border:none;transition:all .18s;
+  display:inline-flex;align-items:center;gap:6px;
+  letter-spacing:.01em;
+}
+.btn-p{background:var(--teal);color:#fff}
+.btn-p:hover{background:var(--teal-hi);box-shadow:0 4px 20px var(--teal-glow)}
+.btn-o{
+  background:transparent;color:var(--text-mid);
+  border:1px solid var(--border2);
+}
+.btn-o:hover{color:var(--text);border-color:rgba(255,255,255,.2)}
+
+/* ── SUMMARY STRIP ── */
+.summary-strip{
+  display:grid;grid-template-columns:repeat(5,1fr);
+  gap:12px;margin-bottom:28px;
+}
+.sum-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:18px 20px;
+  position:relative;overflow:hidden;
+  transition:border-color .2s;
+}
+.sum-card:hover{border-color:var(--border2)}
+.sum-card::after{
+  content:'';position:absolute;
+  top:0;left:0;right:0;height:2px;
+}
+.sum-card.red::after{background:var(--red)}
+.sum-card.orange::after{background:var(--orange)}
+.sum-card.gold::after{background:var(--gold)}
+.sum-card.green::after{background:var(--green)}
+.sum-card.teal::after{background:var(--teal-hi)}
+.sum-num{
+  font-size:32px;font-weight:900;
+  letter-spacing:-1.5px;line-height:1;
+  margin-bottom:4px;font-family:var(--mono);
+}
+.sum-card.red .sum-num{color:var(--red)}
+.sum-card.orange .sum-num{color:var(--orange)}
+.sum-card.gold .sum-num{color:var(--gold)}
+.sum-card.green .sum-num{color:var(--green)}
+.sum-card.teal .sum-num{color:var(--teal-hi)}
+.sum-lbl{font-size:11px;color:var(--text-mid);font-weight:500;margin-bottom:4px}
+.sum-delta{
+  font-size:10px;font-family:var(--mono);font-weight:500;
+}
+.sum-delta.up{color:var(--red)}
+.sum-delta.dn{color:var(--green)}
+.sum-delta.neu{color:var(--text-dim)}
+
+/* ── TWO COLUMN ── */
+.two-col{display:grid;grid-template-columns:1fr 380px;gap:20px;margin-bottom:20px}
+.three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:20px}
+
+/* ── CARD ── */
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  overflow:hidden;
+}
+.card-head{
+  padding:18px 20px 14px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.card-title{
+  font-size:13px;font-weight:700;color:var(--text);
+  display:flex;align-items:center;gap:8px;
+}
+.card-title-icon{
+  width:26px;height:26px;border-radius:7px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;
+  background:rgba(14,116,144,.15);
+}
+.card-sub{font-size:11px;color:var(--text-dim);margin-top:2px}
+.card-body{padding:20px}
+
+/* ── FLIGHT RISK SCORE ── */
+.risk-score-ring{
+  position:relative;
+  width:120px;height:120px;
+  flex-shrink:0;
+}
+.risk-score-ring svg{transform:rotate(-90deg)}
+.risk-score-val{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+}
+.risk-score-num{
+  font-size:28px;font-weight:900;
+  font-family:var(--mono);letter-spacing:-1px;
+  line-height:1;
+}
+.risk-score-label{font-size:9px;color:var(--text-dim);font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
+
+/* ── EMPLOYEE RISK TABLE ── */
+.risk-table{width:100%;border-collapse:collapse}
+.risk-table th{
+  font-size:10px;font-weight:700;color:var(--text-dim);
+  text-transform:uppercase;letter-spacing:.08em;
+  padding:8px 12px;text-align:left;
+  border-bottom:1px solid var(--border);
+  background:rgba(255,255,255,.02);
+}
+.risk-table td{
+  padding:10px 12px;
+  border-bottom:1px solid rgba(255,255,255,.04);
+  font-size:12px;color:var(--text-mid);
+  vertical-align:middle;
+}
+.risk-table tr:last-child td{border-bottom:none}
+.risk-table tr:hover td{background:rgba(255,255,255,.02)}
+.emp-cell{display:flex;align-items:center;gap:10px}
+.emp-av{
+  width:30px;height:30px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;color:#fff;flex-shrink:0;
+}
+.emp-name{font-size:12px;font-weight:600;color:var(--text)}
+.emp-role{font-size:10px;color:var(--text-dim)}
+.risk-pill{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:3px 10px;border-radius:20px;
+  font-size:10px;font-weight:700;
+  letter-spacing:.04em;white-space:nowrap;
+}
+.risk-pill.high{background:rgba(239,68,68,.15);color:#FCA5A5;border:1px solid rgba(239,68,68,.25)}
+.risk-pill.medium{background:rgba(249,115,22,.12);color:#FDB97D;border:1px solid rgba(249,115,22,.2)}
+.risk-pill.low{background:rgba(16,185,129,.1);color:#6EE7B7;border:1px solid rgba(16,185,129,.18)}
+.risk-pill::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor}
+.risk-bar-wrap{display:flex;align-items:center;gap:8px}
+.risk-bar-track{
+  flex:1;height:4px;
+  background:rgba(255,255,255,.06);
+  border-radius:2px;overflow:hidden;
+  min-width:60px;
+}
+.risk-bar-fill{height:100%;border-radius:2px;transition:width .4s}
+.risk-bar-val{font-size:10px;font-family:var(--mono);color:var(--text-dim);width:26px}
+.driver-tags{display:flex;gap:4px;flex-wrap:wrap}
+.driver-tag{
+  font-size:9px;font-weight:600;
+  padding:2px 7px;border-radius:4px;
+  background:rgba(255,255,255,.06);
+  color:var(--text-dim);
+  white-space:nowrap;
+}
+
+/* ── DEPT RISK BARS ── */
+.dept-row{
+  display:flex;align-items:center;gap:12px;
+  padding:10px 0;
+  border-bottom:1px solid rgba(255,255,255,.04);
+}
+.dept-row:last-child{border-bottom:none}
+.dept-name{font-size:12px;font-weight:600;color:var(--text);width:110px;flex-shrink:0}
+.dept-bar-wrap{flex:1;display:flex;flex-direction:column;gap:3px}
+.dept-bar-track{height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden}
+.dept-bar-fill{height:100%;border-radius:3px}
+.dept-bar-labels{display:flex;justify-content:space-between}
+.dept-bar-label{font-size:9px;color:var(--text-dim);font-family:var(--mono)}
+.dept-count{
+  font-size:11px;font-weight:700;font-family:var(--mono);
+  width:28px;text-align:right;flex-shrink:0;
+}
+
+/* ── SIGNAL DRIVERS ── */
+.signal-grid{display:flex;flex-direction:column;gap:8px}
+.signal-item{
+  display:flex;align-items:center;gap:12px;
+  padding:10px 14px;
+  background:rgba(255,255,255,.025);
+  border:1px solid var(--border);
+  border-radius:8px;
+  transition:border-color .15s;
+}
+.signal-item:hover{border-color:var(--border2)}
+.signal-icon{
+  font-size:16px;width:30px;text-align:center;flex-shrink:0;
+}
+.signal-label{font-size:12px;font-weight:600;color:var(--text);flex:1}
+.signal-sub{font-size:10px;color:var(--text-dim);margin-top:1px}
+.signal-impact{
+  font-size:10px;font-weight:700;
+  font-family:var(--mono);
+  padding:2px 8px;border-radius:4px;
+  flex-shrink:0;
+}
+.impact-hi{background:rgba(239,68,68,.15);color:#FCA5A5}
+.impact-med{background:rgba(249,115,22,.12);color:#FDB97D}
+.impact-lo{background:rgba(245,158,11,.12);color:#FCD34D}
+.signal-weight{
+  width:60px;height:4px;
+  background:rgba(255,255,255,.06);
+  border-radius:2px;overflow:hidden;
+  flex-shrink:0;
+}
+.signal-weight-fill{height:100%;border-radius:2px;background:var(--teal-hi)}
+
+/* ── RETENTION ROI ── */
+.roi-stat{
+  padding:16px 0;
+  border-bottom:1px solid rgba(255,255,255,.05);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.roi-stat:last-child{border-bottom:none}
+.roi-stat-label{font-size:12px;color:var(--text-mid)}
+.roi-stat-val{font-size:16px;font-weight:800;font-family:var(--mono);color:var(--teal-hi)}
+.roi-stat-val.red{color:var(--red)}
+.roi-stat-val.green{color:var(--green)}
+.roi-cta{
+  margin-top:16px;
+  padding:12px;
+  background:rgba(14,116,144,.1);
+  border:1px solid rgba(14,116,144,.2);
+  border-radius:8px;
+  font-size:12px;color:var(--teal-hi);
+  font-weight:600;text-align:center;
+  cursor:pointer;transition:all .15s;
+}
+.roi-cta:hover{background:rgba(14,116,144,.18)}
+
+/* ── MANAGER ACTIONS ── */
+.action-item{
+  padding:14px;
+  border-radius:8px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.02);
+  margin-bottom:10px;
+  transition:border-color .15s;
+  cursor:pointer;
+}
+.action-item:hover{border-color:var(--border2)}
+.action-item:last-child{margin-bottom:0}
+.action-head{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px}
+.action-urgency{
+  font-size:9px;font-weight:700;letter-spacing:.08em;
+  padding:2px 8px;border-radius:4px;
+  flex-shrink:0;margin-top:1px;
+}
+.urgency-now{background:rgba(239,68,68,.15);color:#FCA5A5}
+.urgency-week{background:rgba(249,115,22,.12);color:#FDB97D}
+.urgency-month{background:rgba(245,158,11,.12);color:#FCD34D}
+.action-title{font-size:12px;font-weight:600;color:var(--text)}
+.action-sub{font-size:11px;color:var(--text-dim);line-height:1.5}
+.action-footer{
+  display:flex;align-items:center;gap:8px;
+  margin-top:10px;
+  padding-top:10px;
+  border-top:1px solid rgba(255,255,255,.04);
+}
+.action-emp{
+  display:flex;align-items:center;gap:6px;
+}
+.action-emp-av{
+  width:20px;height:20px;border-radius:5px;
+  font-size:8px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;
+}
+.action-emp-name{font-size:10px;color:var(--text-dim)}
+.action-type{
+  margin-left:auto;
+  font-size:9px;font-weight:700;
+  padding:2px 8px;border-radius:4px;
+  background:rgba(14,116,144,.1);color:var(--teal-hi);
+}
+
+/* ── TREND MINI CHART ── */
+.trend-chart{
+  display:flex;align-items:flex-end;gap:4px;
+  height:48px;padding:0 2px;margin-top:12px;
+}
+.trend-bar{
+  flex:1;border-radius:3px 3px 0 0;
+  min-height:4px;position:relative;
+  transition:opacity .2s;cursor:default;
+}
+.trend-bar:hover{opacity:.8}
+.trend-labels{
+  display:flex;justify-content:space-between;
+  margin-top:4px;
+}
+.trend-label{font-size:9px;color:var(--text-dim);font-family:var(--mono)}
+
+/* ── RISK HEATMAP ── */
+.heatmap{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:12px}
+.hm-cell{
+  aspect-ratio:1;border-radius:6px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:2px;cursor:default;transition:transform .15s;
+}
+.hm-cell:hover{transform:scale(1.06)}
+.hm-cell-num{font-size:14px;font-weight:800;font-family:var(--mono)}
+.hm-cell-lbl{font-size:8px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;opacity:.7;text-align:center;line-height:1.2}
+
+/* ── SCORE BREAKDOWN ── */
+.score-row{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);
+}
+.score-row:last-child{border-bottom:none}
+.score-factor{font-size:11px;color:var(--text-mid);flex:1}
+.score-bar-wrap{width:80px;height:4px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden}
+.score-bar{height:100%;border-radius:2px}
+.score-val{font-size:10px;font-family:var(--mono);color:var(--text-dim);width:28px;text-align:right}
+
+/* ── PULSE MINI ── */
+.pulse-row{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 0;
+  border-bottom:1px solid rgba(255,255,255,.04);
+}
+.pulse-row:last-child{border-bottom:none}
+.pulse-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.pulse-label{font-size:11px;color:var(--text-mid);flex:1}
+.pulse-val{font-size:12px;font-weight:700;font-family:var(--mono)}
+.pulse-delta{font-size:9px;font-family:var(--mono)}
+
+/* ── ANIMATE ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp .5s ease both}
+.d1{animation-delay:.05s}
+.d2{animation-delay:.1s}
+.d3{animation-delay:.15s}
+.d4{animation-delay:.2s}
+.d5{animation-delay:.25s}
+
+/* ── SCROLL ANIM ── */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .5s ease,transform .5s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+@media(max-width:1100px){
+  .two-col{grid-template-columns:1fr}
+  .summary-strip{grid-template-columns:repeat(3,1fr)}
+  .three-col{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+
+
+<div class=&quot;shell&quot;>
+
+  
+
+  <!-- SUMMARY STRIP -->
+  <div class=&quot;summary-strip&quot;>
+    <div class=&quot;sum-card red fade-up d1&quot;>
+      <div class=&quot;sum-num&quot;>47</div>
+      <div class=&quot;sum-lbl&quot;>High Flight Risk</div>
+      <div class=&quot;sum-delta up&quot;>↑ 12 vs last quarter</div>
+      <div style=&quot;margin-top:8px;font-size:9px;color:rgba(239,68,68,.5);line-height:1.5&quot;>Score ≥70 · 6 behavioural signals · no surveys</div>
+    </div>
+    <div class=&quot;sum-card orange fade-up d2&quot;>
+      <div class=&quot;sum-num&quot;>183</div>
+      <div class=&quot;sum-lbl&quot;>Medium Risk</div>
+      <div class=&quot;sum-delta up&quot;>↑ 28 vs last quarter</div>
+    </div>
+    <div class=&quot;sum-card green fade-up d3&quot;>
+      <div class=&quot;sum-num&quot;>1,017</div>
+      <div class=&quot;sum-lbl&quot;>Low / Stable</div>
+      <div class=&quot;sum-delta dn&quot;>↓ 40 vs last quarter</div>
+    </div>
+    <div class=&quot;sum-card gold fade-up d4&quot;>
+      <div class=&quot;sum-num&quot;>KD 2.1M</div>
+      <div class=&quot;sum-lbl&quot;>At-Risk Replacement Cost</div>
+      <div class=&quot;sum-delta neu&quot;>If high-risk all leave</div>
+      <div style=&quot;margin-top:8px;font-size:9px;color:rgba(245,158,11,.5);line-height:1.5&quot;>1.5× avg salary per SHRM · KD 18K/person</div>
+    </div>
+    <div class=&quot;sum-card teal fade-up d5&quot;>
+      <div class=&quot;sum-num&quot;>KD 340K</div>
+      <div class=&quot;sum-lbl&quot;>Preventable via Dev Plans</div>
+      <div class=&quot;sum-delta dn&quot;>Est. intervention cost</div>
+      <div style=&quot;margin-top:8px;font-size:9px;color:rgba(14,165,201,.5);line-height:1.5&quot;>KD 2K/person · from your budget data</div>
+    </div>
+  </div>
+
+  <!-- MAIN: EMPLOYEE TABLE + DEPT BREAKDOWN -->
+  <div class=&quot;two-col reveal&quot;>
+
+    <!-- Employee Risk Table -->
+    <div class=&quot;card&quot;>
+      <div class=&quot;card-head&quot;>
+        <div>
+          <div class=&quot;card-title&quot;>
+            <div class=&quot;card-title-icon&quot;>⚠️</div>
+            High Flight Risk Employees
+          </div>
+          <div class=&quot;card-sub&quot;>Ranked by risk score · Calculated from 6 behavioural signals</div>
+        </div>
+        <div style=&quot;display:flex;gap:6px&quot;>
+          <button class=&quot;btn btn-o&quot; style=&quot;font-size:10px;padding:5px 12px&quot;>Filter</button>
+          <button class=&quot;btn btn-o&quot; style=&quot;font-size:10px;padding:5px 12px&quot;>All 47 →</button>
+        </div>
+      </div>
+      <div style=&quot;overflow-x:auto&quot;>
+        <table class=&quot;risk-table&quot;>
+          <thead>
+            <tr>
+              <th>Employee</th>
+              <th>Risk Score</th>
+              <th>Level</th>
+              <th>Top Drivers</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class=&quot;emp-cell&quot;>
+                  <div class=&quot;emp-av&quot; style=&quot;background:linear-gradient(135deg,#EF4444,#F97316)&quot;>HA</div>
+                  <div><div class=&quot;emp-name&quot;>Hamad Al-Rashidi</div><div class=&quot;emp-role&quot;>Finance · Senior Analyst</div></div>
+                </div>
+              </td>
+              <td>
+                <div class=&quot;risk-bar-wrap&quot;>
+                  <div class=&quot;risk-bar-track&quot;><div class=&quot;risk-bar-fill&quot; style=&quot;width:91%;background:var(--red)&quot;></div></div>
+                  <div class=&quot;risk-bar-val&quot; style=&quot;color:var(--red)&quot;>91</div>
+                </div>
+              </td>
+              <td><span class=&quot;risk-pill high&quot;>High</span></td>
+              <td>
+                <div class=&quot;driver-tags&quot;>
+                  <span class=&quot;driver-tag&quot;>No IDP 180d</span>
+                  <span class=&quot;driver-tag&quot;>AML overdue</span>
+                  <span class=&quot;driver-tag&quot;>Score ↓14pts</span>
+                </div>
+              </td>
+              <td><button class=&quot;btn btn-p&quot; style=&quot;font-size:10px;padding:4px 10px&quot;>Act →</button></td>
+            </tr>
+            <tr>
+              <td>
+                <div class=&quot;emp-cell&quot;>
+                  <div class=&quot;emp-av&quot; style=&quot;background:linear-gradient(135deg,#8B5CF6,#EC4899)&quot;>RA</div>
+                  <div><div class=&quot;emp-name&quot;>Reem Al-Azmi</div><div class=&quot;emp-role&quot;>Sales · Retail Officer</div></div>
+                </div>
+              </td>
+              <td>
+                <div class=&quot;risk-bar-wrap&quot;>
+                  <div class=&quot;risk-bar-track&quot;><div class=&quot;risk-bar-fill&quot; style=&quot;width:84%;background:var(--red)&quot;></div></div>
+                  <div class=&quot;risk-bar-val&quot; style=&quot;color:var(--red)&quot;>84</div>
+                </div>
+              </td>
+              <td><span class=&quot;risk-pill high&quot;>High</span></td>
+              <td>
+                <div class=&quot;driver-tags&quot;>
+                  <span class=&quot;driver-tag&quot;>30mo no promo</span>
+                  <span class=&quot;driver-tag&quot;>Score plateau</span>
+                  <span class=&quot;driver-tag&quot;>Ethics pending</span>
+                </div>
+              </td>
+              <td><button class=&quot;btn btn-p&quot; style=&quot;font-size:10px;padding:4px 10px&quot;>Act →</button></td>
+            </tr>
+            <tr>
+              <td>
+                <div class=&quot;emp-cell&quot;>
+                  <div class=&quot;emp-av&quot; style=&quot;background:linear-gradient(135deg,#F97316,#F59E0B)&quot;>WE</div>
+                  <div><div class=&quot;emp-name&quot;>Walid Al-Enezi</div><div class=&quot;emp-role&quot;>Finance · Controller</div></div>
+                </div>
+              </td>
+              <td>
+                <div class=&quot;risk-bar-wrap&quot;>
+                  <div class=&quot;risk-bar-track&quot;><div class=&quot;risk-bar-fill&quot; style=&quot;width:78%;background:var(--orange)&quot;></div></div>
+                  <div class=&quot;risk-bar-val&quot; style=&quot;color:var(--orange)&quot;>78</div>
+                </div>
+              </td>
+              <td><span class=&quot;risk-pill medium&quot;>Medium</span></td>
+              <td>
+                <div class=&quot;driver-tags&quot;>
+                  <span class=&quot;driver-tag&quot;>Expat · visa yr3</span>
+                  <span class=&quot;driver-tag&quot;>No training 90d</span>
+                </div>
+              </td>
+              <td><button class=&quot;btn btn-o&quot; style=&quot;font-size:10px;padding:4px 10px&quot;>Review</button></td>
+            </tr>
+            <tr>
+              <td>
+                <div class=&quot;emp-cell&quot;>
+                  <div class=&quot;emp-av&quot; style=&quot;background:linear-gradient(135deg,#0E7490,#0EA5C9)&quot;>SN</div>
+                  <div><div class=&quot;emp-name&quot;>Sara Nasser</div><div class=&quot;emp-role&quot;>Finance · Analyst II</div></div>
+                </div>
+              </td>
+              <td>
+                <div class=&quot;risk-bar-wrap&quot;>
+                  <div class=&quot;risk-bar-track&quot;><div class=&quot;risk-bar-fill&quot; style=&quot;width:71%;background:var(--orange)&quot;></div></div>
+                  <div class=&quot;risk-bar-val&quot; style=&quot;color:var(--orange)&quot;>71</div>
+                </div>
+              </td>
+              <td><span class=&quot;risk-pill medium&quot;>Medium</span></td>
+              <td>
+                <div class=&quot;driver-tags&quot;>
+                  <span class=&quot;driver-tag&quot;>AML 12d overdue</span>
+                  <span class=&quot;driver-tag&quot;>Low invest.</span>
+                </div>
+              </td>
+              <td><button class=&quot;btn btn-o&quot; style=&quot;font-size:10px;padding:4px 10px&quot;>Review</button></td>
+            </tr>
+            <tr>
+              <td>
+                <div class=&quot;emp-cell&quot;>
+                  <div class=&quot;emp-av&quot; style=&quot;background:linear-gradient(135deg,#10B981,#0EA5C9)&quot;>NK</div>
+                  <div><div class=&quot;emp-name&quot;>Nadia Al-Kandari</div><div class=&quot;emp-role&quot;>Operations · Specialist</div></div>
+                </div>
+              </td>
+              <td>
+                <div class=&quot;risk-bar-wrap&quot;>
+                  <div class=&quot;risk-bar-track&quot;><div class=&quot;risk-bar-fill&quot; style=&quot;width:63%;background:var(--orange)&quot;></div></div>
+                  <div class=&quot;risk-bar-val&quot; style=&quot;color:var(--orange)&quot;>63</div>
+                </div>
+              </td>
+              <td><span class=&quot;risk-pill medium&quot;>Medium</span></td>
+              <td>
+                <div class=&quot;driver-tags&quot;>
+                  <span class=&quot;driver-tag&quot;>9-Box stagnant</span>
+                  <span class=&quot;driver-tag&quot;>Score ↓6pts</span>
+                </div>
+              </td>
+              <td><button class=&quot;btn btn-o&quot; style=&quot;font-size:10px;padding:4px 10px&quot;>Review</button></td>
+            </tr>
+            <tr>
+              <td>
+                <div class=&quot;emp-cell&quot;>
+                  <div class=&quot;emp-av&quot; style=&quot;background:linear-gradient(135deg,#6366F1,#8B5CF6)&quot;>AB</div>
+                  <div><div class=&quot;emp-name&quot;>Ahmad Al-Bahar</div><div class=&quot;emp-role&quot;>Risk · Analyst</div></div>
+                </div>
+              </td>
+              <td>
+                <div class=&quot;risk-bar-wrap&quot;>
+                  <div class=&quot;risk-bar-track&quot;><div class=&quot;risk-bar-fill&quot; style=&quot;width:88%;background:var(--red)&quot;></div></div>
+                  <div class=&quot;risk-bar-val&quot; style=&quot;color:var(--red)&quot;>88</div>
+                </div>
+              </td>
+              <td><span class=&quot;risk-pill high&quot;>High</span></td>
+              <td>
+                <div class=&quot;driver-tags&quot;>
+                  <span class=&quot;driver-tag&quot;>No IDP ever</span>
+                  <span class=&quot;driver-tag&quot;>3 certs lapsed</span>
+                  <span class=&quot;driver-tag&quot;>Low 9-Box</span>
+                </div>
+              </td>
+              <td><button class=&quot;btn btn-p&quot; style=&quot;font-size:10px;padding:4px 10px&quot;>Act →</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Right Column -->
+    <div style=&quot;display:flex;flex-direction:column;gap:16px&quot;>
+
+      <!-- Dept Risk -->
+      <div class=&quot;card&quot;>
+        <div class=&quot;card-head&quot;>
+          <div>
+            <div class=&quot;card-title&quot;><div class=&quot;card-title-icon&quot;>🏢</div>Risk by Department</div>
+            <div class=&quot;card-sub&quot;>High-risk headcount per dept</div>
+          </div>
+        </div>
+        <div class=&quot;card-body&quot;>
+          <div class=&quot;dept-row&quot;>
+            <div class=&quot;dept-name&quot;>Finance</div>
+            <div class=&quot;dept-bar-wrap&quot;>
+              <div class=&quot;dept-bar-track&quot;><div class=&quot;dept-bar-fill&quot; style=&quot;width:78%;background:var(--red);height:100%&quot;></div></div>
+              <div class=&quot;dept-bar-labels&quot;>
+                <span class=&quot;dept-bar-label&quot;>78% at-risk</span>
+                <span class=&quot;dept-bar-label&quot;>287 total</span>
+              </div>
+            </div>
+            <div class=&quot;dept-count&quot; style=&quot;color:var(--red)&quot;>22</div>
+          </div>
+          <div class=&quot;dept-row&quot;>
+            <div class=&quot;dept-name&quot;>Sales</div>
+            <div class=&quot;dept-bar-wrap&quot;>
+              <div class=&quot;dept-bar-track&quot;><div class=&quot;dept-bar-fill&quot; style=&quot;width:54%;background:var(--orange);height:100%&quot;></div></div>
+              <div class=&quot;dept-bar-labels&quot;>
+                <span class=&quot;dept-bar-label&quot;>54% at-risk</span>
+                <span class=&quot;dept-bar-label&quot;>143 total</span>
+              </div>
+            </div>
+            <div class=&quot;dept-count&quot; style=&quot;color:var(--orange)&quot;>11</div>
+          </div>
+          <div class=&quot;dept-row&quot;>
+            <div class=&quot;dept-name&quot;>Operations</div>
+            <div class=&quot;dept-bar-wrap&quot;>
+              <div class=&quot;dept-bar-track&quot;><div class=&quot;dept-bar-fill&quot; style=&quot;width:32%;background:var(--gold);height:100%&quot;></div></div>
+              <div class=&quot;dept-bar-labels&quot;>
+                <span class=&quot;dept-bar-label&quot;>32% at-risk</span>
+                <span class=&quot;dept-bar-label&quot;>412 total</span>
+              </div>
+            </div>
+            <div class=&quot;dept-count&quot; style=&quot;color:var(--gold)&quot;>8</div>
+          </div>
+          <div class=&quot;dept-row&quot;>
+            <div class=&quot;dept-name&quot;>Risk &amp; Compliance</div>
+            <div class=&quot;dept-bar-wrap&quot;>
+              <div class=&quot;dept-bar-track&quot;><div class=&quot;dept-bar-fill&quot; style=&quot;width:22%;background:var(--gold);height:100%&quot;></div></div>
+              <div class=&quot;dept-bar-labels&quot;>
+                <span class=&quot;dept-bar-label&quot;>22% at-risk</span>
+                <span class=&quot;dept-bar-label&quot;>185 total</span>
+              </div>
+            </div>
+            <div class=&quot;dept-count&quot; style=&quot;color:var(--gold)&quot;>4</div>
+          </div>
+          <div class=&quot;dept-row&quot;>
+            <div class=&quot;dept-name&quot;>IT &amp; Digital</div>
+            <div class=&quot;dept-bar-wrap&quot;>
+              <div class=&quot;dept-bar-track&quot;><div class=&quot;dept-bar-fill&quot; style=&quot;width:11%;background:var(--green);height:100%&quot;></div></div>
+              <div class=&quot;dept-bar-labels&quot;>
+                <span class=&quot;dept-bar-label&quot;>11% at-risk</span>
+                <span class=&quot;dept-bar-label&quot;>198 total</span>
+              </div>
+            </div>
+            <div class=&quot;dept-count&quot; style=&quot;color:var(--green)&quot;>2</div>
+          </div>
+          <div class=&quot;dept-row&quot;>
+            <div class=&quot;dept-name&quot;>HR</div>
+            <div class=&quot;dept-bar-wrap&quot;>
+              <div class=&quot;dept-bar-track&quot;><div class=&quot;dept-bar-fill&quot; style=&quot;width:5%;background:var(--green);height:100%&quot;></div></div>
+              <div class=&quot;dept-bar-labels&quot;>
+                <span class=&quot;dept-bar-label&quot;>5% at-risk</span>
+                <span class=&quot;dept-bar-label&quot;>22 total</span>
+              </div>
+            </div>
+            <div class=&quot;dept-count&quot; style=&quot;color:var(--green)&quot;>0</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trend -->
+      <div class=&quot;card&quot;>
+        <div class=&quot;card-head&quot;>
+          <div class=&quot;card-title&quot;><div class=&quot;card-title-icon&quot;>📈</div>Risk Trend — 6 Months</div>
+        </div>
+        <div class=&quot;card-body&quot;>
+          <div class=&quot;trend-chart&quot;>
+            <div class=&quot;trend-bar&quot; style=&quot;height:40%;background:rgba(16,185,129,.4)&quot; title=&quot;Oct: 29&quot;></div>
+            <div class=&quot;trend-bar&quot; style=&quot;height:48%;background:rgba(16,185,129,.4)&quot; title=&quot;Nov: 31&quot;></div>
+            <div class=&quot;trend-bar&quot; style=&quot;height:55%;background:rgba(245,158,11,.5)&quot; title=&quot;Dec: 35&quot;></div>
+            <div class=&quot;trend-bar&quot; style=&quot;height:60%;background:rgba(249,115,22,.5)&quot; title=&quot;Jan: 38&quot;></div>
+            <div class=&quot;trend-bar&quot; style=&quot;height:72%;background:rgba(239,68,68,.5)&quot; title=&quot;Feb: 43&quot;></div>
+            <div class=&quot;trend-bar&quot; style=&quot;height:85%;background:rgba(239,68,68,.7)&quot; title=&quot;Mar: 47 (now)&quot;></div>
+          </div>
+          <div class=&quot;trend-labels&quot;>
+            <span class=&quot;trend-label&quot;>Oct</span>
+            <span class=&quot;trend-label&quot;>Nov</span>
+            <span class=&quot;trend-label&quot;>Dec</span>
+            <span class=&quot;trend-label&quot;>Jan</span>
+            <span class=&quot;trend-label&quot;>Feb</span>
+            <span class=&quot;trend-label&quot;>Mar</span>
+          </div>
+          <div style=&quot;margin-top:10px;font-size:11px;color:var(--text-dim);line-height:1.6&quot;>
+            High-risk headcount has risen <span style=&quot;color:var(--red);font-weight:700&quot;>62%</span> over 6 months. Finance and Sales are the primary drivers.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SIGNAL DRIVERS + MANAGER ACTIONS + ROI -->
+  <div class=&quot;three-col reveal&quot;>
+
+    <!-- Flight Risk Signal Weights -->
+    <div class=&quot;card&quot;>
+      <div class=&quot;card-head&quot;>
+        <div>
+          <div class=&quot;card-title&quot;><div class=&quot;card-title-icon&quot;>🧠</div>Flight Risk Signals</div>
+          <div class=&quot;card-sub&quot;>6 behavioural signals · No surveys needed</div>
+          <div style=&quot;font-size:9px;color:var(--text-dim);margin-top:3px&quot;>Multipliers derived from SHRM &amp; Deloitte attrition research</div>
+        </div>
+      </div>
+      <div class=&quot;card-body&quot;>
+        <div class=&quot;signal-grid&quot;>
+          <div class=&quot;signal-item&quot;>
+            <div class=&quot;signal-icon&quot;>📋</div>
+            <div style=&quot;flex:1&quot;>
+              <div class=&quot;signal-label&quot;>No active IDP</div>
+              <div class=&quot;signal-sub&quot;>No development plan in 90+ days</div>
+            </div>
+            <div class=&quot;signal-weight&quot;><div class=&quot;signal-weight-fill&quot; style=&quot;width:92%&quot;></div></div>
+            <div class=&quot;signal-impact impact-hi&quot;>×2.4</div>
+          </div>
+          <div class=&quot;signal-item&quot;>
+            <div class=&quot;signal-icon&quot;>📉</div>
+            <div style=&quot;flex:1&quot;>
+              <div class=&quot;signal-label&quot;>Declining assessment scores</div>
+              <div class=&quot;signal-sub&quot;>Pre/post delta trending negative</div>
+            </div>
+            <div class=&quot;signal-weight&quot;><div class=&quot;signal-weight-fill&quot; style=&quot;width:80%&quot;></div></div>
+            <div class=&quot;signal-impact impact-hi&quot;>×2.1</div>
+          </div>
+          <div class=&quot;signal-item&quot;>
+            <div class=&quot;signal-icon&quot;>⏱️</div>
+            <div style=&quot;flex:1&quot;>
+              <div class=&quot;signal-label&quot;>Time in role vs avg promotion</div>
+              <div class=&quot;signal-sub&quot;>Exceeds org average by 12+ months</div>
+            </div>
+            <div class=&quot;signal-weight&quot;><div class=&quot;signal-weight-fill&quot; style=&quot;width:75%&quot;></div></div>
+            <div class=&quot;signal-impact impact-hi&quot;>×1.9</div>
+          </div>
+          <div class=&quot;signal-item&quot;>
+            <div class=&quot;signal-icon&quot;>🎓</div>
+            <div style=&quot;flex:1&quot;>
+              <div class=&quot;signal-label&quot;>Zero training in 90 days</div>
+              <div class=&quot;signal-sub&quot;>No course completions logged</div>
+            </div>
+            <div class=&quot;signal-weight&quot;><div class=&quot;signal-weight-fill&quot; style=&quot;width:68%&quot;></div></div>
+            <div class=&quot;signal-impact impact-med&quot;>×1.7</div>
+          </div>
+          <div class=&quot;signal-item&quot;>
+            <div class=&quot;signal-icon&quot;>⊞</div>
+            <div style=&quot;flex:1&quot;>
+              <div class=&quot;signal-label&quot;>9-Box stagnation</div>
+              <div class=&quot;signal-sub&quot;>Same quadrant for 2+ quarters</div>
+            </div>
+            <div class=&quot;signal-weight&quot;><div class=&quot;signal-weight-fill&quot; style=&quot;width:58%&quot;></div></div>
+            <div class=&quot;signal-impact impact-med&quot;>×1.5</div>
+          </div>
+          <div class=&quot;signal-item&quot;>
+            <div class=&quot;signal-icon&quot;>💰</div>
+            <div style=&quot;flex:1&quot;>
+              <div class=&quot;signal-label&quot;>Low training investment</div>
+              <div class=&quot;signal-sub&quot;>Bottom 20% of peers in same role</div>
+            </div>
+            <div class=&quot;signal-weight&quot;><div class=&quot;signal-weight-fill&quot; style=&quot;width:44%&quot;></div></div>
+            <div class=&quot;signal-impact impact-lo&quot;>×1.3</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Manager Action Prompts -->
+    <div class=&quot;card&quot;>
+      <div class=&quot;card-head&quot;>
+        <div>
+          <div class=&quot;card-title&quot;><div class=&quot;card-title-icon&quot;>📬</div>Manager Action Queue</div>
+          <div class=&quot;card-sub&quot;>8 actions pending · Sent to 5 managers</div>
+        </div>
+        <button class=&quot;btn btn-o&quot; style=&quot;font-size:10px;padding:5px 12px&quot;>Push All</button>
+      </div>
+      <div class=&quot;card-body&quot;>
+        <div class=&quot;action-item&quot;>
+          <div class=&quot;action-head&quot;>
+            <span class=&quot;action-urgency urgency-now&quot;>THIS WEEK</span>
+            <div>
+              <div class=&quot;action-title&quot;>Schedule development conversation</div>
+              <div class=&quot;action-sub&quot;>Hamad has had no IDP for 6 months and 3 compliance certs overdue. High probability of passive exit.</div>
+            </div>
+          </div>
+          <div class=&quot;action-footer&quot;>
+            <div class=&quot;action-emp&quot;>
+              <div class=&quot;action-emp-av&quot; style=&quot;background:linear-gradient(135deg,#EF4444,#F97316)&quot;>HA</div>
+              <span class=&quot;action-emp-name&quot;>Hamad Al-Rashidi</span>
+            </div>
+            <div class=&quot;action-type&quot;>Stay Interview</div>
+          </div>
+        </div>
+        <div class=&quot;action-item&quot;>
+          <div class=&quot;action-head&quot;>
+            <span class=&quot;action-urgency urgency-now&quot;>THIS WEEK</span>
+            <div>
+              <div class=&quot;action-title&quot;>Discuss career progression path</div>
+              <div class=&quot;action-sub&quot;>Reem has been in role 30 months — org avg for promotion is 18. Structural signal with no competing offer yet.</div>
+            </div>
+          </div>
+          <div class=&quot;action-footer&quot;>
+            <div class=&quot;action-emp&quot;>
+              <div class=&quot;action-emp-av&quot; style=&quot;background:linear-gradient(135deg,#8B5CF6,#EC4899)&quot;>RA</div>
+              <span class=&quot;action-emp-name&quot;>Reem Al-Azmi</span>
+            </div>
+            <div class=&quot;action-type&quot;>Promotion Review</div>
+          </div>
+        </div>
+        <div class=&quot;action-item&quot;>
+          <div class=&quot;action-head&quot;>
+            <span class=&quot;action-urgency urgency-week&quot;>THIS MONTH</span>
+            <div>
+              <div class=&quot;action-title&quot;>Assign learning path + IDP</div>
+              <div class=&quot;action-sub&quot;>Ahmad has never had a development plan. 9-Box shows low positioning with 3 lapsed certifications.</div>
+            </div>
+          </div>
+          <div class=&quot;action-footer&quot;>
+            <div class=&quot;action-emp&quot;>
+              <div class=&quot;action-emp-av&quot; style=&quot;background:linear-gradient(135deg,#6366F1,#8B5CF6)&quot;>AB</div>
+              <span class=&quot;action-emp-name&quot;>Ahmad Al-Bahar</span>
+            </div>
+            <div class=&quot;action-type&quot;>IDP Creation</div>
+          </div>
+        </div>
+        <div class=&quot;action-item&quot;>
+          <div class=&quot;action-head&quot;>
+            <span class=&quot;action-urgency urgency-month&quot;>NEXT 30 DAYS</span>
+            <div>
+              <div class=&quot;action-title&quot;>Review Finance dept engagement</div>
+              <div class=&quot;action-sub&quot;>22 of 287 Finance employees flagged high risk. Pattern suggests systemic issue, not isolated cases.</div>
+            </div>
+          </div>
+          <div class=&quot;action-footer&quot;>
+            <div class=&quot;action-emp&quot;>
+              <div class=&quot;action-emp-av&quot; style=&quot;background:linear-gradient(135deg,#F59E0B,#EF4444)&quot;>FD</div>
+              <span class=&quot;action-emp-name&quot;>Finance Dept · 287 employees</span>
+            </div>
+            <div class=&quot;action-type&quot;>Dept Review</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Retention ROI -->
+    <div class=&quot;card&quot;>
+      <div class=&quot;card-head&quot;>
+        <div>
+          <div class=&quot;card-title&quot;><div class=&quot;card-title-icon&quot;>💡</div>Retention ROI Model</div>
+          <div class=&quot;card-sub&quot;>Cost of losing vs cost of keeping</div>
+        </div>
+      </div>
+      <div class=&quot;card-body&quot;>
+        <!-- How we calculate toggle -->
+        <div id=&quot;method-toggle&quot; onclick=&quot;toggleMethod()&quot; style=&quot;display:flex;align-items:center;gap:8px;padding:8px 10px;background:rgba(14,116,144,.08);border:1px solid rgba(14,116,144,.2);border-radius:7px;cursor:pointer;margin-bottom:14px;transition:background .15s&quot;>
+          <span style=&quot;font-size:13px&quot;>🔍</span>
+          <span style=&quot;font-size:11px;font-weight:600;color:var(--teal-hi);flex:1&quot;>How are these numbers calculated?</span>
+          <span id=&quot;method-arrow&quot; style=&quot;font-size:10px;color:var(--text-dim);font-family:var(--mono);transition:transform .2s&quot;>▼</span>
+        </div>
+        <div id=&quot;method-panel&quot; style=&quot;display:none;background:rgba(6,13,26,.6);border:1px solid rgba(14,116,144,.15);border-radius:8px;padding:14px;margin-bottom:14px;font-size:11px;color:var(--text-dim);line-height:1.75&quot;>
+          <div style=&quot;color:var(--teal-hi);font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px&quot;>Methodology</div>
+          <div style=&quot;margin-bottom:6px&quot;><span style=&quot;color:#fff;font-weight:600&quot;>Replacement cost (KD 18,000):</span> SHRM benchmark of 1.5× avg annual salary. Based on your org's avg salary of KD 12,000/yr — covers recruitment, onboarding, and 3-month productivity loss.</div>
+          <div style=&quot;margin-bottom:6px&quot;><span style=&quot;color:#fff;font-weight:600&quot;>Flight risk score (0–100):</span> Weighted composite of 6 signals Daleel tracks: IDP activity, assessment score trend, time-in-role vs org avg, training frequency, 9-Box movement, training investment vs peers. No surveys — purely behavioural data.</div>
+          <div style=&quot;margin-bottom:6px&quot;><span style=&quot;color:#fff;font-weight:600&quot;>62% preventable:</span> Based on Deloitte 2024 research showing 42–65% of voluntary turnover is preventable through structured development intervention when identified 90+ days before exit.</div>
+          <div><span style=&quot;color:#fff;font-weight:600&quot;>Intervention cost (KD 58K):</span> Estimated cost of learning paths, IDP creation, and manager time for 29 employees at KD 2,000/person — drawn from your existing training budget data in Daleel.</div>
+        </div>
+
+        <div class=&quot;roi-stat&quot;>
+          <div>
+            <div class=&quot;roi-stat-label&quot;>Avg replacement cost per employee</div>
+            <div style=&quot;font-size:9px;color:var(--text-dim);margin-top:2px&quot;>1.5× avg salary · SHRM benchmark</div>
+          </div>
+          <div class=&quot;roi-stat-val red&quot;>KD 18,000</div>
+        </div>
+        <div class=&quot;roi-stat&quot;>
+          <div>
+            <div class=&quot;roi-stat-label&quot;>High-risk employees (47)</div>
+            <div style=&quot;font-size:9px;color:var(--text-dim);margin-top:2px&quot;>Score ≥70 across 6 signals</div>
+          </div>
+          <div class=&quot;roi-stat-val red&quot;>KD 846K</div>
+        </div>
+        <div class=&quot;roi-stat&quot;>
+          <div>
+            <div class=&quot;roi-stat-label&quot;>% preventable with development</div>
+            <div style=&quot;font-size:9px;color:var(--text-dim);margin-top:2px&quot;>Deloitte 2024 workforce research</div>
+          </div>
+          <div class=&quot;roi-stat-val&quot; style=&quot;color:var(--gold)&quot;>62%</div>
+        </div>
+        <div class=&quot;roi-stat&quot;>
+          <div>
+            <div class=&quot;roi-stat-label&quot;>Preventable departures</div>
+            <div style=&quot;font-size:9px;color:var(--text-dim);margin-top:2px&quot;>47 × 62% = 29 employees</div>
+          </div>
+          <div class=&quot;roi-stat-val&quot; style=&quot;color:var(--gold)&quot;>29 employees</div>
+        </div>
+        <div class=&quot;roi-stat&quot;>
+          <div>
+            <div class=&quot;roi-stat-label&quot;>Cost of dev interventions</div>
+            <div style=&quot;font-size:9px;color:var(--text-dim);margin-top:2px&quot;>KD 2,000/person from your budget data</div>
+          </div>
+          <div class=&quot;roi-stat-val green&quot;>KD 58K</div>
+        </div>
+        <div class=&quot;roi-stat&quot;>
+          <div>
+            <div class=&quot;roi-stat-label&quot;>Net saving if actioned now</div>
+            <div style=&quot;font-size:9px;color:var(--text-dim);margin-top:2px&quot;>KD 522K saved − KD 58K cost</div>
+          </div>
+          <div class=&quot;roi-stat-val green&quot;>KD 464K</div>
+        </div>
+        <div class=&quot;roi-cta&quot;>
+          Build intervention plan → ROI Calculator
+        </div>
+
+        <div style=&quot;margin-top:20px;padding-top:16px;border-top:1px solid var(--border)&quot;>
+          <div style=&quot;font-size:10px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px&quot;>Development Signal Health</div>
+          <div class=&quot;score-row&quot;>
+            <div class=&quot;score-factor&quot;>IDP coverage</div>
+            <div class=&quot;score-bar-wrap&quot;><div class=&quot;score-bar&quot; style=&quot;width:68%;background:var(--teal-hi)&quot;></div></div>
+            <div class=&quot;score-val&quot;>68%</div>
+          </div>
+          <div class=&quot;score-row&quot;>
+            <div class=&quot;score-factor&quot;>Active learning</div>
+            <div class=&quot;score-bar-wrap&quot;><div class=&quot;score-bar&quot; style=&quot;width:74%;background:var(--teal-hi)&quot;></div></div>
+            <div class=&quot;score-val&quot;>74%</div>
+          </div>
+          <div class=&quot;score-row&quot;>
+            <div class=&quot;score-factor&quot;>Compliance current</div>
+            <div class=&quot;score-bar-wrap&quot;><div class=&quot;score-bar&quot; style=&quot;width:82%;background:var(--green)&quot;></div></div>
+            <div class=&quot;score-val&quot;>82%</div>
+          </div>
+          <div class=&quot;score-row&quot;>
+            <div class=&quot;score-factor&quot;>9-Box movement</div>
+            <div class=&quot;score-bar-wrap&quot;><div class=&quot;score-bar&quot; style=&quot;width:41%;background:var(--orange)&quot;></div></div>
+            <div class=&quot;score-val&quot;>41%</div>
+          </div>
+          <div class=&quot;score-row&quot;>
+            <div class=&quot;score-factor&quot;>Promotion velocity</div>
+            <div class=&quot;score-bar-wrap&quot;><div class=&quot;score-bar&quot; style=&quot;width:55%;background:var(--gold)&quot;></div></div>
+            <div class=&quot;score-val&quot;>55%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+function toggleMethod() {
+  var panel = document.getElementById('method-panel');
+  var arrow = document.getElementById('method-arrow');
+  var toggle = document.getElementById('method-toggle');
+  var isOpen = panel.style.display !== 'none';
+  panel.style.display = isOpen ? 'none' : 'block';
+  arrow.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+  toggle.style.background = isOpen ? 'rgba(14,116,144,.08)' : 'rgba(14,116,144,.15)';
+}
+
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, {threshold: 0.08});
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Animate bars on load
+window.addEventListener('load', () => {
+  document.querySelectorAll('.dept-bar-fill, .risk-bar-fill, .score-bar, .signal-weight-fill').forEach(bar => {
+    const w = bar.style.width;
+    bar.style.width = '0';
+    setTimeout(() => { bar.style.transition = 'width .8s cubic-bezier(.4,0,.2,1)'; bar.style.width = w; }, 300);
+  });
+});
+</script>
+</body>
+</html>
+"></iframe>
+</div>
+
 <!-- ══ INTEGRATIONS ══ -->
 <div class="page" id="page-integrations">
   <div class="ph">
@@ -5597,23 +6692,18 @@ function setLang(l) {
       titleEl.textContent = HEADINGS[l][pageId];
     }
   }
-  // Update stat cards with arabic/english labels
-  document.querySelectorAll('.ds-lbl').forEach(function(el) {
-    var arMap = {
-      'Total Employees': 'إجمالي الموظفين', 'Completion Rate': 'معدل الإكمال',
-      'Budget Used': 'الميزانية المستخدمة', 'Action Required': 'إجراء مطلوب',
-      'Overall Compliance': 'الامتثال الكلي', 'Kuwaitization Rate': 'نسبة التكويت',
-      'Avg skill gain': 'متوسط تحسن المهارات', 'Training ROI': 'عائد التدريب'
-    };
-    var enMap = {
-      'إجمالي الموظفين': 'Total Employees', 'معدل الإكمال': 'Completion Rate',
-      'الميزانية المستخدمة': 'Budget Used', 'إجراء مطلوب': 'Action Required',
-      'الامتثال الكلي': 'Overall Compliance', 'نسبة التكويت': 'Kuwaitization Rate',
-      'متوسط تحسن المهارات': 'Avg skill gain', 'عائد التدريب': 'Training ROI'
-    };
-    var map = l === 'ar' ? arMap : enMap;
-    if (map[el.textContent]) el.textContent = map[el.textContent];
-  });
+  // Update stat cards with arabic labels
+  if (l === 'ar') {
+    document.querySelectorAll('.ds-lbl').forEach(function(el) {
+      var map = {
+        'Total Employees': 'إجمالي الموظفين', 'Completion Rate': 'معدل الإكمال',
+        'Budget Used': 'الميزانية المستخدمة', 'Action Required': 'إجراء مطلوب',
+        'Overall Compliance': 'الامتثال الكلي', 'Kuwaitization Rate': 'نسبة التكويت',
+        'Avg skill gain': 'متوسط تحسن المهارات', 'Training ROI': 'عائد التدريب'
+      };
+      if (map[el.textContent]) el.textContent = map[el.textContent];
+    });
+  }
 }
 
 /* ── Employee filter ───────────────────────────── */
@@ -7495,6 +8585,50 @@ function resetPrefs() {
 }
 
 /* ══ ROI SYNC ══ */
+
+/* ── Retention module ── */
+function toggleMethod() {
+  var panel = document.getElementById('method-panel');
+  var arrow = document.getElementById('method-arrow');
+  var toggle = document.getElementById('method-toggle');
+  var isOpen = panel.style.display !== 'none';
+  panel.style.display = isOpen ? 'none' : 'block';
+  arrow.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+  toggle.style.background = isOpen ? 'rgba(14,116,144,.08)' : 'rgba(14,116,144,.15)';
+}
+
+/* Retention */
+function toggleMethod() {
+  var panel = document.getElementById('method-panel');
+  var arrow = document.getElementById('method-arrow');
+  var toggle = document.getElementById('method-toggle');
+  var isOpen = panel.style.display !== 'none';
+  panel.style.display = isOpen ? 'none' : 'block';
+  arrow.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+  toggle.style.background = isOpen ? 'rgba(14,116,144,.08)' : 'rgba(14,116,144,.15)';
+}
+
+/* Retention */
+function toggleMethod() {
+  var panel = document.getElementById('method-panel');
+  var arrow = document.getElementById('method-arrow');
+  var toggle = document.getElementById('method-toggle');
+  var isOpen = panel.style.display !== 'none';
+  panel.style.display = isOpen ? 'none' : 'block';
+  arrow.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+  toggle.style.background = isOpen ? 'rgba(14,116,144,.08)' : 'rgba(14,116,144,.15)';
+}
+
+/* Retention */
+function toggleMethod() {
+  var panel = document.getElementById('method-panel');
+  var arrow = document.getElementById('method-arrow');
+  var toggle = document.getElementById('method-toggle');
+  var isOpen = panel.style.display !== 'none';
+  panel.style.display = isOpen ? 'none' : 'block';
+  arrow.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+  toggle.style.background = isOpen ? 'rgba(14,116,144,.08)' : 'rgba(14,116,144,.15)';
+}
 </script>
 
 
