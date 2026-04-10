@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -66,6 +66,15 @@ nav{
   letter-spacing:-.1px;
 }
 .nav-btn:hover{background:var(--teal-hi);box-shadow:0 0 20px var(--teal-glow)}
+.lang-toggle{
+  background:transparent;color:var(--text-mid);
+  border:1px solid var(--border);padding:7px 14px;
+  border-radius:8px;font-size:12px;font-weight:600;
+  cursor:pointer;font-family:'Sora',sans-serif;
+  transition:all .2s;letter-spacing:.04em;
+  text-transform:uppercase;
+}
+.lang-toggle:hover{border-color:var(--teal);color:var(--teal-hi)}
 
 /* ── HERO ── */
 .hero{
@@ -967,7 +976,10 @@ footer{
     <li><a href="#pricing">Pricing</a></li>
     <li><a href="https://daleelkw.netlify.app" target="_blank">Live Demo</a></li>
   </ul>
-  <a href="#contact" class="nav-btn">Request a Demo</a>
+  <div style="display:flex;align-items:center;gap:12px">
+    <button class="lang-toggle" id="lang-btn" onclick="toggleLang()">AR | عربي</button>
+    <a href="#contact" class="nav-btn">Request a Demo</a>
+  </div>
 </nav>
 
 <!-- HERO -->
@@ -1312,7 +1324,7 @@ footer{
 </div>
 
 <!-- HOW IT WORKS -->
-<div class="hiw-wrap">
+<div class="hiw-wrap" id="how-it-works">
 <section class="section">
   <div style="text-align:center;max-width:600px;margin:0 auto">
     <div class="section-chip">⚡ Process</div>
@@ -1601,7 +1613,7 @@ footer{
 </div>
 
 <!-- TESTIMONIALS -->
-<section class="section">
+<section class="section" id="testimonials">
   <div class="section-chip">💬 Client Proof</div>
   <h2 class="section-h">Trusted by Kuwait's<br>leading financial institutions.</h2>
   <p class="section-p">Real results from HR and L&D teams running Daleel in production.</p>
@@ -1652,7 +1664,7 @@ footer{
 </section>
 
 <!-- FAQ -->
-<section class="section">
+<section class="section" id="faq">
   <div class="section-chip">❓ FAQ</div>
   <h2 class="section-h">Common questions.</h2>
   <p class="section-p">Everything you need to know before booking a demo.</p>
@@ -1829,6 +1841,23 @@ function setContactType(type) {
   if (sel) sel.value = type;
   var contact = document.getElementById('contact');
   if (contact) contact.scrollIntoView({behavior:'smooth'});
+}
+
+// EN/AR language toggle
+var currentLang = 'en';
+function toggleLang() {
+  currentLang = currentLang === 'en' ? 'ar' : 'en';
+  var html = document.documentElement;
+  var btn = document.getElementById('lang-btn');
+  if (currentLang === 'ar') {
+    html.setAttribute('lang', 'ar');
+    html.setAttribute('dir', 'rtl');
+    btn.textContent = 'EN | English';
+  } else {
+    html.setAttribute('lang', 'en');
+    html.setAttribute('dir', 'ltr');
+    btn.textContent = 'AR | عربي';
+  }
 }
 
 // Contact form submit
