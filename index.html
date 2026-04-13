@@ -70,9 +70,9 @@
 
 [dir="rtl"] { font-family: var(--font-ar) !important; }
 [dir="rtl"] .sidebar { border-right:none; border-left:1px solid var(--ink-border); }
-[dir="rtl"] .nav-item.active::before { left:auto; right:-8px; }
-[dir="rtl"] .chat-window { right:auto; left:24px; }
-[dir="rtl"] .chat-toggle { right:auto; left:24px; }
+[dir="rtl"] .ni.active::before { left:auto; right:-7px; }
+[dir="rtl"] .bot-panel { right:auto; left:24px; }
+[dir="rtl"] .bot-fab { right:auto; left:22px; }
 
 * { box-sizing:border-box; margin:0; padding:0; }
 html,body { height:100%; overflow:hidden; }
@@ -1502,6 +1502,7 @@ html, body { height:100%; overflow:hidden; }
 .nb-emp-av{width:34px;height:34px;border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 
 /* ══════════════ IDP ══════════════ */
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;white-space:nowrap}
 .idp-shell{display:grid;grid-template-columns:260px 1fr;gap:16px;align-items:start}
 .idp-emp-item{background:var(--ink-card);border:1px solid var(--ink-border);border-radius:10px;padding:12px 14px;cursor:pointer;transition:all .2s;margin-bottom:6px}
 .idp-emp-item:hover{border-color:var(--ink-border2);background:var(--ink-hover)}
@@ -1877,7 +1878,7 @@ input[id^="r-"][type="number"]:focus {
   <!-- Alert Banner -->
 
 
-  <div class="alert-banner" id="w-alert-el" id="dash-alert" style="cursor:default">
+  <div class="alert-banner" id="w-alert-el" style="cursor:default">
     <div class="ab-icon">🚨</div>
     <div class="ab-body" onclick="go('compliance')" style="cursor:pointer">
       <strong>23 Finance employees</strong> have AML certs expiring within 30 days — <strong>KD 45,000 fine.</strong>
@@ -2032,7 +2033,7 @@ input[id^="r-"][type="number"]:focus {
     <div>
 
       <!-- Snapshot cards — WHO WHEN WHAT reframed as overview -->
-      <div class="snap-grid mb4" id="w-snap-el" id="dash-snap">
+      <div class="snap-grid mb4" id="w-snap-el">
         <div class="snap-card snap-teal" id="snap-compliance" onclick="go('compliance')">
           <div class="snap-head">
             <div class="snap-icon">🛡</div>
@@ -8742,7 +8743,7 @@ function toggleMethod() {
     <button class="bot-tab" id="btab-alerts" onclick="botSwitchTab('alerts')">🔴 Alerts</button>
   </div>
   <div class="bot-body">
-    <div class="bot-pane on" id="bpane-chat" id="bpane-chat"></div>
+    <div class="bot-pane on" id="bpane-chat"></div>
     <div class="bot-pane" id="bpane-guide"></div>
     <div class="bot-pane" id="bpane-alerts"></div>
   </div>
