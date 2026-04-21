@@ -2073,20 +2073,183 @@ input[id^="r-"][type="number"]:focus {
    * v_currently_training, v_dept_completion, v_active_programs)
    * and overlays real data on top of the baked-in CLIENT_PROFILES
    * which are used for instant first paint. RLS scoped to anon
-   * (public-demo tenants only) via publishable key. ──────── */
+   * (public-demo tenants only) via publishable key. Authenticated
+   * users automatically scope to their own tenant via Auth Bearer
+   * token. ──────────────────────────────────────────────────── */
   Daleel.SUPABASE = {
     url: 'https://ysprrlpctbudsozuqppj.supabase.co',
     anonKey: 'sb_publishable_9pyeh-sc1t2NRuxvpcYXNA_9y6KmEoE'
   };
 
+  /* ── AUTH: magic-link (OTP) email sign-in ────────────────
+     Uses GoTrue REST directly (no SDK, keeps single-file).
+     Session persisted in localStorage under 'daleel.auth'.
+     On magic-link callback the URL lands with a #access_token
+     fragment which we parse & persist, then clean the URL.
+     Authenticated users inherit their tenant via public.users
+     (seeded by the on_auth_user_created trigger from invites).
+  ───────────────────────────────────────────────────────── */
+  Daleel.AUTH_KEY = 'daleel.auth';
+  Daleel.auth = { session: null, me: null };
+
+  Daleel.auth.load = function() {
+    try {
+      var raw = localStorage.getItem(Daleel.AUTH_KEY);
+      if (!raw) return null;
+      var s = JSON.parse(raw);
+      if (!s || !s.access_token) return null;
+      return s;
+    } catch(e) { return null; }
+  };
+  Daleel.auth.save = function(s) {
+    try { localStorage.setItem(Daleel.AUTH_KEY, JSON.stringify(s || {})); } catch(e){}
+  };
+  Daleel.auth.clear = function() {
+    try { localStorage.removeItem(Daleel.AUTH_KEY); } catch(e){}
+    Daleel.auth.session = null;
+    Daleel.auth.me = null;
+  };
+  Daleel.auth.isExpired = function(s) {
+    if (!s || !s.expires_at) return true;
+    return (Date.now()/1000) > (Number(s.expires_at) - 30);
+  };
+
+  Daleel.auth.refresh = function() {
+    var s = Daleel.auth.session || Daleel.auth.load();
+    if (!s || !s.refresh_token) return Promise.reject(new Error('no refresh_token'));
+    return fetch(Daleel.SUPABASE.url + '/auth/v1/token?grant_type=refresh_token', {
+      method: 'POST',
+      headers: { 'apikey': Daleel.SUPABASE.anonKey, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ refresh_token: s.refresh_token })
+    }).then(function(r){
+      if (!r.ok) throw new Error('refresh failed: HTTP ' + r.status);
+      return r.json();
+    }).then(function(tok){
+      var next = {
+        access_token: tok.access_token,
+        refresh_token: tok.refresh_token,
+        expires_at: tok.expires_at || (Math.floor(Date.now()/1000) + (tok.expires_in || 3600)),
+        token_type: tok.token_type || 'bearer',
+        user: tok.user || (s && s.user) || null
+      };
+      Daleel.auth.session = next;
+      Daleel.auth.save(next);
+      return next;
+    }).catch(function(err){
+      // Refresh failed (expired / revoked) → fall back to anon
+      console.warn('[Daleel.auth] refresh failed, clearing session:', err.message);
+      Daleel.auth.clear();
+      throw err;
+    });
+  };
+
+  /** Returns a promise resolving to a valid access_token, or null if anon. */
+  Daleel.auth.getToken = function() {
+    var s = Daleel.auth.session || Daleel.auth.load();
+    if (!s || !s.access_token) return Promise.resolve(null);
+    if (!Daleel.auth.isExpired(s)) { Daleel.auth.session = s; return Promise.resolve(s.access_token); }
+    return Daleel.auth.refresh().then(function(next){ return next.access_token; }).catch(function(){ return null; });
+  };
+
+  /** Parse magic-link callback from URL hash, persist session, clean URL. */
+  Daleel.auth.captureCallback = function() {
+    try {
+      var h = (window.location.hash || '').replace(/^#/,'');
+      if (!h) return null;
+      var params = {};
+      h.split('&').forEach(function(kv){
+        var i = kv.indexOf('=');
+        if (i < 0) return;
+        params[decodeURIComponent(kv.slice(0,i))] = decodeURIComponent(kv.slice(i+1));
+      });
+      if (!params.access_token) return null;
+
+      var session = {
+        access_token: params.access_token,
+        refresh_token: params.refresh_token || null,
+        token_type: params.token_type || 'bearer',
+        expires_at: params.expires_at ? Number(params.expires_at) : (Math.floor(Date.now()/1000) + Number(params.expires_in || 3600)),
+        user: null // hydrated below via /auth/v1/user
+      };
+      Daleel.auth.session = session;
+      Daleel.auth.save(session);
+
+      // Clean hash so refresh doesn't re-process it
+      try {
+        var cleanUrl = window.location.pathname + window.location.search;
+        history.replaceState(null, '', cleanUrl);
+      } catch(e){}
+
+      return session;
+    } catch(e) { return null; }
+  };
+
+  Daleel.auth.fetchUser = function() {
+    return Daleel.auth.getToken().then(function(tok){
+      if (!tok) return null;
+      return fetch(Daleel.SUPABASE.url + '/auth/v1/user', {
+        headers: { 'apikey': Daleel.SUPABASE.anonKey, 'Authorization': 'Bearer ' + tok }
+      }).then(function(r){ return r.ok ? r.json() : null; }).then(function(u){
+        if (u && Daleel.auth.session) { Daleel.auth.session.user = u; Daleel.auth.save(Daleel.auth.session); }
+        return u;
+      }).catch(function(){ return null; });
+    });
+  };
+
+  /** Fetch the signed-in user's public.users row + tenant slug (v_me). */
+  Daleel.auth.fetchMe = function() {
+    return Daleel.sb('v_me', { select: '*' }).then(function(rows){
+      var me = (rows && rows[0]) || null;
+      Daleel.auth.me = me;
+      return me;
+    }).catch(function(){ Daleel.auth.me = null; return null; });
+  };
+
+  /** Send a magic-link email. Returns a promise that resolves on 2xx. */
+  Daleel.auth.signInWithOtp = function(email) {
+    var redirect = window.location.origin + window.location.pathname;
+    return fetch(Daleel.SUPABASE.url + '/auth/v1/otp', {
+      method: 'POST',
+      headers: { 'apikey': Daleel.SUPABASE.anonKey, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: String(email || '').trim().toLowerCase(),
+        create_user: true,
+        options: { email_redirect_to: redirect },
+        email_redirect_to: redirect // GoTrue accepts both shapes depending on version
+      })
+    }).then(function(r){
+      if (!r.ok) return r.text().then(function(t){ throw new Error('OTP HTTP ' + r.status + ': ' + t.slice(0,200)); });
+      return r.json().catch(function(){ return {}; });
+    });
+  };
+
+  Daleel.auth.signOut = function() {
+    var s = Daleel.auth.session || Daleel.auth.load();
+    var tok = s && s.access_token;
+    var done = function(){ Daleel.auth.clear(); try { location.reload(); } catch(e){} };
+    if (!tok) return Promise.resolve(done());
+    return fetch(Daleel.SUPABASE.url + '/auth/v1/logout', {
+      method: 'POST',
+      headers: { 'apikey': Daleel.SUPABASE.anonKey, 'Authorization': 'Bearer ' + tok }
+    }).catch(function(){}).then(done);
+  };
+
+  /* REST helper — uses auth token when present (→ RLS scoped to user's
+     tenant), otherwise falls back to anon publishable key (→ public-demo
+     tenants). Supabase treats the key in `apikey` header as identity
+     selector; the Bearer Authorization can be either the same anon key
+     OR the user's access_token. */
   Daleel.sb = function(path, params) {
     var qs = params ? ('?' + Object.keys(params).map(function(k){ return encodeURIComponent(k)+'='+encodeURIComponent(params[k]); }).join('&')) : '';
-    return fetch(Daleel.SUPABASE.url + '/rest/v1/' + path + qs, {
-      headers: {
-        'apikey': Daleel.SUPABASE.anonKey,
-        'Authorization': 'Bearer ' + Daleel.SUPABASE.anonKey,
-        'Accept': 'application/json'
-      }
+    return Daleel.auth.getToken().then(function(tok){
+      var bearer = tok || Daleel.SUPABASE.anonKey;
+      return fetch(Daleel.SUPABASE.url + '/rest/v1/' + path + qs, {
+        headers: {
+          'apikey': Daleel.SUPABASE.anonKey,
+          'Authorization': 'Bearer ' + bearer,
+          'Accept': 'application/json'
+        }
+      });
     }).then(function(r){
       if (!r.ok) throw new Error('Supabase ' + path + ' → HTTP ' + r.status);
       return r.json();
@@ -2245,6 +2408,12 @@ input[id^="r-"][type="number"]:focus {
   Daleel.mountClientSwitcher = function() {
     var tbAct = document.querySelector('.tb-act'); if (!tbAct) return;
     var existing = document.getElementById('daleel-client-switcher');
+    // When signed in we hide the switcher — the user is locked to
+    // their tenant via RLS and shouldn't appear to "pick" a client.
+    if (Daleel.auth && Daleel.auth.me) {
+      if (existing) existing.remove();
+      return;
+    }
     if (existing) { existing.value = Daleel.activeClientId; return; }
     var sel = document.createElement('select');
     sel.id = 'daleel-client-switcher';
@@ -2262,6 +2431,102 @@ input[id^="r-"][type="number"]:focus {
     });
     sel.addEventListener('change', function(){ Daleel.switchClient(sel.value); });
     tbAct.insertBefore(sel, tbAct.firstChild);
+  };
+
+  /* ── Auth pill UI (top-bar) ──────────────────────────────── */
+  Daleel.mountAuthButton = function() {
+    var tbAct = document.querySelector('.tb-act'); if (!tbAct) return;
+    var existing = document.getElementById('daleel-auth-pill');
+    if (existing) existing.remove();
+
+    var pill = document.createElement('button');
+    pill.id = 'daleel-auth-pill';
+    pill.type = 'button';
+    pill.style.cssText = 'background:rgba(16,185,129,0.10);border:1px solid rgba(16,185,129,0.35);color:#34D399;border-radius:8px;padding:6px 10px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;margin-right:6px;outline:none;display:inline-flex;align-items:center;gap:6px;line-height:1';
+
+    var me = Daleel.auth && Daleel.auth.me;
+    if (me) {
+      pill.style.background = 'rgba(124,58,237,0.10)';
+      pill.style.borderColor = 'rgba(124,58,237,0.35)';
+      pill.style.color = 'var(--purple-hi,#A78BFA)';
+      pill.innerHTML = '<span style="width:6px;height:6px;border-radius:50%;background:#34D399;box-shadow:0 0 6px #34D399"></span>' +
+                       '<span style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + (me.email || 'Signed in') + '</span>' +
+                       '<span style="opacity:.7">▾</span>';
+      pill.title = 'Signed in · click to sign out';
+      pill.addEventListener('click', function(){
+        if (confirm('Sign out of Daleel?')) Daleel.auth.signOut();
+      });
+    } else {
+      pill.innerHTML = '<span style="width:6px;height:6px;border-radius:50%;background:#34D399"></span>' +
+                       '<span data-en="Sign in" data-ar="تسجيل الدخول">Sign in</span>';
+      pill.title = 'Sign in with a magic link sent to your email';
+      pill.addEventListener('click', function(){ Daleel.auth.openSignInModal(); });
+    }
+    tbAct.insertBefore(pill, tbAct.firstChild);
+  };
+
+  /* ── Sign-in modal (email → magic link) ──────────────────── */
+  Daleel.auth.openSignInModal = function() {
+    var existing = document.getElementById('daleel-auth-modal');
+    if (existing) existing.remove();
+
+    var overlay = document.createElement('div');
+    overlay.id = 'daleel-auth-modal';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(3,7,18,0.72);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:16px;font-family:inherit';
+    overlay.addEventListener('click', function(e){ if (e.target === overlay) overlay.remove(); });
+
+    var card = document.createElement('div');
+    card.style.cssText = 'background:linear-gradient(180deg,#0F172A 0%,#111C34 100%);border:1px solid rgba(148,163,184,0.18);border-radius:14px;padding:24px;max-width:420px;width:100%;box-shadow:0 24px 48px rgba(2,6,23,0.6),0 0 0 1px rgba(148,163,184,0.08);color:#E2E8F0';
+    card.innerHTML =
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">' +
+        '<div style="display:flex;align-items:center;gap:8px">' +
+          '<span style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#0E7490,#7C3AED);display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;color:#fff">D</span>' +
+          '<span style="font-weight:700;font-size:15px" data-en="Sign in to Daleel" data-ar="تسجيل الدخول إلى دليل">Sign in to Daleel</span>' +
+        '</div>' +
+        '<button id="daleel-auth-close" type="button" style="background:transparent;border:0;color:#94A3B8;font-size:18px;cursor:pointer;padding:4px 8px">×</button>' +
+      '</div>' +
+      '<p style="margin:0 0 16px;font-size:13px;line-height:1.55;color:#94A3B8" data-en="We\'ll email you a secure magic link. No password required." data-ar="سنرسل لك رابط دخول آمن عبر البريد الإلكتروني. لا حاجة لكلمة مرور.">We\'ll email you a secure magic link. No password required.</p>' +
+      '<form id="daleel-auth-form" style="display:flex;flex-direction:column;gap:10px">' +
+        '<label style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#94A3B8" data-en="Work email" data-ar="البريد المهني">Work email</label>' +
+        '<input id="daleel-auth-email" type="email" required placeholder="you@company.com" autocomplete="email" spellcheck="false" style="background:rgba(15,23,42,0.85);border:1px solid rgba(148,163,184,0.25);border-radius:10px;padding:11px 13px;color:#E2E8F0;font-size:14px;font-family:inherit;outline:none">' +
+        '<button id="daleel-auth-submit" type="submit" style="background:linear-gradient(135deg,#0E7490,#7C3AED);border:0;border-radius:10px;padding:12px 14px;color:#fff;font-weight:700;font-size:14px;cursor:pointer;font-family:inherit;margin-top:4px" data-en="Send magic link" data-ar="أرسل رابط الدخول">Send magic link</button>' +
+      '</form>' +
+      '<div id="daleel-auth-msg" style="margin-top:12px;font-size:12px;line-height:1.5;color:#94A3B8;display:none"></div>';
+    overlay.appendChild(card);
+    document.body.appendChild(overlay);
+
+    var emailEl   = overlay.querySelector('#daleel-auth-email');
+    var form      = overlay.querySelector('#daleel-auth-form');
+    var submit    = overlay.querySelector('#daleel-auth-submit');
+    var msg       = overlay.querySelector('#daleel-auth-msg');
+    var closeBtn  = overlay.querySelector('#daleel-auth-close');
+    closeBtn.addEventListener('click', function(){ overlay.remove(); });
+    setTimeout(function(){ try { emailEl.focus(); } catch(e){} }, 40);
+
+    form.addEventListener('submit', function(ev){
+      ev.preventDefault();
+      var email = String(emailEl.value || '').trim();
+      if (!email) return;
+      submit.disabled = true;
+      submit.style.opacity = '0.7';
+      submit.textContent = Daleel.lang === 'ar' ? 'جارٍ الإرسال…' : 'Sending…';
+      msg.style.display = 'none';
+      Daleel.auth.signInWithOtp(email).then(function(){
+        msg.style.color = '#34D399';
+        msg.style.display = 'block';
+        msg.innerHTML = Daleel.lang === 'ar'
+          ? 'تحقق من بريدك الإلكتروني (<strong>' + email + '</strong>) وانقر على الرابط لإكمال تسجيل الدخول.'
+          : 'Check your inbox (<strong>' + email + '</strong>) and click the link to finish signing in.';
+        submit.textContent = Daleel.lang === 'ar' ? 'تم الإرسال ✓' : 'Sent ✓';
+      }).catch(function(err){
+        msg.style.color = '#F87171';
+        msg.style.display = 'block';
+        msg.textContent = (Daleel.lang === 'ar' ? 'تعذّر الإرسال: ' : 'Could not send: ') + (err && err.message || 'unknown error');
+        submit.disabled = false;
+        submit.style.opacity = '1';
+        submit.textContent = Daleel.lang === 'ar' ? 'أرسل رابط الدخول' : 'Send magic link';
+      });
+    });
   };
 
   /* ── Hook into setLang so toggling re-renders dynamic HTML ── */
@@ -2307,18 +2572,43 @@ input[id^="r-"][type="number"]:focus {
   /* ── Boot ────────────────────────────────────────────────── */
   function boot() {
     try {
+      // 1. Capture any magic-link fragment FIRST so the session is
+      //    available to the subsequent hydration pipeline.
+      try { Daleel.auth.captureCallback(); } catch(e){}
+      // 2. Warm session from localStorage (may be null / expired).
+      try { Daleel.auth.session = Daleel.auth.load(); } catch(e){}
+
       Daleel.hydrateDashboard();
       Daleel.mountClientSwitcher();
+      Daleel.mountAuthButton();
       wrapSetLang();
       wrapSetRole();
-      // Re-apply once more after the app's DOMContentLoaded init
-      // chain (which calls setRole with Gulf-Bank defaults) settles.
+
+      // 3. If we have a session, resolve /v_me → swap to the user's
+      //    tenant and re-hydrate so Gulf Bank admin sees Gulf Bank
+      //    regardless of which URL they landed on. Anon users fall
+      //    through to the live-hydration path below.
+      Daleel.auth.getToken().then(function(tok){
+        if (!tok) return null;
+        return Daleel.auth.fetchMe().then(function(me){
+          if (me && me.tenant_slug && Daleel.CLIENT_PROFILES[me.tenant_slug]) {
+            Daleel.activeClientId = me.tenant_slug;
+            Daleel.activeProfile  = Daleel.CLIENT_PROFILES[me.tenant_slug];
+            try { localStorage.setItem('daleel.activeClient', me.tenant_slug); } catch(e){}
+          }
+          Daleel.mountAuthButton();      // re-render pill with signed-in state
+          Daleel.mountClientSwitcher();  // hides switcher when signed in
+          try { Daleel.hydrateDashboard(); } catch(e){}
+          return me;
+        });
+      }).catch(function(err){ console.warn('[Daleel] auth bootstrap:', err && err.message); });
+
+      // 4. Late re-hydrate + live data (anon or authenticated).
       window.addEventListener('load', function(){
         try { Daleel.hydrateDashboard(); } catch(e){}
-        // Fire-and-forget live hydration — upgrades baked-in profile
-        // to real Supabase data when the fetch returns.
         try { Daleel.hydrateFromSupabase(); } catch(e){}
       });
+
       try {
         var activeName = Daleel.t(Daleel.activeProfile.name);
         if (typeof document.title === 'string' && document.title) {
