@@ -1756,6 +1756,583 @@ input[id^="r-"][type="number"]:focus {
 </style>
 </head>
 <body>
+
+<script id="daleel-core">
+/* ══════════════════ DALEEL MULTI-CLIENT CORE ══════════════════
+ * CLIENT_PROFILES + active-client detection + imperative hydration.
+ * Phase 1: Dashboard. Future phases add hydrate{Section}() funcs.
+ * Keep this block self-contained — no external deps, no build step.
+ * ───────────────────────────────────────────────────────────── */
+(function(){
+  window.Daleel = window.Daleel || {};
+
+  /* ── Client Profiles ────────────────────────────────────── */
+  Daleel.CLIENT_PROFILES = {
+    gulfBank: {
+      id:'gulfBank',
+      name:{en:'Gulf Bank', ar:'بنك الخليج'},
+      industry:{en:'Banking · Kuwait', ar:'بنوك · الكويت'},
+      accent:'#0EA5C9',
+      user:{initials:'NA', name:{en:'Noor Al-Ahmad', ar:'نور الأحمد'}, role:{en:'HR Director · Gulf Bank', ar:'مديرة الموارد البشرية · بنك الخليج'}, roleShort:{en:'HR Director', ar:'مديرة الموارد البشرية'}},
+      greeting:{en:'Good morning, Noor 👋', ar:'صباح الخير يا نور 👋'},
+      subheader:{en:"Gulf Bank · March 2026 · Here's what needs your attention today", ar:'بنك الخليج · مارس 2026 · إليك ما يحتاج اهتمامك اليوم'},
+      alert:{severity:'red', icon:'🚨',
+        headline:{en:'<strong>23 Finance employees</strong> have AML certs expiring within 30 days — <strong>KD 45,000 fine.</strong>', ar:'<strong>23 موظفاً في المالية</strong> شهادات مكافحة غسل الأموال تنتهي خلال 30 يوماً — <strong>غرامة 45,000 د.ك.</strong>'},
+        cta:{en:'Schedule renewal →', ar:'جدولة التجديد →'}, target:'compliance'},
+      stats:{
+        employees:{val:'1,247', lbl:{en:'Total Employees', ar:'إجمالي الموظفين'}, delta:{en:'↑ 14% enrolled this quarter', ar:'↑ 14% مسجلون هذا الربع'}, dir:'up'},
+        completion:{val:'73%', lbl:{en:'Completion Rate', ar:'معدل الإنجاز'}, delta:{en:'↑ 5pts vs last quarter', ar:'↑ 5 نقاط مقارنة بالربع الماضي'}, dir:'up'},
+        budget:{val:'KD 284K', lbl:{en:'Budget Used', ar:'الميزانية المستخدمة'}, delta:{en:'71% of KD 400K · KD 116K left', ar:'71% من 400 ألف د.ك · 116 ألف د.ك متبقية'}, dir:'neutral'},
+        action:{val:'23', lbl:{en:'Action Required', ar:'إجراء مطلوب'}, delta:{en:'↑ 8 vs last month · expiring soon', ar:'↑ 8 مقارنة بالشهر الماضي · تنتهي قريباً'}, dir:'down'}
+      },
+      attention:[
+        {severity:'red', av:'23', name:{en:'AML Renewals Due', ar:'تجديد مكافحة غسل الأموال'}, dept:{en:'Finance · 23 staff', ar:'المالية · 23 موظفاً'}, desc:{en:'Hamad Al-Rashidi expires in <strong class="red">8 days</strong> · KD 45K fine exposure · Bulk renewal available', ar:'حمد الرشيدي تنتهي خلال <strong class="red">8 أيام</strong> · تعرض غرامة 45 ألف د.ك · تجديد جماعي متاح'}, action:{en:'Schedule →', ar:'جدولة →'}, target:'compliance'},
+        {severity:'gold', av:'AH', name:{en:'Beyond Ajyal seats', ar:'مقاعد بيوند عجيال'}, dept:{en:'Waiting on Manager', ar:'في انتظار المدير'}, desc:{en:"Ahmed Hassan hasn't responded · expires March 25 · 4 seats at KD 5,500", ar:'أحمد حسن لم يرد · تنتهي 25 مارس · 4 مقاعد بـ 5,500 د.ك'}, action:{en:'Follow up →', ar:'متابعة →'}, target:'manager-inbox'},
+        {severity:'blue', av:'8', name:{en:'Ethics Training', ar:'تدريب الأخلاقيات'}, dept:{en:'Sales Team', ar:'فريق المبيعات'}, desc:{en:'8 employees missing mandatory ethics module · due April 1', ar:'8 موظفين ينقصهم تدريب الأخلاقيات الإلزامي · موعد 1 أبريل'}, action:{en:'Assign →', ar:'تعيين →'}, target:'employees'}
+      ],
+      training:[
+        {initials:'MS', grad:'var(--purple),#0E7490', name:{en:'Maryam Al-Sabah', ar:'مريم الصباح'}, prog:{en:'Ajyal Module 3', ar:'عجيال الوحدة 3'}, pct:82, pctColor:'teal', tag:{en:'On track', ar:'على المسار'}, tagCls:'bv'},
+        {initials:'FA', grad:'#0E7490,#0B6480', name:{en:'Faisal Al-Ahmad', ar:'فيصل الأحمد'}, prog:{en:'Data Analytics', ar:'تحليل البيانات'}, pct:40, pctColor:'gold', tag:{en:'In progress', ar:'قيد التنفيذ'}, tagCls:'bt'},
+        {initials:'NK', grad:'#0E7490,#0B6480', name:{en:'Nadia Al-Kandari', ar:'نادية الكندري'}, prog:{en:'Risk Management', ar:'إدارة المخاطر'}, pct:null, pctColor:'mute', tag:{en:'Scheduled Q2', ar:'مجدول ربع 2'}, tagCls:'bx'},
+        {initials:'DA', grad:'var(--teal),#0E7490', name:{en:'Dana Al-Rashoud', ar:'دانة الرشود'}, prog:{en:'Digital Banking', ar:'الخدمات المصرفية الرقمية'}, pct:88, pctColor:'green', tag:{en:'Top performer', ar:'أداء متميز'}, tagCls:'bg'}
+      ],
+      snapshots:{
+        compliance:{val:{en:'91%', ar:'91%'}, sub:{en:'Overall · 23 AML renewals pending', ar:'إجمالي · 23 تجديد مكافحة غسل الأموال معلق'}},
+        skillGap:{val:{en:'Data Analytics', ar:'تحليل البيانات'}, sub:{en:'41% gap · 42 employees need training', ar:'فجوة 41% · 42 موظفاً يحتاجون تدريباً'}},
+        window:{val:{en:'Q2 — April', ar:'ربع 2 — أبريل'}, sub:{en:'89% historical completion · opens Apr 1', ar:'إنجاز تاريخي 89% · يبدأ 1 أبريل'}},
+        featured:{icon:'🏦', title:{en:'Ajyal 10th', ar:'عجيال 10'}, val:{en:'82% avg', ar:'متوسط 82%'}, sub:{en:'24 participants · Module 3 active', ar:'24 مشاركاً · الوحدة 3 نشطة'}, target:'ajyal', tone:'purple'}
+      },
+      deptCompletion:[
+        {lbl:{en:'Finance', ar:'المالية'}, pct:88, color:'green'},
+        {lbl:{en:'Operations', ar:'العمليات'}, pct:76, color:'teal'},
+        {lbl:{en:'IT & Digital', ar:'تقنية المعلومات'}, pct:71, color:'teal'},
+        {lbl:{en:'HR', ar:'الموارد البشرية'}, pct:65, color:'gold'},
+        {lbl:{en:'Sales', ar:'المبيعات'}, pct:48, color:'red'}
+      ],
+      activePrograms:[
+        {icon:'🏦', name:{en:'Ajyal 10th Edition', ar:'عجيال الإصدار 10'}, meta:{en:'6 months · 24 participants · IBS Kuwait', ar:'6 أشهر · 24 مشاركاً · IBS الكويت'}, pct:68, color:'teal'},
+        {icon:'💻', name:{en:'CODED Tech Bootcamp', ar:'معسكر CODED التقني'}, meta:{en:'12 weeks · 16 participants · CODED', ar:'12 أسبوعاً · 16 مشاركاً · CODED'}, pct:45, color:'purple'},
+        {icon:'🎓', name:{en:'Beyond Ajyal · Euromoney', ar:'بيوند عجيال · يوروموني'}, meta:{en:'4 months · 12 enrolled · 4 seats left', ar:'4 أشهر · 12 مسجلاً · 4 مقاعد متبقية'}, pct:25, color:'gold', tag:{en:'Enrolling', ar:'التسجيل مفتوح'}}
+      ]
+    },
+
+    scientificCenter: {
+      id:'scientificCenter',
+      name:{en:'The Scientific Center', ar:'المركز العلمي'},
+      industry:{en:'Education · KFAS', ar:'تعليم · KFAS'},
+      accent:'#14B8A6',
+      user:{initials:'LM', name:{en:'Layla Al-Mutairi', ar:'ليلى المطيري'}, role:{en:'People Lead · Scientific Center', ar:'قائدة الموارد البشرية · المركز العلمي'}, roleShort:{en:'People Lead', ar:'قائدة الموارد'}},
+      greeting:{en:'Good morning, Layla 👋', ar:'صباح الخير يا ليلى 👋'},
+      subheader:{en:'Scientific Center · April 2026 · KFAS reporting window opens May 1', ar:'المركز العلمي · أبريل 2026 · نافذة تقارير KFAS تفتح 1 مايو'},
+      alert:{severity:'teal', icon:'🧭',
+        headline:{en:'<strong>KFAS quarterly report</strong> is due in 18 days — 6 programs need completion evidence.', ar:'<strong>تقرير KFAS الربعي</strong> مستحق خلال 18 يوماً — 6 برامج تحتاج إثبات إنجاز.'},
+        cta:{en:'Open KFAS module →', ar:'فتح وحدة KFAS →'}, target:'compliance'},
+      stats:{
+        employees:{val:'340', lbl:{en:'Total Employees', ar:'إجمالي الموظفين'}, delta:{en:'↑ 9% enrolled this quarter', ar:'↑ 9% مسجلون هذا الربع'}, dir:'up'},
+        completion:{val:'81%', lbl:{en:'Completion Rate', ar:'معدل الإنجاز'}, delta:{en:'↑ 7pts vs last quarter', ar:'↑ 7 نقاط مقارنة بالربع الماضي'}, dir:'up'},
+        budget:{val:'KD 68K', lbl:{en:'Budget Used', ar:'الميزانية المستخدمة'}, delta:{en:'57% of KD 120K · KD 52K left', ar:'57% من 120 ألف د.ك · 52 ألف د.ك متبقية'}, dir:'neutral'},
+        action:{val:'6', lbl:{en:'KFAS Items', ar:'بنود KFAS'}, delta:{en:'Evidence due May 1', ar:'الإثباتات مستحقة 1 مايو'}, dir:'neutral'}
+      },
+      attention:[
+        {severity:'teal', av:'K', name:{en:'KFAS Evidence', ar:'إثباتات KFAS'}, dept:{en:'Cross-dept · 6 programs', ar:'متعدد الأقسام · 6 برامج'}, desc:{en:'Upload completion proofs before <strong>May 1</strong> · auto-match available', ar:'رفع إثباتات الإنجاز قبل <strong>1 مايو</strong> · المطابقة التلقائية متاحة'}, action:{en:'Open →', ar:'فتح →'}, target:'compliance'},
+        {severity:'gold', av:'SM', name:{en:'Exhibit Guide Training', ar:'تدريب مرشدي المعارض'}, dept:{en:'Exhibits · 14 staff', ar:'المعارض · 14 موظفاً'}, desc:{en:'New Ocean Wing guides need safety certification · start April 28', ar:'مرشدو جناح المحيط الجدد يحتاجون شهادة سلامة · يبدأ 28 أبريل'}, action:{en:'Schedule →', ar:'جدولة →'}, target:'planner'},
+        {severity:'blue', av:'3', name:{en:'Curator CPD', ar:'التطوير المهني للأمناء'}, dept:{en:'Education · 3 curators', ar:'التعليم · 3 أمناء'}, desc:{en:'Annual CPD hours below target · 12 hours remaining', ar:'ساعات التطوير السنوية أقل من الهدف · 12 ساعة متبقية'}, action:{en:'Assign →', ar:'تعيين →'}, target:'employees'}
+      ],
+      training:[
+        {initials:'FK', grad:'var(--teal),#0E7490', name:{en:'Fatima Al-Khaled', ar:'فاطمة الخالد'}, prog:{en:'Science Communication', ar:'التواصل العلمي'}, pct:76, pctColor:'teal', tag:{en:'On track', ar:'على المسار'}, tagCls:'bv'},
+        {initials:'YH', grad:'#0E7490,#0B6480', name:{en:'Yousef Al-Hajri', ar:'يوسف الهاجري'}, prog:{en:'Visitor Experience Design', ar:'تصميم تجربة الزائر'}, pct:52, pctColor:'gold', tag:{en:'In progress', ar:'قيد التنفيذ'}, tagCls:'bt'},
+        {initials:'MM', grad:'var(--teal),#0E7490', name:{en:'Mariam Al-Mousa', ar:'مريم الموسى'}, prog:{en:'Marine Biology Refresher', ar:'تحديث الأحياء البحرية'}, pct:94, pctColor:'green', tag:{en:'Top performer', ar:'أداء متميز'}, tagCls:'bg'},
+        {initials:'AS', grad:'#0E7490,#0B6480', name:{en:'Ali Al-Shamari', ar:'علي الشمري'}, prog:{en:'Safety & Evacuation', ar:'السلامة والإخلاء'}, pct:null, pctColor:'mute', tag:{en:'Scheduled Q2', ar:'مجدول ربع 2'}, tagCls:'bx'}
+      ],
+      snapshots:{
+        compliance:{val:{en:'96%', ar:'96%'}, sub:{en:'KFAS-aligned · 6 evidence uploads pending', ar:'متوافق مع KFAS · 6 إثباتات قيد الرفع'}},
+        skillGap:{val:{en:'Science Comms', ar:'التواصل العلمي'}, sub:{en:'28% gap · 18 guides need training', ar:'فجوة 28% · 18 مرشداً يحتاجون تدريباً'}},
+        window:{val:{en:'Q3 — July', ar:'ربع 3 — يوليو'}, sub:{en:'Summer break ideal · 92% historical completion', ar:'العطلة الصيفية الأمثل · إنجاز تاريخي 92%'}},
+        featured:{icon:'🔬', title:{en:'KFAS Module', ar:'وحدة KFAS'}, val:{en:'18 days', ar:'18 يوماً'}, sub:{en:'Until quarterly report · 6 items open', ar:'حتى التقرير الربعي · 6 بنود مفتوحة'}, target:'compliance', tone:'teal'}
+      },
+      deptCompletion:[
+        {lbl:{en:'Exhibits', ar:'المعارض'}, pct:91, color:'green'},
+        {lbl:{en:'Education', ar:'التعليم'}, pct:84, color:'teal'},
+        {lbl:{en:'Operations', ar:'العمليات'}, pct:77, color:'teal'},
+        {lbl:{en:'Marketing', ar:'التسويق'}, pct:69, color:'gold'},
+        {lbl:{en:'Admin', ar:'الإدارة'}, pct:58, color:'gold'}
+      ],
+      activePrograms:[
+        {icon:'🔬', name:{en:'KFAS Science Educators', ar:'معلمو العلوم KFAS'}, meta:{en:'3 months · 22 participants · KFAS', ar:'3 أشهر · 22 مشاركاً · KFAS'}, pct:72, color:'teal'},
+        {icon:'🐠', name:{en:'Aquarium Ops Certification', ar:'شهادة عمليات الأحواض'}, meta:{en:'6 weeks · 14 participants · internal', ar:'6 أسابيع · 14 مشاركاً · داخلي'}, pct:55, color:'purple'},
+        {icon:'🎟', name:{en:'Visitor Experience 2026', ar:'تجربة الزائر 2026'}, meta:{en:'Rolling · 18 enrolled · 6 seats left', ar:'مستمر · 18 مسجلاً · 6 مقاعد متبقية'}, pct:30, color:'gold', tag:{en:'Enrolling', ar:'التسجيل مفتوح'}}
+      ]
+    }
+  };
+
+  /* ── Active client detection ─────────────────────────────── */
+  Daleel.DEFAULT_CLIENT = 'gulfBank';
+  function resolveClientId() {
+    try {
+      var params = new URLSearchParams(window.location.search);
+      var raw = (params.get('client') || '').trim().toLowerCase();
+      var map = {
+        'gulfbank':'gulfBank','gulf-bank':'gulfBank','gulf_bank':'gulfBank',
+        'scientificcenter':'scientificCenter','scientific-center':'scientificCenter','scientific_center':'scientificCenter','tsck':'scientificCenter','sc':'scientificCenter'
+      };
+      if (raw && map[raw]) { try { localStorage.setItem('daleel.activeClient', map[raw]); } catch(e){} return map[raw]; }
+      var stored = null;
+      try { stored = localStorage.getItem('daleel.activeClient'); } catch(e){}
+      if (stored && Daleel.CLIENT_PROFILES[stored]) return stored;
+    } catch(e) {}
+    return Daleel.DEFAULT_CLIENT;
+  }
+  Daleel.activeClientId = resolveClientId();
+  Daleel.activeProfile  = Daleel.CLIENT_PROFILES[Daleel.activeClientId] || Daleel.CLIENT_PROFILES[Daleel.DEFAULT_CLIENT];
+  Daleel.switchClient = function(id) {
+    if (!Daleel.CLIENT_PROFILES[id]) return;
+    try { localStorage.setItem('daleel.activeClient', id); } catch(e){}
+    var url = new URL(window.location.href);
+    url.searchParams.set('client', id);
+    window.location.assign(url.toString());
+  };
+
+  /* ── i18n helpers ─────────────────────────────────────────── */
+  function currentLang() { return (typeof window.lang !== 'undefined' && window.lang) ? window.lang : 'en'; }
+  Daleel.t = function(v) {
+    if (v == null) return '';
+    if (typeof v === 'string') return v;
+    if (typeof v === 'object') return v[currentLang()] || v.en || v.ar || '';
+    return String(v);
+  };
+  function escAttr(s) { return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function setBilingual(el, v, opt) {
+    if (!el || v == null) return;
+    opt = opt || {};
+    var en = typeof v === 'string' ? v : (v.en || '');
+    var ar = typeof v === 'string' ? v : (v.ar || en);
+    // Only store plain-text bilingual attrs; HTML-containing fields use setHtmlBilingual
+    if (!opt.html) {
+      el.setAttribute('data-en', en);
+      el.setAttribute('data-ar', ar);
+    } else {
+      el.removeAttribute('data-en'); el.removeAttribute('data-ar');
+    }
+    var txt = currentLang() === 'ar' ? ar : en;
+    if (opt.html) el.innerHTML = txt; else el.textContent = txt;
+  }
+  function q(root, sel)  { return root && root.querySelector ? root.querySelector(sel) : null; }
+  function qa(root, sel) { return root && root.querySelectorAll ? Array.prototype.slice.call(root.querySelectorAll(sel)) : []; }
+
+  /* ── Dashboard hydration ──────────────────────────────────── */
+  Daleel.hydrateDashboard = function() {
+    var p = Daleel.activeProfile; if (!p) return;
+
+    // Sidebar user card
+    setBilingual(document.getElementById('u-name'), p.user.name);
+    setBilingual(document.getElementById('u-role'), p.user.role);
+    setBilingual(document.getElementById('role-lbl'), p.user.roleShort);
+    var uav = document.querySelector('.u-av');
+    if (uav) uav.textContent = p.user.initials;
+
+    var page = document.getElementById('page-dashboard'); if (!page) return;
+
+    // Page heading
+    setBilingual(q(page, '.ph-title'), p.greeting);
+    setBilingual(q(page, '.ph-sub'), p.subheader);
+
+    // Alert banner
+    var ab = q(page, '.alert-banner');
+    if (ab && p.alert) {
+      var abIcon = q(ab, '.ab-icon'); if (abIcon) abIcon.textContent = p.alert.icon || '🚨';
+      var abBody = q(ab, '.ab-body');
+      if (abBody) {
+        var cta = p.alert.cta ? ' <span class="ab-cta" style="color:var(--teal-hi);font-weight:600;margin-left:8px">' + Daleel.t(p.alert.cta) + '</span>' : '';
+        abBody.innerHTML = Daleel.t(p.alert.headline) + cta;
+        if (p.alert.target) abBody.setAttribute('onclick', "go('" + p.alert.target + "')");
+      }
+    }
+
+    // Stat cards
+    var statCards = qa(page, '.dash-stats .ds-card');
+    var order = ['employees','completion','budget','action'];
+    statCards.forEach(function(card, idx) {
+      var key = order[idx]; var s = p.stats && p.stats[key]; if (!s) return;
+      var v = q(card, '.ds-val'); if (v) v.textContent = s.val;
+      setBilingual(q(card, '.ds-lbl'), s.lbl);
+      var d = q(card, '.ds-delta');
+      if (d) {
+        d.classList.remove('up','down','neutral');
+        d.classList.add(s.dir || 'neutral');
+        setBilingual(d, s.delta);
+      }
+    });
+
+    // Needs Attention
+    var attn = q(page, '#dash-attn');
+    if (attn && Array.isArray(p.attention)) {
+      qa(attn, '.attn-item').forEach(function(n){ n.remove(); });
+      p.attention.forEach(function(a){
+        var dotColor = a.severity === 'red' ? 'var(--red)' : a.severity === 'gold' ? 'var(--gold-hi)' : a.severity === 'teal' ? 'var(--teal)' : 'var(--blue)';
+        var avGrad  = a.severity === 'red' ? 'linear-gradient(135deg,#C0392B,#922B21)' : a.severity === 'gold' ? 'linear-gradient(135deg,#D97706,#A05C00)' : a.severity === 'teal' ? 'linear-gradient(135deg,#0E7490,#0B6480)' : 'linear-gradient(135deg,#0E7490,#0B6480)';
+        var item = document.createElement('div');
+        item.className = 'attn-item attn-' + (a.severity || 'blue');
+        if (a.target) item.setAttribute('onclick', "go('" + a.target + "')");
+        item.innerHTML =
+          '<div class="attn-dot" style="background:' + dotColor + '"></div>' +
+          '<div class="attn-av" style="background:' + avGrad + ';font-size:' + (String(a.av).length > 2 ? '9px' : '11px') + '">' + escAttr(a.av || '') + '</div>' +
+          '<div class="attn-body">' +
+            '<div class="attn-name" data-en="' + escAttr(a.name.en || '') + '" data-ar="' + escAttr(a.name.ar || '') + '">' + Daleel.t(a.name) +
+              ' <span class="attn-dept" data-en="' + escAttr(a.dept.en || '') + '" data-ar="' + escAttr(a.dept.ar || '') + '">' + Daleel.t(a.dept) + '</span>' +
+            '</div>' +
+            '<div class="attn-desc">' + Daleel.t(a.desc) + '</div>' +
+          '</div>' +
+          '<div class="attn-action" data-en="' + escAttr(a.action.en || '') + '" data-ar="' + escAttr(a.action.ar || '') + '">' + Daleel.t(a.action) + '</div>';
+        attn.appendChild(item);
+      });
+    }
+
+    // Currently Training
+    var trn = q(page, '#dash-training');
+    if (trn && Array.isArray(p.training)) {
+      qa(trn, '.ep-item').forEach(function(n){ n.remove(); });
+      p.training.forEach(function(t){
+        var pctColorCss = t.pctColor === 'teal' ? 'var(--teal-hi)' : t.pctColor === 'gold' ? 'var(--gold-hi)' : t.pctColor === 'green' ? '#0EA5C9' : '#94a3b8';
+        var barColor    = t.pctColor === 'green' ? 'var(--green)' : t.pctColor === 'gold' ? 'var(--gold)' : 'var(--teal)';
+        var pctText = t.pct == null ? '—' : t.pct + '%';
+        var pctFill = t.pct == null ? 0 : t.pct;
+        var row = document.createElement('div'); row.className = 'ep-item';
+        row.innerHTML =
+          '<div class="av" style="background:linear-gradient(135deg,' + t.grad + ')">' + escAttr(t.initials) + '</div>' +
+          '<div class="ep-body">' +
+            '<div class="ep-name" data-en="' + escAttr(t.name.en || '') + '" data-ar="' + escAttr(t.name.ar || '') + '">' + Daleel.t(t.name) + '</div>' +
+            '<div class="ep-prog" data-en="' + escAttr(t.prog.en || '') + '" data-ar="' + escAttr(t.prog.ar || '') + '">' + Daleel.t(t.prog) + '</div>' +
+          '</div>' +
+          '<div class="ep-right">' +
+            '<div class="ep-pct" style="color:' + pctColorCss + '">' + pctText + '</div>' +
+            '<div class="ep-bar"><div class="ep-fill" style="width:' + pctFill + '%;background:' + barColor + '"></div></div>' +
+          '</div>' +
+          '<span class="b ' + (t.tagCls || 'bt') + ' ep-tag" data-en="' + escAttr(t.tag.en || '') + '" data-ar="' + escAttr(t.tag.ar || '') + '">' + Daleel.t(t.tag) + '</span>';
+        trn.appendChild(row);
+      });
+    }
+
+    // Snapshot cards
+    var snaps = p.snapshots || {};
+    var snapC = q(page, '#snap-compliance');
+    if (snapC && snaps.compliance) { setBilingual(q(snapC, '.snap-val'), snaps.compliance.val); setBilingual(q(snapC, '.snap-sub'), snaps.compliance.sub); }
+    var snapS = q(page, '#snap-skills');
+    if (snapS && snaps.skillGap)  { setBilingual(q(snapS, '.snap-val'), snaps.skillGap.val);  setBilingual(q(snapS, '.snap-sub'), snaps.skillGap.sub); }
+    var snapW = q(page, '#snap-window');
+    if (snapW && snaps.window)    { setBilingual(q(snapW, '.snap-val'), snaps.window.val);    setBilingual(q(snapW, '.snap-sub'), snaps.window.sub); }
+    var snapF = q(page, '#snap-ajyal');
+    if (snapF && snaps.featured)  {
+      snapF.className = 'snap-card snap-' + (snaps.featured.tone || 'purple');
+      var fi = q(snapF, '.snap-icon'); if (fi) fi.textContent = snaps.featured.icon || '🏆';
+      setBilingual(q(snapF, '.snap-title'), snaps.featured.title);
+      setBilingual(q(snapF, '.snap-val'),   snaps.featured.val);
+      setBilingual(q(snapF, '.snap-sub'),   snaps.featured.sub);
+      if (snaps.featured.target) snapF.setAttribute('onclick', "go('" + snaps.featured.target + "')");
+    }
+
+    // Dept completion
+    var dept = q(page, '#dash-dept');
+    if (dept && Array.isArray(p.deptCompletion)) {
+      qa(dept, '.dept-bar-item').forEach(function(n){ n.remove(); });
+      p.deptCompletion.forEach(function(d){
+        var pctClass = d.color === 'green' ? 'grn' : d.color === 'red' ? 'red' : d.color === 'gold' ? 'gold' : 'teal';
+        var row = document.createElement('div'); row.className = 'dept-bar-item';
+        row.innerHTML =
+          '<div class="dept-lbl" data-en="' + escAttr(d.lbl.en || '') + '" data-ar="' + escAttr(d.lbl.ar || '') + '">' + Daleel.t(d.lbl) + '</div>' +
+          '<div class="dept-track"><div class="dept-fill" style="width:' + d.pct + '%;background:var(--' + d.color + ')"></div></div>' +
+          '<div class="dept-pct ' + pctClass + '">' + d.pct + '%</div>';
+        dept.appendChild(row);
+      });
+    }
+
+    // Active programs
+    var progs = q(page, '#dash-programs');
+    if (progs && Array.isArray(p.activePrograms)) {
+      qa(progs, '.prog-row').forEach(function(n){ n.remove(); });
+      p.activePrograms.forEach(function(pr){
+        var pctColor = pr.color === 'teal' ? 'var(--teal-hi)' : pr.color === 'green' ? '#0EA5C9' : pr.color === 'gold' ? 'var(--gold-hi)' : 'var(--' + pr.color + ')';
+        var right = pr.tag
+          ? '<span class="b bg" data-en="' + escAttr(pr.tag.en || '') + '" data-ar="' + escAttr(pr.tag.ar || '') + '">' + Daleel.t(pr.tag) + '</span>'
+          : '<div class="prog-pct" style="color:' + pctColor + '">' + pr.pct + '%</div>';
+        var row = document.createElement('div'); row.className = 'prog-row';
+        row.innerHTML =
+          '<div class="prog-icon">' + pr.icon + '</div>' +
+          '<div class="prog-body">' +
+            '<div class="prog-name" data-en="' + escAttr(pr.name.en || '') + '" data-ar="' + escAttr(pr.name.ar || '') + '">' + Daleel.t(pr.name) + '</div>' +
+            '<div class="prog-meta" data-en="' + escAttr(pr.meta.en || '') + '" data-ar="' + escAttr(pr.meta.ar || '') + '">' + Daleel.t(pr.meta) + '</div>' +
+            '<div class="prog-bar-wrap"><div class="prog-bar-fill" style="width:' + pr.pct + '%;background:var(--' + pr.color + ')"></div></div>' +
+          '</div>' +
+          right;
+        progs.appendChild(row);
+      });
+    }
+  };
+
+  /* ══════════ SUPABASE LIVE-DATA LAYER ═════════════════════
+   * Pulls from public views (v_tenant_stats, v_attention_items,
+   * v_currently_training, v_dept_completion, v_active_programs)
+   * and overlays real data on top of the baked-in CLIENT_PROFILES
+   * which are used for instant first paint. RLS scoped to anon
+   * (public-demo tenants only) via publishable key. ──────── */
+  Daleel.SUPABASE = {
+    url: 'https://ysprrlpctbudsozuqppj.supabase.co',
+    anonKey: 'sb_publishable_9pyeh-sc1t2NRuxvpcYXNA_9y6KmEoE'
+  };
+
+  Daleel.sb = function(path, params) {
+    var qs = params ? ('?' + Object.keys(params).map(function(k){ return encodeURIComponent(k)+'='+encodeURIComponent(params[k]); }).join('&')) : '';
+    return fetch(Daleel.SUPABASE.url + '/rest/v1/' + path + qs, {
+      headers: {
+        'apikey': Daleel.SUPABASE.anonKey,
+        'Authorization': 'Bearer ' + Daleel.SUPABASE.anonKey,
+        'Accept': 'application/json'
+      }
+    }).then(function(r){
+      if (!r.ok) throw new Error('Supabase ' + path + ' → HTTP ' + r.status);
+      return r.json();
+    });
+  };
+
+  // Pick a tag style / color for dept bar based on pct
+  function pctToBarColor(pct) {
+    if (pct >= 85) return 'green';
+    if (pct >= 70) return 'teal';
+    if (pct >= 55) return 'gold';
+    return 'red';
+  }
+  function initialsFor(nameEn) {
+    if (!nameEn) return '–';
+    var parts = String(nameEn).replace(/^(Dr\.|Eng\.|Mr\.|Mrs\.|Ms\.)\s*/,'').trim().split(/\s+/);
+    var a = parts[0] || '';
+    var b = parts[1] || '';
+    return ((a.charAt(0) || '') + (b.charAt(0) || '')).toUpperCase() || a.charAt(0).toUpperCase();
+  }
+  function prettyDays(d) {
+    if (d == null) return '';
+    if (d < 0) return Math.abs(d) + ' days ago';
+    if (d === 0) return 'today';
+    if (d === 1) return '1 day';
+    return d + ' days';
+  }
+  function prettyDaysAr(d) {
+    if (d == null) return '';
+    if (d < 0) return 'قبل ' + Math.abs(d) + ' يوم';
+    if (d === 0) return 'اليوم';
+    if (d === 1) return 'يوم واحد';
+    return d + ' يوم';
+  }
+
+  Daleel.mergeLiveData = function(clientId, live) {
+    var p = Daleel.CLIENT_PROFILES[clientId]; if (!p || !live) return;
+    var s = live.stats || {};
+    // Stat cards
+    if (s.employees_display != null) p.stats.employees.val = Number(s.employees_display).toLocaleString('en');
+    if (s.completion_pct != null)    p.stats.completion.val = s.completion_pct + '%';
+    if (s.budget_total_kwd && s.budget_used_kwd != null) {
+      var usedK  = Math.round(Number(s.budget_used_kwd)/1000);
+      var totalK = Math.round(Number(s.budget_total_kwd)/1000);
+      var leftK  = totalK - usedK;
+      p.stats.budget.val = 'KD ' + usedK + 'K';
+      p.stats.budget.delta = {
+        en: (s.budget_used_pct||0) + '% of KD ' + totalK + 'K · KD ' + leftK + 'K left',
+        ar: (s.budget_used_pct||0) + '% من ' + totalK + ' ألف د.ك · ' + leftK + ' ألف د.ك متبقية'
+      };
+    }
+    if (s.attention_count != null) p.stats.action.val = String(s.attention_count);
+
+    // Attention items (top 3)
+    if (Array.isArray(live.attention) && live.attention.length) {
+      p.attention = live.attention.slice(0, 3).map(function(a){
+        var sev = a.status === 'expired' ? 'red'
+                : a.status === 'expiring_soon' ? (Number(a.days_to_expiry) <= 14 ? 'red' : 'gold')
+                : a.status === 'pending' ? 'blue' : 'teal';
+        var dtxtEn = a.status === 'expired'
+          ? 'Expired ' + prettyDays(a.days_to_expiry) + ' · KD ' + Math.round(Number(a.fine_exposure_kwd||0)).toLocaleString('en') + ' fine exposure'
+          : a.status === 'expiring_soon'
+          ? 'Expires in <strong class="red">' + prettyDays(a.days_to_expiry) + '</strong> · KD ' + Math.round(Number(a.fine_exposure_kwd||0)).toLocaleString('en') + ' fine exposure'
+          : (a.notes_en || 'Action required');
+        var dtxtAr = a.status === 'expired'
+          ? 'انتهت ' + prettyDaysAr(a.days_to_expiry) + ' · تعرض غرامة ' + Math.round(Number(a.fine_exposure_kwd||0)).toLocaleString('en') + ' د.ك'
+          : a.status === 'expiring_soon'
+          ? 'تنتهي خلال <strong class="red">' + prettyDaysAr(a.days_to_expiry) + '</strong> · تعرض غرامة ' + Math.round(Number(a.fine_exposure_kwd||0)).toLocaleString('en') + ' د.ك'
+          : (a.notes_ar || 'إجراء مطلوب');
+        return {
+          severity: sev,
+          av: initialsFor(a.employee_name_en) || '!',
+          name: { en: a.cert_name_en || 'Compliance', ar: a.cert_name_ar || a.cert_name_en || 'امتثال' },
+          dept: { en: (a.employee_name_en || '') + ' · ' + (a.department || ''), ar: (a.employee_name_ar || a.employee_name_en || '') + ' · ' + (a.department || '') },
+          desc: { en: dtxtEn, ar: dtxtAr },
+          action: { en: 'Review →', ar: 'مراجعة →' },
+          target: 'compliance'
+        };
+      });
+    }
+
+    // Currently training (top 4 by progress)
+    if (Array.isArray(live.training) && live.training.length) {
+      var grads = ['var(--purple),#0E7490','#0E7490,#0B6480','var(--teal),#0E7490','#0B6480,#0E7490'];
+      p.training = live.training.slice(0, 4).map(function(t, i){
+        var pc  = Number(t.progress_pct || 0);
+        var col = pc >= 75 ? 'green' : pc >= 50 ? 'teal' : 'gold';
+        var tag = pc >= 85 ? {en:'Top performer', ar:'أداء متميز', cls:'bg'}
+                : pc >= 65 ? {en:'On track',      ar:'على المسار', cls:'bv'}
+                : pc >= 40 ? {en:'In progress',   ar:'قيد التنفيذ', cls:'bt'}
+                :            {en:'Early stage',   ar:'مرحلة مبكرة', cls:'bt'};
+        return {
+          initials: initialsFor(t.employee_name_en),
+          grad: grads[i % grads.length],
+          name: { en: t.employee_name_en || '—', ar: t.employee_name_ar || t.employee_name_en || '—' },
+          prog: { en: t.program_name_en || '—',  ar: t.program_name_ar || t.program_name_en || '—' },
+          pct: pc, pctColor: col,
+          tag: { en: tag.en, ar: tag.ar }, tagCls: tag.cls
+        };
+      });
+    }
+
+    // Dept completion (top 5 by headcount)
+    if (Array.isArray(live.dept) && live.dept.length) {
+      p.deptCompletion = live.dept.slice(0, 5).map(function(d){
+        var pc = Number(d.avg_progress_pct || 0);
+        return { lbl: { en: d.department, ar: d.department }, pct: pc, color: pctToBarColor(pc) };
+      });
+    }
+
+    // Active programs (top 3 by enrollments)
+    if (Array.isArray(live.programs) && live.programs.length) {
+      var sorted = live.programs.slice().sort(function(a,b){ return Number(b.enrollments_total||0) - Number(a.enrollments_total||0); });
+      p.activePrograms = sorted.slice(0, 3).map(function(pr){
+        var pc = Number(pr.avg_progress_pct || 0);
+        var col = pc >= 65 ? 'teal' : pc >= 40 ? 'purple' : 'gold';
+        var metaEn = (pr.duration_text_en || '—') + ' · ' + (pr.enrollments_total || 0) + ' participants · ' + (pr.provider || '—');
+        var metaAr = (pr.duration_text_ar || pr.duration_text_en || '—') + ' · ' + (pr.enrollments_total || 0) + ' مشاركاً · ' + (pr.provider || '—');
+        var row = { icon: pr.icon || '🎓', name: { en: pr.name_en, ar: pr.name_ar || pr.name_en }, meta: { en: metaEn, ar: metaAr }, pct: pc, color: col };
+        if (pr.program_status === 'enrolling') row.tag = { en: 'Enrolling', ar: 'التسجيل مفتوح' };
+        return row;
+      });
+    }
+  };
+
+  Daleel.loadLiveData = function(clientId) {
+    // Resolve tenant UUID first via slug
+    return Daleel.sb('tenants', { select: 'id,slug', slug: 'eq.' + clientId }).then(function(rows){
+      if (!rows || !rows.length) throw new Error('tenant not found: ' + clientId);
+      var tid = rows[0].id;
+      return Promise.all([
+        Daleel.sb('v_tenant_stats',       { tenant_id: 'eq.' + tid }),
+        Daleel.sb('v_attention_items',    { tenant_id: 'eq.' + tid, limit: '3' }),
+        Daleel.sb('v_currently_training', { tenant_id: 'eq.' + tid, limit: '4' }),
+        Daleel.sb('v_dept_completion',    { tenant_id: 'eq.' + tid }),
+        Daleel.sb('v_active_programs',    { tenant_id: 'eq.' + tid })
+      ]).then(function(res){
+        return { stats: (res[0]||[])[0], attention: res[1]||[], training: res[2]||[], dept: res[3]||[], programs: res[4]||[] };
+      });
+    });
+  };
+
+  Daleel.hydrateFromSupabase = function() {
+    var cid = Daleel.activeClientId;
+    return Daleel.loadLiveData(cid).then(function(live){
+      Daleel._lastLive = live;
+      Daleel.mergeLiveData(cid, live);
+      Daleel.hydrateDashboard();
+      console.info('[Daleel] live data merged for', cid, live.stats);
+    }).catch(function(err){
+      console.warn('[Daleel] live hydration failed, using baked-in profile:', err && err.message);
+    });
+  };
+
+  /* ── Client switcher UI ──────────────────────────────────── */
+  Daleel.mountClientSwitcher = function() {
+    var tbAct = document.querySelector('.tb-act'); if (!tbAct) return;
+    var existing = document.getElementById('daleel-client-switcher');
+    if (existing) { existing.value = Daleel.activeClientId; return; }
+    var sel = document.createElement('select');
+    sel.id = 'daleel-client-switcher';
+    sel.title = 'Switch active client profile';
+    sel.style.cssText = 'background:rgba(14,116,144,0.10);border:1px solid rgba(14,116,144,0.30);color:var(--teal-hi);border-radius:8px;padding:6px 10px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;margin-right:6px;outline:none';
+    Object.keys(Daleel.CLIENT_PROFILES).forEach(function(id){
+      var p = Daleel.CLIENT_PROFILES[id];
+      var opt = document.createElement('option');
+      opt.value = id;
+      opt.textContent = Daleel.t(p.name);
+      opt.setAttribute('data-en', p.name.en);
+      opt.setAttribute('data-ar', p.name.ar);
+      if (id === Daleel.activeClientId) opt.selected = true;
+      sel.appendChild(opt);
+    });
+    sel.addEventListener('change', function(){ Daleel.switchClient(sel.value); });
+    tbAct.insertBefore(sel, tbAct.firstChild);
+  };
+
+  /* ── Hook into setLang so toggling re-renders dynamic HTML ── */
+  function wrapSetLang() {
+    if (Daleel._langWrapped) return;
+    if (typeof window.setLang !== 'function') return;
+    var orig = window.setLang;
+    window.setLang = function() {
+      var r = orig.apply(this, arguments);
+      try { Daleel.hydrateDashboard(); } catch(e){}
+      return r;
+    };
+    Daleel._langWrapped = true;
+  }
+
+  /* ── Hook into setRole: app ships with hardcoded Gulf Bank
+     init (setRole('HR Director','NA','Noor Al-Ahmad','HR Director · Gulf Bank')).
+     Re-apply active profile's user after each setRole call so the
+     sidebar persona tracks the active client, while role-based
+     nav filtering still works. ─────────────────────────────── */
+  function wrapSetRole() {
+    if (Daleel._roleWrapped) return;
+    if (typeof window.setRole !== 'function') return;
+    var orig = window.setRole;
+    window.setRole = function() {
+      var r = orig.apply(this, arguments);
+      try {
+        var p = Daleel.activeProfile;
+        if (p && p.user) {
+          var uname = document.getElementById('u-name');
+          var urole = document.getElementById('u-role');
+          var av    = document.querySelector('.u-av');
+          if (uname) { uname.setAttribute('data-en', p.user.name.en); uname.setAttribute('data-ar', p.user.name.ar); uname.textContent = Daleel.t(p.user.name); }
+          if (urole) { urole.setAttribute('data-en', p.user.role.en); urole.setAttribute('data-ar', p.user.role.ar); urole.textContent = Daleel.t(p.user.role); }
+          if (av)    { av.textContent = p.user.initials; }
+        }
+      } catch(e){}
+      return r;
+    };
+    Daleel._roleWrapped = true;
+  }
+
+  /* ── Boot ────────────────────────────────────────────────── */
+  function boot() {
+    try {
+      Daleel.hydrateDashboard();
+      Daleel.mountClientSwitcher();
+      wrapSetLang();
+      wrapSetRole();
+      // Re-apply once more after the app's DOMContentLoaded init
+      // chain (which calls setRole with Gulf-Bank defaults) settles.
+      window.addEventListener('load', function(){
+        try { Daleel.hydrateDashboard(); } catch(e){}
+        // Fire-and-forget live hydration — upgrades baked-in profile
+        // to real Supabase data when the fetch returns.
+        try { Daleel.hydrateFromSupabase(); } catch(e){}
+      });
+      try {
+        var activeName = Daleel.t(Daleel.activeProfile.name);
+        if (typeof document.title === 'string' && document.title) {
+          document.title = 'Daleel · ' + activeName;
+        }
+      } catch(e){}
+    } catch(e) { console.error('[Daleel] hydration error:', e); }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else { boot(); }
+})();
+</script>
+
 <div class="app">
 
 <!-- ══════════════════════ SIDEBAR ══════════════════════ -->
