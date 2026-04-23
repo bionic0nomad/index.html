@@ -1768,6 +1768,54 @@ input[id^="r-"][type="number"]:focus {
 
   /* ── Client Profiles ────────────────────────────────────── */
   Daleel.CLIENT_PROFILES = {
+    demo: {
+      id:'demo',
+      name:{en:'Demo Company', ar:'شركة العرض التجريبي'},
+      industry:{en:'Enterprise · Kuwait', ar:'منشأة · الكويت'},
+      accent:'#14B8A6',
+      user:{initials:'MH', name:{en:'Mohammed Hassan', ar:'محمد حسن'}, role:{en:'HR Director · Demo', ar:'مدير الموارد البشرية · عرض'}, roleShort:{en:'HR Director', ar:'مدير الموارد البشرية'}},
+      greeting:{en:'Good morning 👋', ar:'صباح الخير 👋'},
+      subheader:{en:"Demo Company · Q2 2026 · Here's what needs your attention today", ar:'شركة العرض التجريبي · الربع الثاني 2026 · إليك ما يحتاج اهتمامك اليوم'},
+      alert:{severity:'gold', icon:'⚠️',
+        headline:{en:'<strong>4 PDPL data-protection certs</strong> expire within 7 days — <strong>KD 12,500 fine exposure.</strong>', ar:'<strong>4 شهادات لحماية البيانات (PDPL)</strong> تنتهي خلال 7 أيام — <strong>تعرض غرامة 12,500 د.ك.</strong>'},
+        cta:{en:'Schedule renewal →', ar:'جدولة التجديد →'}, target:'compliance'},
+      stats:{
+        employees:{val:'920', lbl:{en:'Total Employees', ar:'إجمالي الموظفين'}, delta:{en:'↑ 11% enrolled this quarter', ar:'↑ 11% مسجلون هذا الربع'}, dir:'up'},
+        completion:{val:'61%', lbl:{en:'Completion Rate', ar:'معدل الإنجاز'}, delta:{en:'↑ 4pts vs last quarter', ar:'↑ 4 نقاط مقارنة بالربع الماضي'}, dir:'up'},
+        budget:{val:'KD 265K', lbl:{en:'Budget Used', ar:'الميزانية المستخدمة'}, delta:{en:'53% of KD 500K · KD 235K left', ar:'53% من 500 ألف د.ك · 235 ألف د.ك متبقية'}, dir:'neutral'},
+        action:{val:'7', lbl:{en:'Action Required', ar:'إجراء مطلوب'}, delta:{en:'↑ 3 vs last month · expiring soon', ar:'↑ 3 مقارنة بالشهر الماضي · تنتهي قريباً'}, dir:'down'}
+      },
+      attention:[
+        {severity:'red', av:'4', name:{en:'PDPL Renewals Due', ar:'تجديدات حماية البيانات'}, dept:{en:'Cross-dept · 4 staff', ar:'متعدد الأقسام · 4 موظفين'}, desc:{en:'Khalid Al-Dousari expires in <strong class="red">5 days</strong> · KD 12.5K fine exposure · Bulk renewal available', ar:'خالد الدوسري تنتهي خلال <strong class="red">5 أيام</strong> · تعرض غرامة 12.5 ألف د.ك · تجديد جماعي متاح'}, action:{en:'Schedule →', ar:'جدولة →'}, target:'compliance'},
+        {severity:'gold', av:'2', name:{en:'First Aid Recerts', ar:'إعادة اعتماد الإسعافات الأولية'}, dept:{en:'Operations · 2 staff', ar:'العمليات · 2 موظفين'}, desc:{en:'Red Crescent certs expire in ~10 days · recert session available April 28', ar:'شهادات الهلال الأحمر تنتهي خلال ~10 أيام · جلسة إعادة اعتماد متاحة 28 أبريل'}, action:{en:'Book seats →', ar:'حجز مقاعد →'}, target:'compliance'},
+        {severity:'blue', av:'5', name:{en:'PDPL Masterclass', ar:'دورة حماية البيانات'}, dept:{en:'Leadership cohort', ar:'كوهورت القيادة'}, desc:{en:'5 department heads enrolled · starts May 10 · Meirc · 3 days virtual', ar:'5 رؤساء أقسام مسجلون · تبدأ 10 مايو · ميرك · 3 أيام افتراضي'}, action:{en:'View roster →', ar:'عرض القائمة →'}, target:'programs'}
+      ],
+      training:[
+        {initials:'HR', grad:'var(--teal),#0E7490', name:{en:'Hessa Al-Rashidi', ar:'حصة الرشيدي'}, prog:{en:'PMP Prep · Meirc', ar:'PMP · ميرك'}, pct:75, pctColor:'teal', tag:{en:'On track', ar:'على المسار'}, tagCls:'bv'},
+        {initials:'BN', grad:'#0E7490,#0B6480', name:{en:'Bader Al-Nesef', ar:'بدر النصف'}, prog:{en:'KFAS Leadership', ar:'كفاس للقيادة'}, pct:40, pctColor:'gold', tag:{en:'In progress', ar:'قيد التنفيذ'}, tagCls:'bt'},
+        {initials:'SA', grad:'var(--purple),#0E7490', name:{en:'Sheikha Al-Sultan', ar:'شيخة السلطان'}, prog:{en:'Agile & Scrum', ar:'أجايل وسكرم'}, pct:80, pctColor:'green', tag:{en:'Top performer', ar:'أداء متميز'}, tagCls:'bg'},
+        {initials:'AK', grad:'#0E7490,#0B6480', name:{en:'Amna Al-Khaldi', ar:'آمنة الخالدي'}, prog:{en:'Strategic HR BP', ar:'شريك HR الاستراتيجي'}, pct:50, pctColor:'gold', tag:{en:'On track', ar:'على المسار'}, tagCls:'bv'}
+      ],
+      snapshots:{
+        compliance:{val:{en:'87%', ar:'87%'}, sub:{en:'Overall · 7 items need attention', ar:'إجمالي · 7 بنود تحتاج اهتماماً'}},
+        skillGap:{val:{en:'Data & Analytics', ar:'البيانات والتحليلات'}, sub:{en:'32% gap · 28 employees need uplift', ar:'فجوة 32% · 28 موظفاً يحتاجون ترقية'}},
+        window:{val:{en:'Q3 — July', ar:'ربع 3 — يوليو'}, sub:{en:'Budget window opens · 88% historical completion', ar:'نافذة الميزانية تفتح · إنجاز تاريخي 88%'}},
+        featured:{icon:'🎓', title:{en:'Digital Transformation', ar:'التحول الرقمي'}, val:{en:'62% avg', ar:'متوسط 62%'}, sub:{en:'KFAS · 8 enrolled · 10-week cohort', ar:'كفاس · 8 مسجلون · كوهورت 10 أسابيع'}, target:'programs', tone:'teal'}
+      },
+      deptCompletion:[
+        {lbl:{en:'Technology', ar:'التقنية'}, pct:74, color:'teal'},
+        {lbl:{en:'Finance', ar:'المالية'}, pct:68, color:'teal'},
+        {lbl:{en:'Operations', ar:'العمليات'}, pct:62, color:'gold'},
+        {lbl:{en:'HR', ar:'الموارد البشرية'}, pct:58, color:'gold'},
+        {lbl:{en:'Commercial', ar:'التجارية'}, pct:44, color:'red'}
+      ],
+      activePrograms:[
+        {icon:'🎓', name:{en:'KFAS Leadership Academy', ar:'أكاديمية كفاس للقيادة'}, meta:{en:'12 weeks · hybrid · 25 seats · KFAS', ar:'12 أسبوعاً · مختلط · 25 مقعداً · كفاس'}, pct:48, color:'teal'},
+        {icon:'📜', name:{en:'PMP Certification · Meirc', ar:'شهادة PMP · ميرك'}, meta:{en:'8 weeks · virtual · 30 seats · Meirc', ar:'8 أسابيع · افتراضي · 30 مقعداً · ميرك'}, pct:68, color:'purple'},
+        {icon:'🔐', name:{en:'PDPL Data Protection', ar:'حماية البيانات PDPL'}, meta:{en:'3 days · 40 seats · 5 enrolled · Meirc', ar:'3 أيام · 40 مقعداً · 5 مسجلون · ميرك'}, pct:0, color:'gold', tag:{en:'Enrolling', ar:'التسجيل مفتوح'}}
+      ]
+    },
+
     gulfBank: {
       id:'gulfBank',
       name:{en:'Gulf Bank', ar:'بنك الخليج'},
@@ -1866,12 +1914,13 @@ input[id^="r-"][type="number"]:focus {
   };
 
   /* ── Active client detection ─────────────────────────────── */
-  Daleel.DEFAULT_CLIENT = 'gulfBank';
+  Daleel.DEFAULT_CLIENT = 'demo';
   function resolveClientId() {
     try {
       var params = new URLSearchParams(window.location.search);
       var raw = (params.get('client') || '').trim().toLowerCase();
       var map = {
+        'demo':'demo',
         'gulfbank':'gulfBank','gulf-bank':'gulfBank','gulf_bank':'gulfBank',
         'scientificcenter':'scientificCenter','scientific-center':'scientificCenter','scientific_center':'scientificCenter','tsck':'scientificCenter','sc':'scientificCenter'
       };
@@ -2414,13 +2463,24 @@ input[id^="r-"][type="number"]:focus {
       if (existing) existing.remove();
       return;
     }
+    // Public site: only expose the `demo` tenant in the switcher.
+    // gulfBank + scientificCenter are real clients — they only appear
+    // to their own authenticated users (via tenant RLS, handled below
+    // in the auth → swap activeClientId flow). A URL param like
+    // ?client=gulfBank still works as a developer escape hatch.
+    var publicIds = ['demo'];
+    if (publicIds.length <= 1) {
+      // Only one public profile — no point rendering a dropdown.
+      if (existing) existing.remove();
+      return;
+    }
     if (existing) { existing.value = Daleel.activeClientId; return; }
     var sel = document.createElement('select');
     sel.id = 'daleel-client-switcher';
     sel.title = 'Switch active client profile';
     sel.style.cssText = 'background:rgba(14,116,144,0.10);border:1px solid rgba(14,116,144,0.30);color:var(--teal-hi);border-radius:8px;padding:6px 10px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;margin-right:6px;outline:none';
-    Object.keys(Daleel.CLIENT_PROFILES).forEach(function(id){
-      var p = Daleel.CLIENT_PROFILES[id];
+    publicIds.forEach(function(id){
+      var p = Daleel.CLIENT_PROFILES[id]; if (!p) return;
       var opt = document.createElement('option');
       opt.value = id;
       opt.textContent = Daleel.t(p.name);
