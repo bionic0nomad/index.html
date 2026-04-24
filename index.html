@@ -7652,7 +7652,7 @@ var chatOpen = false;
 
 var chatHistory = [];
 
-var GULF_BANK_CONTEXT = 'You are Daleel AI, a talent intelligence assistant for a Kuwait enterprise. Company: 920 employees. CRITICAL: 7 data custodians have PDPL expiring within 30 days, KD 12500 fine risk, 1 already expired. Leadership Academy 2026: 24 participants avg 82%. Skill gaps: Data Analytics 41%, Cyber Security 38%, Digital Transformation 34%. Budget: KD 235K remaining, 4.2x ROI. Q2 = 89% completion. Kuwaitization 70%. Be concise, use KD, give specific numbers. Respond in the language used by the user.';
+var CHAT_CONTEXT = 'You are Daleel AI, a talent intelligence assistant for a Kuwait enterprise. Company: 920 employees. CRITICAL: 7 data custodians have PDPL expiring within 30 days, KD 12500 fine risk, 1 already expired. Leadership Academy 2026: 24 participants avg 82%. Skill gaps: Data Analytics 41%, Cyber Security 38%, Digital Transformation 34%. Budget: KD 235K remaining, 4.2x ROI. Q2 = 89% completion. Kuwaitization 70%. Be concise, use KD, give specific numbers. Respond in the language used by the user.';
 
 function getFallbackReply(msg) {
   var lc = msg.toLowerCase();
@@ -7701,20 +7701,25 @@ function sendChat() {
   msgs.appendChild(typing);
   msgs.scrollTop = msgs.scrollHeight;
 
-  fetch('https://api.anthropic.com/v1/messages', {
+  // Calls the Netlify Function proxy at /.netlify/functions/chat, which
+  // holds the Anthropic API key server-side. Falls back to scripted replies
+  // when the proxy is unavailable (e.g. local file:// preview, offline, or
+  // misconfigured env var).
+  fetch('/.netlify/functions/chat', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 350,
-      system: GULF_BANK_CONTEXT,
+      system: CHAT_CONTEXT,
       messages: chatHistory.slice(-8)
     })
   })
-  .then(function(r) { return r.json(); })
+  .then(function(r) {
+    if (!r.ok) { throw new Error('proxy status ' + r.status); }
+    return r.json();
+  })
   .then(function(data) {
     typing.remove();
-    var reply = (data.content && data.content[0] && data.content[0].text)
+    var reply = (data && data.content && data.content[0] && data.content[0].text)
       ? data.content[0].text : getFallbackReply(msg);
     var b = document.createElement('div');
     b.className = 'msg bot';
